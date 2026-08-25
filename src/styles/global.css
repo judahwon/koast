@@ -16,21 +16,6 @@
   --color-brand-primary: #194A8C;
   --color-brand-primary-medium: #066AB3;
   --color-brand-primary-light: #6DC5F2;
-
-  /* LEGACY: 마이그레이션(2단계) 완료 후 3단계에서 삭제한다. */
-  --color-primary: var(--color-brand-primary);
-  --color-primary-medium: var(--color-brand-primary-medium);
-  --color-primary-light: var(--color-brand-primary-light);
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
 }
 
 /* inline 이어야 유틸이 var(--content-primary) 를 직접 참조해 .dark 에서 바뀐다. */
