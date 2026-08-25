@@ -6,13 +6,13 @@ import { CERTIFICATIONS, CAPABILITIES } from '@/data/company';
   <div class="grid gap-12 md:grid-cols-2">
     <!-- Certifications -->
     <div>
-      <h3 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+      <h3 class="mb-6 text-2xl font-bold text-content-primary">
         인증·등록
       </h3>
       <div class="flex flex-wrap gap-2">
         {
           CERTIFICATIONS.map((cert) => (
-            <span class="rounded-full border border-primary-light/20 bg-primary-light/10 px-3 py-1.5 text-sm text-primary dark:text-primary-light">
+            <span class="rounded-full border border-line-info-subtle bg-surface-info-subtle px-3 py-1.5 text-sm text-content-interactive-primary">
               {cert}
             </span>
           ))
@@ -22,15 +22,15 @@ import { CERTIFICATIONS, CAPABILITIES } from '@/data/company';
 
     <!-- Capabilities -->
     <div>
-      <h3 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">
+      <h3 class="mb-6 text-2xl font-bold text-content-primary">
         조직·역량
       </h3>
       <div class="space-y-3">
         {
           CAPABILITIES.map((cap) => (
             <div class="flex items-center gap-3">
-              <div class="size-2 shrink-0 rounded-full bg-primary-medium dark:bg-primary-light" />
-              <span class="text-gray-700 dark:text-gray-300">{cap}</span>
+              <div class="size-2 shrink-0 rounded-full bg-surface-inverse-bolder" />
+              <span class="text-content-secondary">{cap}</span>
             </div>
           ))
         }

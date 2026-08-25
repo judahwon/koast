@@ -14,24 +14,24 @@ const jobs = (await getCollection('jobs'))
   <!-- Hero -->
   <section class="mx-auto max-w-6xl px-6 py-20">
     <div class="max-w-3xl">
-      <h1 class="text-3xl leading-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+      <h1 class="text-3xl leading-tight font-bold text-content-primary md:text-4xl">
         {CAREERS_INTRO.title}
       </h1>
-      <p class="mt-4 text-lg leading-relaxed text-gray-500 dark:text-gray-400">
+      <p class="mt-4 text-lg leading-relaxed text-content-tertiary">
         {CAREERS_INTRO.description}
       </p>
     </div>
   </section>
 
   <!-- Ideal Candidate -->
-  <section class="bg-gray-50 dark:bg-gray-800/50">
+  <section class="bg-surface-secondary">
     <div class="mx-auto max-w-6xl px-6 py-16">
-      <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">이런 분과 함께하고 싶습니다</h2>
+      <h2 class="mb-6 text-2xl font-bold text-content-primary">이런 분과 함께하고 싶습니다</h2>
       <div class="space-y-3">
         {IDEAL_CANDIDATE.map((item) => (
           <div class="flex items-start gap-3">
-            <div class="mt-2 size-2 shrink-0 rounded-full bg-primary-medium dark:bg-primary-light"></div>
-            <p class="text-gray-600 dark:text-gray-300">{item}</p>
+            <div class="mt-2 size-2 shrink-0 rounded-full bg-surface-inverse-bolder"></div>
+            <p class="text-content-tertiary">{item}</p>
           </div>
         ))}
       </div>
@@ -59,32 +59,32 @@ const jobs = (await getCollection('jobs'))
         ))}
       </div>
     ) : (
-      <div class="py-12 text-center text-gray-400 dark:text-gray-500">
+      <div class="py-12 text-center text-content-disabled">
         <p>현재 모집 중인 포지션이 없습니다.</p>
       </div>
     )}
   </section>
 
   <!-- Work Culture -->
-  <section class="bg-gray-50 dark:bg-gray-800/50">
+  <section class="bg-surface-secondary">
     <div class="mx-auto max-w-6xl px-6 py-16">
       <div class="grid gap-12 md:grid-cols-2">
         <div>
-          <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">일하는 방식</h2>
+          <h2 class="mb-6 text-2xl font-bold text-content-primary">일하는 방식</h2>
           <div class="space-y-3">
             {WORK_CULTURE.map((item) => (
               <div class="flex items-start gap-3">
-                <div class="mt-2 size-2 shrink-0 rounded-full bg-primary-medium dark:bg-primary-light"></div>
-                <p class="text-gray-600 dark:text-gray-300">{item}</p>
+                <div class="mt-2 size-2 shrink-0 rounded-full bg-surface-inverse-bolder"></div>
+                <p class="text-content-tertiary">{item}</p>
               </div>
             ))}
           </div>
         </div>
         <div>
-          <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">복지·근무환경</h2>
+          <h2 class="mb-6 text-2xl font-bold text-content-primary">복지·근무환경</h2>
           <div class="flex flex-wrap gap-2">
             {BENEFITS.map((item) => (
-              <span class="rounded-full border border-primary-light/20 bg-primary-light/10 px-3 py-1.5 text-sm text-primary dark:text-primary-light">
+              <span class="rounded-full border border-line-info-subtle bg-surface-info-subtle px-3 py-1.5 text-sm text-content-interactive-primary">
                 {item}
               </span>
             ))}
@@ -96,15 +96,15 @@ const jobs = (await getCollection('jobs'))
 
   <!-- Hiring Process -->
   <section class="mx-auto max-w-6xl px-6 py-20">
-    <h2 class="mb-10 text-center text-2xl font-bold text-gray-900 dark:text-white">채용 프로세스</h2>
+    <h2 class="mb-10 text-center text-2xl font-bold text-content-primary">채용 프로세스</h2>
     <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
       {HIRING_PROCESS.map((item, i) => (
         <div class="text-center">
-          <div class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-primary text-sm font-bold text-white dark:bg-primary-medium">
+          <div class="mx-auto mb-3 flex size-12 items-center justify-center rounded-full bg-surface-inverse-bolder text-sm font-bold text-content-interactive-inverse">
             {item.step}
           </div>
-          <h3 class="font-semibold text-gray-900 dark:text-white">{item.title}</h3>
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{item.description}</p>
+          <h3 class="font-semibold text-content-primary">{item.title}</h3>
+          <p class="mt-1 text-sm text-content-tertiary">{item.description}</p>
           {i < HIRING_PROCESS.length - 1 && (
             <div class="absolute top-1/2 right-0 hidden -translate-y-1/2 md:block"></div>
           )}

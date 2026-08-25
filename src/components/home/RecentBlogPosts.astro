@@ -11,7 +11,7 @@ const posts = (await getCollection('blog'))
   .slice(0, 3);
 ---
 
-<section class="bg-gray-50 dark:bg-gray-800/50">
+<section class="bg-surface-secondary">
   <div class="mx-auto max-w-6xl px-6 py-20">
     <SectionHeading
       title="블로그"
@@ -32,7 +32,7 @@ const posts = (await getCollection('blog'))
         ))}
       </div>
     ) : (
-      <div class="py-12 text-center text-gray-400 dark:text-gray-500">
+      <div class="py-12 text-center text-content-disabled">
         <p>블로그 포스트 준비 중입니다.</p>
       </div>
     )}

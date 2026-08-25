@@ -16,30 +16,30 @@ const { title, description, publishedAt, category, tags, slug } = Astro.props;
 ---
 
 <a href={`${ SITE.base }/blog/${ slug }`} class="group block">
-  <Card class="h-full transition-colors hover:border-primary-light/50">
+  <Card class="h-full transition-colors hover:border-line-info">
     <div class="mb-3 flex items-center gap-2">
       <span
-        class="rounded-full bg-primary-light/10 px-2 py-0.5 text-xs font-medium text-primary dark:text-primary-light"
+        class="rounded-full bg-surface-info-subtle px-2 py-0.5 text-xs font-medium text-content-interactive-primary"
       >
         {category}
       </span>
-      <span class="text-xs text-gray-400 dark:text-gray-500">
+      <span class="text-xs text-content-disabled">
         {formatDate(publishedAt)}
       </span>
     </div>
     <h3
-      class="text-lg font-semibold text-gray-900 transition-colors group-hover:text-primary dark:text-white dark:group-hover:text-primary-light"
+      class="text-lg font-semibold text-content-primary transition-colors group-hover:text-content-interactive-primary-hovered"
     >
       {title}
     </h3>
-    <p class="mt-2 line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+    <p class="mt-2 line-clamp-2 text-sm text-content-tertiary">
       {description}
     </p>
     {
       tags.length > 0 && (
         <div class="mt-4 flex flex-wrap gap-1.5">
           {tags.map((tag) => (
-            <span class="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500 dark:bg-gray-700 dark:text-gray-400">
+            <span class="rounded bg-surface-tertiary px-2 py-0.5 text-xs text-content-tertiary">
               #{tag}
             </span>
           ))}
