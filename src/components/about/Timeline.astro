@@ -1,0 +1,57 @@
+---
+import { TIMELINE } from '@/data/company';
+---
+
+<section class="bg-gray-50 dark:bg-gray-800/50">
+  <div class="mx-auto max-w-4xl px-6 py-20">
+    <h2
+      class="mb-12 text-center text-3xl font-bold text-gray-900 dark:text-white"
+    >
+      연혁
+    </h2>
+
+    <div class="relative">
+      <!-- Vertical line -->
+      <div
+        class="absolute inset-y-0 left-[7px] w-px bg-gray-300 md:left-1/2 md:-translate-x-px dark:bg-gray-600"
+      >
+      </div>
+
+      <div class="space-y-6">
+        {
+          TIMELINE.map((item, i) => (
+            <div class="relative flex gap-6 md:gap-0">
+              {/* Dot */}
+              <div class="absolute left-0 mt-0.5 size-4 rounded-full border-4 border-gray-50 bg-primary md:left-1/2 md:-translate-x-1/2 dark:border-gray-800 dark:bg-primary-light" />
+
+              {/* Year - always on left for mobile, alternating for desktop */}
+              <div
+                class={`hidden md:block md:w-1/2 ${ i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:order-2 md:pl-8 md:text-left' }`}
+              >
+                <span class="text-lg font-bold text-primary dark:text-primary-light">
+                  {item.year}
+                </span>
+              </div>
+
+              {/* Content */}
+              <div
+                class={`ml-8 md:ml-0 md:w-1/2 ${ i % 2 === 0 ? 'md:pl-8' : 'md:order-1 md:pr-8 md:text-right' }`}
+              >
+                <span class="text-sm font-bold text-primary md:hidden dark:text-primary-light">
+                  {item.year}
+                </span>
+                <ul class="mt-1 space-y-1 md:mt-0">
+                  {item.events.map((event) => (
+                    <li class="text-sm text-gray-600 dark:text-gray-400">
+                      {event}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

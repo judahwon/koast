@@ -1,0 +1,86 @@
+import { useState, useEffect } from 'react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  links: NavLink[];
+  base: string;
+}
+
+export default function Navigation({ links, base }: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains('dark'));
+  }, []);
+
+  function toggleTheme() {
+    const next = !isDark;
+    setIsDark(next);
+    document.documentElement.classList.toggle('dark', next);
+    localStorage.setItem('theme', next ? 'dark' : 'light');
+  }
+
+  function resolveHref(href: string) {
+    if (href === '/') return base || '/';
+    return `${ base }${ href }`;
+  }
+
+  return (
+    <div className={'flex items-center gap-2'}>
+      {/* Dark mode toggle */}
+      <button
+        onClick={toggleTheme}
+        className={'rounded-lg p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800'}
+        aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+      >
+        {isDark ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
+
+      {/* Desktop nav */}
+      <nav className={'hidden items-center gap-6 md:flex'}>
+        {links.map((link) => (
+          <a
+            key={link.href}
+            href={resolveHref(link.href)}
+            className={'text-sm font-medium text-gray-600 transition-colors hover:text-primary dark:text-gray-300 dark:hover:text-primary-light'}
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      {/* Mobile menu button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={'rounded-lg p-2 transition-colors hover:bg-gray-100 md:hidden dark:hover:bg-gray-800'}
+        aria-label={isOpen ? '메뉴 닫기' : '메뉴 열기'}
+      >
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Mobile menu */}
+      {isOpen && (
+        <nav className={'absolute inset-x-0 top-full border-b border-gray-200 bg-white md:hidden dark:border-gray-700 dark:bg-gray-900'}>
+          <div className={'flex flex-col gap-3 px-6 py-4'}>
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={resolveHref(link.href)}
+                className={'py-2 text-sm font-medium text-gray-600 transition-colors hover:text-primary dark:text-gray-300 dark:hover:text-primary-light'}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      )}
+    </div>
+  );
+}

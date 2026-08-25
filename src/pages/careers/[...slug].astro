@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/common/Header.astro';
+import Footer from '@/components/common/Footer.astro';
+import Button from '@/components/common/Button.astro';
+import ApplicationForm from '@/components/careers/ApplicationForm.tsx';
+import { getCollection, render } from 'astro:content';
+import { SITE } from '@/utils/constants';
+
+export async function getStaticPaths() {
+  const jobs = await getCollection('jobs');
+  return jobs.map((job) => ({
+    params: { slug: job.id },
+    props: { job },
+  }));
+}
+
+const { job } = Astro.props;
+const { Content } = await render(job);
+---
+
+<BaseLayout title={job.data.title} description={`${ job.data.title } - ${ job.data.department } | 한국해양기상기술 채용`}>
+  <Header />
+  <main class="min-h-screen">
+    <article class="mx-auto max-w-3xl px-6 py-16">
+      <!-- Header -->
+      <header class="mb-10">
+        <div class="mb-4 flex flex-wrap items-center gap-2">
+          <span class="rounded-full bg-primary-light/10 px-2 py-0.5 text-xs font-medium text-primary dark:text-primary-light">
+            {job.data.department}
+          </span>
+          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+            {job.data.location}
+          </span>
+          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+            {job.data.type}
+          </span>
+          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+            {job.data.experience}
+          </span>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+          {job.data.title}
+        </h1>
+      </header>
+
+      <!-- Content -->
+      <div class="prose prose-gray dark:prose-invert prose-headings:text-gray-900
+        dark:prose-headings:text-white prose-li:text-gray-600
+        dark:prose-li:text-gray-300 max-w-none">
+        <Content />
+      </div>
+
+      <!-- Application Form -->
+      <div class="mt-16 border-t border-gray-200 pt-10 dark:border-gray-700">
+        <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">지원하기</h2>
+        <ApplicationForm jobTitle={job.data.title} jobSlug={job.id} client:visible />
+      </div>
+
+      <!-- Back -->
+      <div class="mt-10">
+        <Button href={`${ SITE.base }/careers`} variant="outline" size="sm">
+          ← 채용 목록으로
+        </Button>
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
