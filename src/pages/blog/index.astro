@@ -21,7 +21,7 @@ const categories = [...new Set(posts.map((p) => p.data.category))];
     <!-- Category filter -->
     <div class="mb-10 flex flex-wrap justify-center gap-2">
       {categories.map((cat) => (
-        <span class="rounded-full bg-primary-light/10 px-3 py-1 text-sm text-primary dark:text-primary-light">
+        <span class="rounded-full bg-surface-info-subtle px-3 py-1 text-sm text-content-interactive-primary">
           {cat}
         </span>
       ))}
@@ -42,7 +42,7 @@ const categories = [...new Set(posts.map((p) => p.data.category))];
     </div>
 
     {posts.length === 0 && (
-      <div class="py-12 text-center text-gray-400 dark:text-gray-500">
+      <div class="py-12 text-center text-content-disabled">
         <p>아직 작성된 블로그 포스트가 없습니다.</p>
       </div>
     )}

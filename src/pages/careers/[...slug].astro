@@ -26,34 +26,32 @@ const { Content } = await render(job);
       <!-- Header -->
       <header class="mb-10">
         <div class="mb-4 flex flex-wrap items-center gap-2">
-          <span class="rounded-full bg-primary-light/10 px-2 py-0.5 text-xs font-medium text-primary dark:text-primary-light">
+          <span class="rounded-full bg-surface-info-subtle px-2 py-0.5 text-xs font-medium text-content-interactive-primary">
             {job.data.department}
           </span>
-          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+          <span class="rounded-full bg-surface-tertiary px-2 py-0.5 text-xs text-content-tertiary">
             {job.data.location}
           </span>
-          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+          <span class="rounded-full bg-surface-tertiary px-2 py-0.5 text-xs text-content-tertiary">
             {job.data.type}
           </span>
-          <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+          <span class="rounded-full bg-surface-tertiary px-2 py-0.5 text-xs text-content-tertiary">
             {job.data.experience}
           </span>
         </div>
-        <h1 class="text-3xl font-bold text-gray-900 md:text-4xl dark:text-white">
+        <h1 class="text-3xl font-bold text-content-primary md:text-4xl">
           {job.data.title}
         </h1>
       </header>
 
       <!-- Content -->
-      <div class="prose prose-gray dark:prose-invert prose-headings:text-gray-900
-        dark:prose-headings:text-white prose-li:text-gray-600
-        dark:prose-li:text-gray-300 max-w-none">
+      <div class="prose prose-gray dark:prose-invert prose-headings:text-content-primary prose-li:text-content-tertiary max-w-none">
         <Content />
       </div>
 
       <!-- Application Form -->
-      <div class="mt-16 border-t border-gray-200 pt-10 dark:border-gray-700">
-        <h2 class="mb-6 text-2xl font-bold text-gray-900 dark:text-white">지원하기</h2>
+      <div class="mt-16 border-t border-line-secondary pt-10">
+        <h2 class="mb-6 text-2xl font-bold text-content-primary">지원하기</h2>
         <ApplicationForm jobTitle={job.data.title} jobSlug={job.id} client:visible />
       </div>
 

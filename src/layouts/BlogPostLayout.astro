@@ -26,45 +26,40 @@ const { title, description, publishedAt, updatedAt, author, category, tags } = A
       <!-- Header -->
       <header class="mb-10">
         <div class="mb-4 flex items-center gap-2">
-          <span class="rounded-full bg-primary-light/10 px-2 py-0.5 text-xs font-medium text-primary dark:text-primary-light">
+          <span class="rounded-full bg-surface-info-subtle px-2 py-0.5 text-xs font-medium text-content-interactive-primary">
             {category}
           </span>
-          <span class="text-xs text-gray-400 dark:text-gray-500">
+          <span class="text-xs text-content-disabled">
             {formatDate(publishedAt)}
           </span>
           {updatedAt && (
-            <span class="text-xs text-gray-400 dark:text-gray-500">
+            <span class="text-xs text-content-disabled">
               (수정: {formatDate(updatedAt)})
             </span>
           )}
         </div>
-        <h1 class="text-3xl leading-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+        <h1 class="text-3xl leading-tight font-bold text-content-primary md:text-4xl">
           {title}
         </h1>
-        <p class="mt-4 text-lg text-gray-500 dark:text-gray-400">
+        <p class="mt-4 text-lg text-content-tertiary">
           {description}
         </p>
-        <div class="mt-4 flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500">
+        <div class="mt-4 flex items-center gap-2 text-sm text-content-disabled">
           <span>{author}</span>
         </div>
       </header>
 
       <!-- Content -->
-      <div class="prose prose-gray dark:prose-invert prose-headings:text-gray-900
-        dark:prose-headings:text-white prose-a:text-primary
-        dark:prose-a:text-primary-light prose-code:text-primary-medium
-        dark:prose-code:text-primary-light prose-code:bg-gray-100
-        dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900
-        dark:prose-pre:bg-gray-800 max-w-none">
+      <div class="prose prose-gray dark:prose-invert prose-headings:text-content-primary prose-a:text-content-interactive-primary prose-code:text-content-interactive-primary prose-code:bg-surface-tertiary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-surface-tertiary max-w-none">
         <slot />
       </div>
 
       <!-- Tags -->
       {tags.length > 0 && (
-        <div class="mt-10 border-t border-gray-200 pt-6 dark:border-gray-700">
+        <div class="mt-10 border-t border-line-secondary pt-6">
           <div class="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <span class="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+              <span class="rounded-full bg-surface-tertiary px-3 py-1 text-sm text-content-tertiary">
                 #{tag}
               </span>
             ))}

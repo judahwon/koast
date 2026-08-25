@@ -56,21 +56,21 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
     return (
       <div
         className={
-          'rounded-xl bg-green-50 p-8 text-center dark:bg-green-900/20'
+          'rounded-xl bg-surface-success-subtle p-8 text-center'
         }
       >
         <p
-          className={'text-lg font-semibold text-green-800 dark:text-green-300'}
+          className={'text-lg font-semibold text-content-success-bold'}
         >
           {'지원서가 정상적으로 접수되었습니다.\r'}
         </p>
-        <p className={'mt-2 text-sm text-green-600 dark:text-green-400'}>
+        <p className={'mt-2 text-sm text-content-success'}>
           {'검토 후 안내드리겠습니다. 감사합니다.\r'}
         </p>
         <button
           onClick={() => setStatus('idle')}
           className={
-            'mt-4 text-sm text-green-700 underline dark:text-green-300'
+            'mt-4 text-sm text-content-success underline'
           }
         >
           {'추가 지원하기\r'}
@@ -104,7 +104,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           <label
             htmlFor={'name'}
             className={
-              'mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300'
+              'mb-1 block text-sm font-medium text-content-secondary'
             }
           >
             {'이름 *\r'}
@@ -115,7 +115,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
             name={'name'}
             required
             className={
-              'w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-primary-light dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+              'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
             }
           />
         </div>
@@ -123,7 +123,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           <label
             htmlFor={'email'}
             className={
-              'mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300'
+              'mb-1 block text-sm font-medium text-content-secondary'
             }
           >
             {'이메일 *\r'}
@@ -134,7 +134,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
             name={'email'}
             required
             className={
-              'w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-primary-light dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+              'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
             }
           />
         </div>
@@ -144,7 +144,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
         <label
           htmlFor={'phone'}
           className={
-            'mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300'
+            'mb-1 block text-sm font-medium text-content-secondary'
           }
         >
           {'연락처\r'}
@@ -154,7 +154,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           id={'phone'}
           name={'phone'}
           className={
-            'w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-primary-light dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+            'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
           }
         />
       </div>
@@ -163,7 +163,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
         <label
           htmlFor={'message'}
           className={
-            'mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300'
+            'mb-1 block text-sm font-medium text-content-secondary'
           }
         >
           {'자기소개 / 지원 동기\r'}
@@ -173,7 +173,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           name={'message'}
           rows={4}
           className={
-            'w-full resize-y rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-gray-900 transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-primary-light dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
+            'w-full resize-y rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
           }
         />
       </div>
@@ -182,7 +182,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
         <label
           htmlFor={'resume'}
           className={
-            'mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300'
+            'mb-1 block text-sm font-medium text-content-secondary'
           }
         >
           {'이력서 (PDF, 5MB 이하) *\r'}
@@ -194,13 +194,13 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           accept={'.pdf'}
           required
           className={
-            'w-full text-sm text-gray-500 file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-primary-light/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary file:transition-colors hover:file:bg-primary-light/20 dark:text-gray-400 dark:file:text-primary-light'
+            'w-full text-sm text-content-tertiary file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-surface-info-subtle file:px-4 file:py-2 file:text-sm file:font-medium file:text-content-interactive-primary file:transition-colors hover:file:bg-interactive-selected-hovered'
           }
         />
       </div>
 
       {status === 'error' && (
-        <p className={'text-sm text-red-600 dark:text-red-400'}>
+        <p className={'text-sm text-content-danger'}>
           {errorMessage}
         </p>
       )}
@@ -209,7 +209,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
         type={'submit'}
         disabled={status === 'submitting'}
         className={
-          'w-full rounded-lg bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-primary-medium disabled:cursor-not-allowed disabled:opacity-50'
+          'w-full rounded-lg bg-interactive-primary px-6 py-3 font-medium text-content-interactive-inverse transition-colors hover:bg-interactive-primary-hovered active:bg-interactive-primary-pressed disabled:cursor-not-allowed disabled:opacity-50'
         }
       >
         {status === 'submitting' ? '전송 중...' : '지원하기'}

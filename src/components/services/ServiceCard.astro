@@ -23,8 +23,8 @@ const iconMap: Record<string, string> = {
     <div class="mb-4 flex items-start gap-4">
       <div class="text-3xl">{iconMap[service.icon] || '💻'}</div>
       <div>
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{service.title}</h3>
-        <p class="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+        <h3 class="text-xl font-semibold text-content-primary">{service.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-content-tertiary">
           {service.description}
         </p>
       </div>
@@ -33,13 +33,13 @@ const iconMap: Record<string, string> = {
     {/* Details */}
     {service.details.length > 0 && (
       <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <p class="mb-2 text-sm font-medium text-content-secondary">
           {service.products ? '주요 내용' : '주요 내용'}
         </p>
         <ul class="grid gap-1.5 md:grid-cols-2">
           {service.details.map((d) => (
-            <li class="flex items-start gap-2 text-sm text-gray-500 dark:text-gray-400">
-              <span class="mt-1 text-primary-medium dark:text-primary-light">·</span>
+            <li class="flex items-start gap-2 text-sm text-content-tertiary">
+              <span class="mt-1 text-content-interactive-primary">·</span>
               {d}
             </li>
           ))}
@@ -50,10 +50,10 @@ const iconMap: Record<string, string> = {
     {/* Products */}
     {service.products && (
       <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">주요 제품·기술</p>
+        <p class="mb-2 text-sm font-medium text-content-secondary">주요 제품·기술</p>
         <div class="flex flex-wrap gap-2">
           {service.products.map((p) => (
-            <span class="rounded-full bg-primary-light/10 px-2.5 py-1 text-xs text-primary dark:text-primary-light">
+            <span class="rounded-full bg-surface-info-subtle px-2.5 py-1 text-xs text-content-interactive-primary">
               {p}
             </span>
           ))}
@@ -64,11 +64,11 @@ const iconMap: Record<string, string> = {
     {/* Advantages */}
     {service.advantages && (
       <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">장점</p>
+        <p class="mb-2 text-sm font-medium text-content-secondary">장점</p>
         <ul class="space-y-1">
           {service.advantages.map((a) => (
-            <li class="flex items-start gap-2 text-sm text-gray-500 dark:text-gray-400">
-              <span class="mt-1 text-primary-medium dark:text-primary-light">·</span>
+            <li class="flex items-start gap-2 text-sm text-content-tertiary">
+              <span class="mt-1 text-content-interactive-primary">·</span>
               {a}
             </li>
           ))}
@@ -79,10 +79,10 @@ const iconMap: Record<string, string> = {
     {/* Applications */}
     {service.applications && (
       <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">적용 분야</p>
+        <p class="mb-2 text-sm font-medium text-content-secondary">적용 분야</p>
         <div class="flex flex-wrap gap-2">
           {service.applications.map((a) => (
-            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+            <span class="rounded-full bg-surface-tertiary px-2.5 py-1 text-xs text-content-tertiary">
               {a}
             </span>
           ))}
@@ -93,10 +93,10 @@ const iconMap: Record<string, string> = {
     {/* Customers */}
     {service.customers && (
       <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">고객 유형</p>
+        <p class="mb-2 text-sm font-medium text-content-secondary">고객 유형</p>
         <div class="flex flex-wrap gap-2">
           {service.customers.map((c) => (
-            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+            <span class="rounded-full bg-surface-tertiary px-2.5 py-1 text-xs text-content-tertiary">
               {c}
             </span>
           ))}

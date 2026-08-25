@@ -5,25 +5,25 @@ import { COMPANY } from '@/utils/constants';
 
 <div class="space-y-6">
   <Card>
-    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">회사 정보</h3>
+    <h3 class="mb-4 text-lg font-semibold text-content-primary">회사 정보</h3>
     <div class="space-y-4 text-sm">
       {COMPANY.address && (
         <div>
-          <span class="text-gray-400 dark:text-gray-500">주소</span>
-          <p class="text-gray-700 dark:text-gray-300">{COMPANY.address}</p>
+          <span class="text-content-disabled">주소</span>
+          <p class="text-content-secondary">{COMPANY.address}</p>
         </div>
       )}
       {COMPANY.phone && (
         <div>
-          <span class="text-gray-400 dark:text-gray-500">대표 전화</span>
-          <p class="text-gray-700 dark:text-gray-300">{COMPANY.phone}</p>
+          <span class="text-content-disabled">대표 전화</span>
+          <p class="text-content-secondary">{COMPANY.phone}</p>
         </div>
       )}
       {COMPANY.email && (
         <div>
-          <span class="text-gray-400 dark:text-gray-500">이메일</span>
-          <p class="text-gray-700 dark:text-gray-300">
-            <a href={`mailto:${ COMPANY.email }`} class="text-primary hover:underline dark:text-primary-light">
+          <span class="text-content-disabled">이메일</span>
+          <p class="text-content-secondary">
+            <a href={`mailto:${ COMPANY.email }`} class="text-content-interactive-primary hover:underline">
               {COMPANY.email}
             </a>
           </p>
@@ -31,41 +31,41 @@ import { COMPANY } from '@/utils/constants';
       )}
       {COMPANY.fax && (
         <div>
-          <span class="text-gray-400 dark:text-gray-500">팩스</span>
-          <p class="text-gray-700 dark:text-gray-300">{COMPANY.fax}</p>
+          <span class="text-content-disabled">팩스</span>
+          <p class="text-content-secondary">{COMPANY.fax}</p>
         </div>
       )}
     </div>
   </Card>
 
   <Card>
-    <h3 class="mb-4 text-lg font-semibold text-gray-900 dark:text-white">문의 전 안내</h3>
-    <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">
+    <h3 class="mb-4 text-lg font-semibold text-content-primary">문의 전 안내</h3>
+    <p class="mb-3 text-sm text-content-tertiary">
       보다 정확한 상담을 위해 아래 내용을 함께 남겨주시면 빠르게 검토할 수 있습니다.
     </p>
-    <ul class="space-y-1.5 text-sm text-gray-500 dark:text-gray-400">
+    <ul class="space-y-1.5 text-sm text-content-tertiary">
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         구축하고자 하는 시스템의 목적
       </li>
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         보유 중인 데이터 종류
       </li>
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         연동이 필요한 장비 또는 외부 시스템
       </li>
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         원하는 표출 방식
       </li>
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         예상 일정 및 예산 범위
       </li>
       <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-primary-medium dark:text-primary-light">·</span>
+        <span class="mt-0.5 text-content-interactive-primary">·</span>
         유지보수 필요 여부
       </li>
     </ul>
