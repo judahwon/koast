@@ -3,18 +3,20 @@ import SectionHeading from '@/components/common/SectionHeading.astro';
 import { STRENGTHS } from '@/data/company';
 ---
 
-<section class="mx-auto max-w-6xl px-6 py-20">
-  <SectionHeading
-    title="왜 한국해양기상기술인가"
-    subtitle="해양·기상 분야에 특화된 기술력과 경험을 보유하고 있습니다."
-  />
+<section class="bg-surface-primary">
+  <div class="mx-auto max-w-6xl px-6 py-20">
+    <SectionHeading
+      title="왜 한국해양기상기술인가"
+      subtitle="해양·기상 분야에 특화된 기술력과 경험을 보유하고 있습니다."
+    />
 
-  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    {STRENGTHS.map((item, i) => (
-      <div class="flex items-start gap-4">
-        <span class="text-2xl font-bold text-content-interactive-primary/50">{String(i + 1).padStart(2, '0')}</span>
-        <p class="font-medium text-content-secondary">{item}</p>
-      </div>
-    ))}
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {STRENGTHS.map((item, i) => (
+        <div class="flex items-start gap-4">
+          <span class="text-2xl font-bold text-content-interactive-primary/50">{String(i + 1).padStart(2, '0')}</span>
+          <p class="font-medium text-content-secondary">{item}</p>
+        </div>
+      ))}
+    </div>
   </div>
 </section>

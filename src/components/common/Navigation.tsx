@@ -32,16 +32,7 @@ export default function Navigation({ links, base }: Props) {
   }
 
   return (
-    <div className={'flex items-center gap-2'}>
-      {/* Dark mode toggle */}
-      <button
-        onClick={toggleTheme}
-        className={'rounded-lg p-2 transition-colors hover:bg-interactive-secondary-hovered'}
-        aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
-      >
-        {isDark ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
-
+    <div className={'flex items-center gap-6'}>
       {/* Desktop nav */}
       <nav className={'hidden items-center gap-6 md:flex'}>
         {links.map((link) => (
@@ -54,6 +45,15 @@ export default function Navigation({ links, base }: Props) {
           </a>
         ))}
       </nav>
+
+      {/* Dark mode toggle */}
+      <button
+        onClick={toggleTheme}
+        className={'rounded-lg p-2 transition-colors hover:bg-interactive-secondary-hovered'}
+        aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+      >
+        {isDark ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
 
       {/* Mobile menu button */}
       <button
