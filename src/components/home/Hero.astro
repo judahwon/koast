@@ -1,16 +1,11 @@
 ---
 import Button from '@/components/common/Button.astro';
 import { SITE } from '@/utils/constants';
-import { getImage } from 'astro:assets';
 import heroVideo from '@/assets/videos/hero.mp4';
-import heroPosterSource from '@/assets/images/hero-poster.jpg';
-
-// video 의 poster 속성은 문자열 URL 이라 Image 컴포넌트 대신 getImage 로 최적화한다.
-const heroPoster = await getImage({ src: heroPosterSource, format: 'webp', quality: 72 });
 ---
 
 <section class="relative flex min-h-[calc(100dvh-4rem)] items-center overflow-hidden">
-  <!-- poster 가 뜨기 전 첫 페인트를 채워 빈 화면을 없앤다. -->
+  <!-- 영상 로드 전과 모션 최소화 설정에서 빈 화면이 되지 않도록 깔아두는 배경 -->
   <div
     class="absolute inset-0 bg-linear-to-br from-brand-primary-light/30 via-surface-secondary to-surface-primary"
   >
@@ -19,7 +14,6 @@ const heroPoster = await getImage({ src: heroPosterSource, format: 'webp', quali
   <video
     class="absolute inset-0 size-full object-cover motion-reduce:hidden"
     src={heroVideo}
-    poster={heroPoster.src}
     autoplay
     muted
     loop
@@ -27,13 +21,6 @@ const heroPoster = await getImage({ src: heroPosterSource, format: 'webp', quali
     preload="metadata"
     aria-hidden="true"
   ></video>
-
-  <img
-    class="absolute inset-0 hidden size-full object-cover motion-reduce:block"
-    src={heroPoster.src}
-    alt=""
-    aria-hidden="true"
-  />
 
   <div
     class="absolute inset-0 bg-linear-to-r from-surface-primary/25 via-surface-primary/10 to-transparent"
