@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 const base = process.env.NODE_ENV === 'production' ? '/koast' : '/';
 
 export default defineConfig({
-  site: 'https://koast-crew.github.io',
+  site: 'https://judahwon.github.io',
   base,
   output: 'static',
   integrations: [react(), sitemap()],

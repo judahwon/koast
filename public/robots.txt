@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hwonda.github.io/koast/sitemap-index.xml
+Sitemap: https://judahwon.github.io/koast/sitemap-index.xml

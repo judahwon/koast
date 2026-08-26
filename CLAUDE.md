@@ -176,4 +176,14 @@ Tailwind 클래스 순서/축약도 lint 로 경고한다(`tailwindcss/classname
 
 - 커밋 메시지는 한국어, 어미는 "~한다" (`feat: semantic color token 체계를 도입한다`).
 - `phases/phase1~6-*.md` 는 이 사이트를 단계별로 만들어 온 구현 계획서다. 원래 의도를 확인할 때 참고한다.
-- 배포 워크플로우(`.github/workflows/deploy.yml`)는 phase1 계획에는 있으나 아직 존재하지 않는다.
+
+## 배포
+
+`main` push → `.github/workflows/deploy.yml` 이 `npm run build` 후 `dist/` 를 Pages 아티팩트로 올린다.
+배포 URL 은 `https://judahwon.github.io/koast/` 이고, base `/koast` 는 저장소 이름과 일치해야 한다.
+
+저장소 Settings → Pages → Source 는 반드시 **`GitHub Actions`** 여야 한다.
+`Deploy from a branch` 로 두면 빌드 결과가 아니라 `main` 소스가 그대로 서빙돼 404 가 난다.
+
+도메인이 걸린 값은 세 곳이고 전부 같은 호스트를 가리켜야 한다 — `astro.config.mjs` 의 `site`,
+`constants.ts` 의 `SITE.url`, `public/robots.txt` 의 `Sitemap`.
