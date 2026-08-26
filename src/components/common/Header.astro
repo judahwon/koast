@@ -38,7 +38,7 @@ import logo from '@/assets/images/logo.png';
 </style>
 
 <script>
-  const header = /** @type {HTMLElement} */ (document.getElementById('site-header'));
+  const header = document.getElementById('site-header');
   const hasHero = !!document.getElementById('hero');
   // Tailwind 스캔용 — bg-surface-primary/80 backdrop-blur-md border-line-secondary border-transparent
 
@@ -47,12 +47,13 @@ import logo from '@/assets/images/logo.png';
   const transparent = `${ base } border-transparent`;
 
   function updateHeader() {
+    if (!header) return;
     if (!hasHero || window.scrollY > 0) {
-      header!.className = scrolled;
-      header!.removeAttribute('data-transparent');
+      header.className = scrolled;
+      header.removeAttribute('data-transparent');
     } else {
-      header!.className = transparent;
-      header!.setAttribute('data-transparent', '');
+      header.className = transparent;
+      header.setAttribute('data-transparent', '');
     }
   }
 
