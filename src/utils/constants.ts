@@ -1,7 +1,9 @@
+const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '');
+
 export const SITE = {
   name: '한국해양기상기술',
   url: 'https://hwonda.github.io',
-  base: '/koast',
+  base: BASE_PATH,
   description:
     '해양·기상 데이터를 수집하고, 예측하고, 시각화하는 통합 기술기업',
   locale: 'ko_KR',
