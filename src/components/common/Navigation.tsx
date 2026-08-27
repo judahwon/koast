@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
 
 interface NavLink {
   label: string;
@@ -8,23 +8,12 @@ interface NavLink {
 
 interface Props {
   links: NavLink[];
+  cta: NavLink;
   base: string;
 }
 
-export default function Navigation({ links, base }: Props) {
+export default function Navigation({ links, cta, base }: Props) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    setIsDark(document.documentElement.classList.contains('dark'));
-  }, []);
-
-  function toggleTheme() {
-    const next = !isDark;
-    setIsDark(next);
-    document.documentElement.classList.toggle('dark', next);
-    localStorage.setItem('theme', next ? 'dark' : 'light');
-  }
 
   function resolveHref(href: string) {
     if (href === '/') return base || '/';
@@ -32,52 +21,55 @@ export default function Navigation({ links, base }: Props) {
   }
 
   return (
-    <div className={'flex items-center gap-6'}>
-      {/* Desktop nav */}
-      <nav className={'hidden items-center gap-6 md:flex'}>
+    <div className={'flex items-center gap-8'}>
+      <nav className={'hidden items-center gap-8 md:flex'}>
         {links.map((link) => (
           <a
             key={link.href}
             href={resolveHref(link.href)}
-            className={'text-sm font-medium text-content-tertiary transition-colors hover:text-content-interactive-primary-hovered'}
+            className={'text-sm font-medium text-content-secondary transition-colors hover:text-content-brand'}
           >
             {link.label}
           </a>
         ))}
       </nav>
 
-      {/* Dark mode toggle */}
-      <button
-        onClick={toggleTheme}
-        className={'rounded-lg p-2 transition-colors hover:bg-interactive-secondary-hovered'}
-        aria-label={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+      <a
+        href={resolveHref(cta.href)}
+        className={'hidden rounded-lg border border-line-info px-4 py-2 text-sm font-semibold text-content-brand transition-colors hover:bg-interactive-selected md:inline-flex'}
       >
-        {isDark ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
+        {cta.label}
+      </a>
 
-      {/* Mobile menu button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={'rounded-lg p-2 transition-colors hover:bg-interactive-secondary-hovered md:hidden'}
+        className={'-mr-2 rounded-lg p-2 text-content-primary transition-colors hover:bg-interactive-secondary-hovered md:hidden'}
         aria-label={isOpen ? '메뉴 닫기' : '메뉴 열기'}
+        aria-expanded={isOpen}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
 
-      {/* Mobile menu */}
       {isOpen && (
-        <nav className={'absolute inset-x-0 top-full border-b border-line-secondary bg-surface-primary md:hidden'}>
-          <div className={'flex flex-col gap-3 px-6 py-4'}>
+        <nav className={'absolute inset-x-0 top-full border-b border-line-secondary bg-surface-primary shadow-sm md:hidden'}>
+          <div className={'flex flex-col gap-1 px-6 py-4'}>
             {links.map((link) => (
               <a
                 key={link.href}
                 href={resolveHref(link.href)}
-                className={'py-2 text-sm font-medium text-content-tertiary transition-colors hover:text-content-interactive-primary-hovered'}
+                className={'py-2.5 text-sm font-medium text-content-secondary transition-colors hover:text-content-brand'}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </a>
             ))}
+            <a
+              href={resolveHref(cta.href)}
+              className={'mt-2 rounded-lg border border-line-info px-4 py-2.5 text-center text-sm font-semibold text-content-brand'}
+              onClick={() => setIsOpen(false)}
+            >
+              {cta.label}
+            </a>
           </div>
         </nav>
       )}

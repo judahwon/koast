@@ -3,26 +3,29 @@ interface Props {
   href?: string;
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
+  shape?: 'default' | 'pill';
   class?: string;
 }
 
-const { href, variant = 'primary', size = 'md', class: className = '' } = Astro.props;
+const { href, variant = 'primary', size = 'md', shape = 'default', class: className = '' } = Astro.props;
 
-const baseClass = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring';
+const baseClass = 'inline-flex items-center justify-center gap-2 font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring';
+
+const shapeClass = shape === 'pill' ? 'rounded-full' : 'rounded-lg';
 
 const sizeClass = {
   sm: 'px-4 py-2 text-sm',
   md: 'px-6 py-2.5 text-sm',
-  lg: 'px-8 py-3 text-base',
+  lg: 'px-7 py-3.5 text-base',
 }[size];
 
 const variantClass = {
   primary: 'bg-interactive-primary text-content-interactive-inverse hover:bg-interactive-primary-hovered active:bg-interactive-primary-pressed',
   secondary: 'bg-interactive-selected text-content-interactive-primary hover:bg-interactive-selected-hovered active:bg-interactive-selected-pressed',
-  outline: 'border border-line-primary text-content-interactive-secondary hover:bg-interactive-secondary-hovered active:bg-interactive-secondary-pressed',
+  outline: 'border border-line-info text-content-brand hover:bg-interactive-selected active:bg-interactive-selected-pressed',
 }[variant];
 
-const classes = `${ baseClass } ${ sizeClass } ${ variantClass } ${ className }`;
+const classes = `${ baseClass } ${ shapeClass } ${ sizeClass } ${ variantClass } ${ className }`;
 const Tag = href ? 'a' : 'button';
 ---
 

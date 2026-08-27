@@ -1,64 +1,31 @@
 ---
 import { Image } from 'astro:assets';
 import Navigation from './Navigation.tsx';
-import { NAV_LINKS, SITE } from '@/utils/constants';
+import { NAV_LINKS, NAV_CTA, SITE } from '@/utils/constants';
 import logo from '@/assets/images/logo.png';
 ---
 
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-line-secondary bg-surface-primary/80 backdrop-blur-md transition-colors duration-300">
-  <div class="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color] duration-300">
+  <div class="relative mx-auto flex h-16 max-w-page items-center justify-between px-6 lg:px-10">
     <a href={`${ SITE.base }/`} class="flex items-center gap-2.5">
-      <!-- 로고가 진한 남색이라 다크 배경에서 대비가 부족해 밝기를 올린다. -->
-      <Image
-        src={logo}
-        alt="KOAST"
-        width={73}
-        densities={[1, 2]}
-        class="h-8 w-auto dark:brightness-150"
-      />
-      <span class="hidden text-base font-bold text-content-interactive-primary sm:inline">
-        {SITE.name}
-      </span>
+      <Image src={logo} alt="KOAST" width={73} densities={[1, 2]} class="h-8 w-auto" />
+      <span class="hidden text-base font-bold text-content-primary sm:inline">{SITE.name}</span>
     </a>
-    <Navigation links={NAV_LINKS} base={SITE.base} client:load />
+    <Navigation links={NAV_LINKS} cta={NAV_CTA} base={SITE.base} client:load />
   </div>
 </header>
 
-<style is:global>
-  /* 투명 헤더 상태에서 영상 위 텍스트/로고가 잘 보이도록 */
-  [data-transparent] a,
-  [data-transparent] button {
-    color: white !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-  }
-  [data-transparent] img {
-    filter: brightness(1.8) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-  }
-</style>
-
 <script>
   const header = document.getElementById('site-header');
-  const hasHero = !!document.getElementById('hero');
-  // Tailwind 스캔용 — bg-surface-primary/80 backdrop-blur-md border-line-secondary border-transparent
-
-  const base = 'fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300';
-  const scrolled = `${ base } bg-surface-primary/80 backdrop-blur-md border-line-secondary`;
-  const transparent = `${ base } border-transparent`;
+  const base = 'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300';
+  const scrolled = `${ base } border-line-secondary bg-surface-primary/85 backdrop-blur-md`;
+  const atTop = `${ base } border-transparent`;
 
   function updateHeader() {
     if (!header) return;
-    if (!hasHero || window.scrollY > 0) {
-      header.className = scrolled;
-      header.removeAttribute('data-transparent');
-    } else {
-      header.className = transparent;
-      header.setAttribute('data-transparent', '');
-    }
+    header.className = window.scrollY > 8 ? scrolled : atTop;
   }
 
   updateHeader();
-  if (hasHero) {
-    window.addEventListener('scroll', updateHeader, { passive: true });
-  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
 </script>

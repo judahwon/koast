@@ -1,11 +1,17 @@
 ---
 interface Props {
+  variant?: 'outline' | 'filled';
   class?: string;
 }
 
-const { class: className = '' } = Astro.props;
+const { variant = 'outline', class: className = '' } = Astro.props;
+
+const variantClass = {
+  outline: 'border border-line-secondary bg-surface-primary hover:border-line-info hover:shadow-sm',
+  filled: 'bg-surface-card',
+}[variant];
 ---
 
-<div class={`rounded-xl border border-line-secondary bg-surface-primary p-6 transition-colors ${ className }`}>
+<div class={`rounded-2xl p-6 transition-[border-color,box-shadow] ${ variantClass } ${ className }`}>
   <slot />
 </div>

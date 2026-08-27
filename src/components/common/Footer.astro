@@ -1,41 +1,58 @@
 ---
-import { SITE, NAV_LINKS, COMPANY } from '@/utils/constants';
+import { SITE, NAV_LINKS, NAV_CTA, COMPANY } from '@/utils/constants';
+
+const links = [...NAV_LINKS, NAV_CTA];
+const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-line-secondary bg-surface-secondary">
-  <div class="mx-auto max-w-6xl px-6 py-12">
-    <div class="flex flex-col justify-between gap-8 md:flex-row">
-      <!-- Company info -->
+<footer class="bg-surface-inverse-bold">
+  <div class="mx-auto max-w-page px-6 py-16 lg:px-10">
+    <div class="flex flex-col justify-between gap-12 lg:flex-row">
       <div>
-        <a href={`${ SITE.base }/`} class="text-lg font-bold text-content-interactive-primary">
-          {SITE.name}
-        </a>
-        <p class="mt-1 text-xs tracking-wide text-content-disabled">
-          Korea Oceanic &amp; Atmospheric System Technology
-        </p>
-        <p class="mt-2 text-sm text-content-tertiary">
-          {SITE.description}
+        <div class="flex items-baseline gap-3">
+          <a href={`${ SITE.base }/`} class="text-lg font-bold tracking-tight text-content-on-inverse">
+            {COMPANY.wordmark}
+          </a>
+          <span class="text-xs text-content-on-inverse-tertiary">{COMPANY.legalName}</span>
+        </div>
+
+        <nav class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
+          {links.map((link) => (
+            <a
+              href={`${ SITE.base }${ link.href }`}
+              class="text-sm text-content-on-inverse-secondary transition-colors hover:text-content-on-inverse"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <p class="mt-8 text-xs text-content-on-inverse-tertiary">
+          &copy; {year} {COMPANY.wordmark} ({COMPANY.name}). All rights reserved.
         </p>
       </div>
 
-      <!-- Navigation -->
-      <nav class="flex flex-wrap gap-x-8 gap-y-2">
-        {NAV_LINKS.map((link) => (
-          <a
-            href={link.href === '/' ? `${ SITE.base }/` : `${ SITE.base }${ link.href }`}
-            class="text-sm text-content-tertiary transition-colors hover:text-content-interactive-primary-hovered"
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
-    </div>
+      <div class="flex gap-12 sm:gap-20">
+        <div>
+          <h2 class="text-xs font-bold tracking-wider text-content-on-inverse">CONTACT</h2>
+          <ul class="mt-5 space-y-2.5 text-sm text-content-on-inverse-secondary">
+            <li>
+              <a href={`mailto:${ COMPANY.email }`} class="transition-colors hover:text-content-on-inverse">{COMPANY.email}</a>
+            </li>
+            <li>Tel. {COMPANY.phone}</li>
+            <li>Fax. {COMPANY.fax}</li>
+          </ul>
+        </div>
 
-    <!-- Copyright -->
-    <div class="mt-8 border-t border-line-secondary pt-8 text-center">
-      <p class="text-sm text-content-disabled">
-        &copy; {new Date().getFullYear()} {COMPANY.name}. All rights reserved.
-      </p>
+        <div>
+          <h2 class="text-xs font-bold tracking-wider text-content-on-inverse">ADDRESS</h2>
+          <ul class="mt-5 space-y-2.5 text-sm text-content-on-inverse-secondary">
+            <li>{COMPANY.legalName}</li>
+            <li>{COMPANY.address}</li>
+            <li>{COMPANY.addressDetail}</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

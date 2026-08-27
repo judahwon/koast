@@ -14,17 +14,23 @@ const { title, description, ogImage } = Astro.props;
 <html lang="ko">
   <head>
     <SEOHead title={title} description={description} ogImage={ogImage} />
-    <!-- Dark mode FOUC prevention -->
-    <script is:inline>
-      (function () {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        }
-      }());
-    </script>
   </head>
-  <body class="transition-colors duration-300">
+  <body>
     <slot />
+    <script>
+      const targets = document.querySelectorAll('.reveal');
+      if (targets.length > 0 && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px' });
+        targets.forEach((target) => observer.observe(target));
+      } else {
+        targets.forEach((target) => target.classList.add('is-visible'));
+      }
+    </script>
   </body>
 </html>
