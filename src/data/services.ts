@@ -1,5 +1,5 @@
 export interface Service {
-  id: string;
+  id: 'observation' | 'hardware' | 'modeling' | 'visualization' | 'system' | 'si';
   title: string;
   description: string;
   icon: string;
@@ -145,11 +145,17 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const SOLUTIONS = [
-  '3D 과학데이터 가시화 엔진',
-  '실시간 해양 예측 시스템',
-  '해양기상 모바일 서비스',
-  '등표·연안방재 모니터링 시스템',
-  '유류오염 및 수색구조 모델 표출 시스템',
-  '데이터로거 및 통신장비',
+export interface Solution {
+  name: string;
+  // 같은 페이지의 서비스 블록으로 잇는다. 카드처럼 보이는데 눌리지 않으면 어포던스가 거짓말이 된다.
+  serviceId: Service['id'];
+}
+
+export const SOLUTIONS: Solution[] = [
+  { name: '3D 과학데이터 가시화 엔진', serviceId: 'visualization' },
+  { name: '실시간 해양 예측 시스템', serviceId: 'modeling' },
+  { name: '해양기상 모바일 서비스', serviceId: 'system' },
+  { name: '등표·연안방재 모니터링 시스템', serviceId: 'observation' },
+  { name: '유류오염 및 수색구조 모델 표출 시스템', serviceId: 'modeling' },
+  { name: '데이터로거 및 통신장비', serviceId: 'hardware' },
 ];
