@@ -2,7 +2,6 @@
 import PageLayout from '@/layouts/PageLayout.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
 import ServiceCard from '@/components/services/ServiceCard.astro';
-import Card from '@/components/common/Card.astro';
 import Button from '@/components/common/Button.astro';
 import { SERVICES, SOLUTIONS } from '@/data/services';
 import { SITE } from '@/utils/constants';
@@ -42,10 +41,14 @@ import { SITE } from '@/utils/constants';
       <div class="reveal mt-14 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
         {
           SOLUTIONS.map((solution, i) => (
-            <Card class="flex h-full items-start gap-4">
+            <a
+              href={`${ SITE.base }/services#${ solution.serviceId }`}
+              class="group flex h-full items-start gap-4 rounded-2xl border border-line-secondary bg-surface-primary p-6 transition-[border-color,box-shadow] hover:border-line-info hover:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring"
+            >
               <span class="text-sm font-bold text-content-brand">{String(i + 1).padStart(2, '0')}</span>
-              <span class="text-base leading-relaxed font-medium text-content-primary">{solution}</span>
-            </Card>
+              <span class="flex-1 text-base leading-relaxed font-medium text-content-primary">{solution.name}</span>
+              <span aria-hidden="true" class="text-content-brand transition-transform group-hover:translate-x-1">→</span>
+            </a>
           ))
         }
       </div>

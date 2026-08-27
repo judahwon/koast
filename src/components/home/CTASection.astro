@@ -45,7 +45,7 @@ import { SITE } from '@/utils/constants';
       <p class="text-base font-bold tracking-wide text-content-brand">Contact Us</p>
       <h2 class="mt-2.5 text-2xl font-bold tracking-tight text-content-primary sm:text-3xl lg:text-[2.375rem] lg:leading-tight">도입부터 운영까지 KOAST가 함께합니다.</h2>
     </div>
-    <Button href={`${ SITE.base }/contact`} variant="primary" shape="pill" size="lg" class="shrink-0">
+    <Button href={`${ SITE.base }/contact`} variant="primary" shape="pill" size="xl" class="shrink-0">
       전문가에게 문의하기
       <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m9 6 6 6-6 6" />
@@ -56,9 +56,12 @@ import { SITE } from '@/utils/constants';
 
 <style>
   /* 목업의 그라디언트/웨이브 배경 에셋이 없어 일러스트 색은 hex 로 직접 재현한다. */
+  /* 밝은 구간이 38% 까지 가야 하는 이유: eyebrow 는 컨테이너 좌측에 붙어 있고 폭이 88px 로 고정이라,
+     뷰포트가 좁을수록(320px 에서 35%) 넓을수록(3840px 에서 33.5%) 그 오른쪽 끝의 퍼센트 위치가 커진다.
+     스톱을 25% 에 두면 그 바깥에서 대비가 4.5:1 밑으로 떨어진다. */
   .cta-bg {
     background:
       radial-gradient(90% 175% at 4% 128%, rgb(255 255 255 / 46%), rgb(255 255 255 / 0%) 62%),
-      linear-gradient(90deg, #f2f9fe 0%, #eaf5fd 25%, #c6e6f9 50%, #b5dff8 75%, #addcf7 100%);
+      linear-gradient(90deg, #f4fbff 0%, #eef7fe 38%, #c6e6f9 58%, #b5dff8 79%, #addcf7 100%);
   }
 </style>
