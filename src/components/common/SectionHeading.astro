@@ -4,22 +4,25 @@ interface Props {
   title: string;
   subtitle?: string;
   align?: 'left' | 'center';
+  as?: 'h1' | 'h2';
   class?: string;
 }
 
-const { eyebrow, title, subtitle, align = 'center', class: className = '' } = Astro.props;
+const { eyebrow, title, subtitle, align = 'center', as = 'h2', class: className = '' } = Astro.props;
 const isCenter = align === 'center';
 const rootClass = isCenter ? 'text-center' : 'text-left';
 const subtitleClass = isCenter ? 'mx-auto max-w-3xl text-base text-content-secondary' : 'max-w-4xl text-base text-content-secondary';
+// 페이지 최상단 섹션은 as="h1" 을 줘야 문서에 h1 이 하나 생긴다.
+const Heading = as;
 ---
 
 <div class={`${ rootClass } ${ className }`}>
   {eyebrow && (
     <p class="text-sm font-bold tracking-wide text-content-brand">{eyebrow}</p>
   )}
-  <h2 class="mt-3 text-2xl leading-snug font-bold tracking-tight text-content-primary sm:text-3xl lg:text-[2.5rem]">
+  <Heading class="mt-3 text-2xl leading-snug font-bold tracking-tight text-content-primary sm:text-3xl lg:text-[2.5rem]">
     {title}
-  </h2>
+  </Heading>
   {subtitle && (
     <p class={`mt-5 ${ subtitleClass }`}>
       {subtitle}

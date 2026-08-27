@@ -5,6 +5,9 @@ interface Props {
   jobSlug: string;
 }
 
+const fieldClass = 'w-full rounded-xl border border-line-primary bg-surface-primary px-4 py-3 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring';
+const labelClass = 'mb-2 block text-sm font-semibold text-content-primary';
+
 export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
   const [status, setStatus] = useState<
     'idle' | 'submitting' | 'success' | 'error'
@@ -18,7 +21,6 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // File validation
     const file = formData.get('resume') as File;
     if (file && file.size > 0) {
       if (!file.name.endsWith('.pdf')) {
@@ -54,34 +56,26 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
 
   if (status === 'success') {
     return (
-      <div
-        className={
-          'rounded-xl bg-surface-success-subtle p-8 text-center'
-        }
-      >
-        <p
-          className={'text-lg font-semibold text-content-success-bold'}
-        >
-          {'지원서가 정상적으로 접수되었습니다.\r'}
+      <div className={'rounded-2xl bg-surface-success-subtle p-10 text-center'}>
+        <p className={'text-lg font-bold text-content-success-bold'}>
+          {'지원서가 정상적으로 접수되었습니다.'}
         </p>
         <p className={'mt-2 text-sm text-content-success'}>
-          {'검토 후 안내드리겠습니다. 감사합니다.\r'}
+          {'검토 후 안내드리겠습니다. 감사합니다.'}
         </p>
         <button
+          type={'button'}
           onClick={() => setStatus('idle')}
-          className={
-            'mt-4 text-sm text-content-success underline'
-          }
+          className={'mt-6 rounded-full border border-line-success px-5 py-2 text-sm font-semibold text-content-success transition-colors hover:bg-surface-success-subtle'}
         >
-          {'추가 지원하기\r'}
+          {'추가 지원하기'}
         </button>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className={'space-y-5'}>
-      {/* Web3Forms config */}
+    <form onSubmit={handleSubmit} className={'space-y-6'}>
       <input
         type={'hidden'}
         name={'access_key'}
@@ -99,93 +93,60 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
       />
       <input type={'hidden'} name={'job_slug'} value={jobSlug} />
 
-      <div className={'grid gap-5 md:grid-cols-2'}>
+      <div className={'grid gap-6 md:grid-cols-2'}>
         <div>
-          <label
-            htmlFor={'name'}
-            className={
-              'mb-1 block text-sm font-medium text-content-secondary'
-            }
-          >
-            {'이름 *\r'}
+          <label htmlFor={'name'} className={labelClass}>
+            {'이름 *'}
           </label>
           <input
             type={'text'}
             id={'name'}
             name={'name'}
             required
-            className={
-              'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
-            }
+            className={fieldClass}
           />
         </div>
         <div>
-          <label
-            htmlFor={'email'}
-            className={
-              'mb-1 block text-sm font-medium text-content-secondary'
-            }
-          >
-            {'이메일 *\r'}
+          <label htmlFor={'email'} className={labelClass}>
+            {'이메일 *'}
           </label>
           <input
             type={'email'}
             id={'email'}
             name={'email'}
             required
-            className={
-              'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
-            }
+            className={fieldClass}
           />
         </div>
       </div>
 
       <div>
-        <label
-          htmlFor={'phone'}
-          className={
-            'mb-1 block text-sm font-medium text-content-secondary'
-          }
-        >
-          {'연락처\r'}
+        <label htmlFor={'phone'} className={labelClass}>
+          {'연락처'}
         </label>
         <input
           type={'tel'}
           id={'phone'}
           name={'phone'}
-          className={
-            'w-full rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
-          }
+          className={fieldClass}
         />
       </div>
 
       <div>
-        <label
-          htmlFor={'message'}
-          className={
-            'mb-1 block text-sm font-medium text-content-secondary'
-          }
-        >
-          {'자기소개 / 지원 동기\r'}
+        <label htmlFor={'message'} className={labelClass}>
+          {'자기소개 / 지원 동기'}
         </label>
         <textarea
           id={'message'}
           name={'message'}
-          rows={4}
-          className={
-            'w-full resize-y rounded-lg border border-line-primary bg-surface-primary px-4 py-2.5 text-content-primary transition-colors outline-none focus:border-transparent focus:ring-2 focus:ring-line-focus-ring'
-          }
+          rows={5}
+          className={`${ fieldClass } resize-y`}
         />
       </div>
 
       <div>
-        <label
-          htmlFor={'resume'}
-          className={
-            'mb-1 block text-sm font-medium text-content-secondary'
-          }
-        >
-          {'이력서 (PDF, 5MB 이하) *\r'}
+        <label htmlFor={'resume'} className={labelClass}>
+          {'이력서 (PDF, 5MB 이하) *'}
         </label>
         <input
           type={'file'}
@@ -193,9 +154,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
           name={'resume'}
           accept={'.pdf'}
           required
-          className={
-            'w-full text-sm text-content-tertiary file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-surface-info-subtle file:px-4 file:py-2 file:text-sm file:font-medium file:text-content-interactive-primary file:transition-colors hover:file:bg-interactive-selected-hovered'
-          }
+          className={'w-full text-sm text-content-tertiary file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-surface-card file:px-5 file:py-2.5 file:text-sm file:font-semibold file:text-content-brand file:transition-colors hover:file:bg-interactive-selected-hovered'}
         />
       </div>
 
@@ -208,9 +167,7 @@ export default function ApplicationForm({ jobTitle, jobSlug }: Props) {
       <button
         type={'submit'}
         disabled={status === 'submitting'}
-        className={
-          'w-full rounded-lg bg-interactive-primary px-6 py-3 font-medium text-content-interactive-inverse transition-colors hover:bg-interactive-primary-hovered active:bg-interactive-primary-pressed disabled:cursor-not-allowed disabled:opacity-50'
-        }
+        className={'w-full rounded-full bg-interactive-primary px-7 py-3.5 font-semibold text-content-interactive-inverse transition-colors hover:bg-interactive-primary-hovered active:bg-interactive-primary-pressed disabled:cursor-not-allowed disabled:opacity-50'}
       >
         {status === 'submitting' ? '전송 중...' : '지원하기'}
       </button>

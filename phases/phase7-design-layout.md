@@ -80,7 +80,8 @@ Technology and Research / Contact Us 는 중앙 정렬.** 이걸 통일하지 �
    5종만 있으므로 마퀴는 배열을 2회 반복해 seamless 하게 잇는다.
 
 3. **Business Area — 3카드** (`y 1519–2240`)
-   카드 **463px 폭 × 357px 높이, 간격 26px**, bg `#F0F9FF`, radius ~16px.
+   카드 **464px 폭 × 357px 높이, 간격 24px**, bg `#F0F9FF`, radius ~16px.
+   (1440 컨테이너에서 `grid-cols-3 gap-6` 이면 정확히 이 값이 나온다: (1440−48)/3 = 464)
    카드 안: 상단 좌측에 [작은 회색 라벨 / 큰 볼드 제목], **일러스트는 카드 우하단에 flush로 붙어
    하단이 카드에 잘린다.** 여백을 두지 마라 — 잘리는 게 목업이다.
    에셋: `illust-ai.png` (274×275) / `illust-bigdata.png` (279×270) / `illust-gis.png` (263×248)
@@ -210,16 +211,18 @@ Fax. (+82) 02 6008 3334
 
 검증자는 **반드시 실제 렌더링된 픽셀을 보고 판정한다.** CSS 를 읽고 스크린샷을 상상해서 채점하지 마라.
 
-`CLAUDE.md` 의 "Claude 는 dev 서버를 임의로 실행하지 않는다" 규칙에 대한 **이번 작업 한정 예외**:
-이 규칙의 목적은 ①사용자의 dev 서버를 포트 충돌로 죽이지 않는 것 ②`dist/` 를 덮어쓰지 않는 것 두 가지다.
-따라서 **검증용 dev 서버는 반드시 `--port 4322` 로 띄운다.** 사용자의 기본 포트 4321 을 점유하지 않으므로
-두 목적 모두 지켜진다. `npm run build` 는 c8 검증에서만 실행한다.
+`CLAUDE.md` 의 "Claude 는 dev 서버를 임의로 실행하지 않는다" 규칙의 목적은 ①사용자의 dev 서버를
+포트 충돌로 죽이지 않는 것 ②`dist/` 를 덮어쓰지 않는 것 두 가지다.
+
+**이미 사용자의 dev 서버가 4321 에 상주 중이므로(Astro 7 은 두 번째 인스턴스를 거부한다) 아무것도
+새로 띄우지 않고 그 서버를 캡처만 한다.** 규칙의 두 목적이 그대로 지켜진다.
+`npm run build` 는 c8 검증에서만 실행한다.
 
 ```bash
-npm run dev -- --port 4322     # 백그라운드, 세션 동안 1회만
+npx astro dev status           # 상주 서버 확인. 죽이거나 재시작하지 않는다.
 "C:\Program Files\Google\Chrome\Application\chrome.exe" --headless=new --disable-gpu \
-  --hide-scrollbars --virtual-time-budget=5000 --window-size=1440,987 \
-  --screenshot=shot.png "http://localhost:4322/"
+  --no-sandbox --hide-scrollbars --virtual-time-budget=6000 --window-size=1440,987 \
+  --screenshot=shot.png "http://localhost:4321/"
 ```
 
 - `--window-size` 높이에서 약 87px 을 뺀 값이 실제 뷰포트다 (1440×987 → 1440×900).

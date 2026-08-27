@@ -93,6 +93,21 @@ raw 브랜드 컬러 — `@theme` 에 직접 hex 로 정의된 유일한 값. �
 목업이 1920px 뷰포트에서 좌우 여백 각 240px 을 쓰므로 이 값이 그리드의 기준이다.
 **`max-w-6xl`(1152px)은 phase7 이전 값이므로 새 코드에 쓰지 않는다.**
 
+#### 페이지 컨테이너는 `.page-container` 하나만 쓴다
+
+`class="mx-auto max-w-page px-6 lg:px-10"` 처럼 **한 요소에 max-width 와 좌우 패딩을 같이 주면 안 된다.**
+Tailwind 는 `box-sizing: border-box` 라 콘텐츠 폭이 1440 이 아니라 1440−80 = 1360 이 되고,
+1920px 에서 여백이 240px 이 아니라 280px 이 된다. 카드 폭도 전부 어긋난다.
+
+`global.css` 의 `.page-container` 가 `width: min(100% - gutter, var(--container-page))` 로
+이 문제를 없앤 유일한 정의다. 세로 패딩만 유틸로 따로 준다.
+
+```astro
+<section class="bg-surface-subtle py-20 lg:py-28">
+  <div class="page-container">…</div>
+</section>
+```
+
 시맨틱 토큰 — 값은 `global.css` 의 `:root` 에서 brand 컬러와 zinc·blue·yellow·green·red 스케일로 매핑된다.
 
 | 그룹 | 유틸 접두사 | 토큰 |

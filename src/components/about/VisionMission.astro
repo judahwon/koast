@@ -1,91 +1,47 @@
 ---
+import SectionHeading from '@/components/common/SectionHeading.astro';
 import Card from '@/components/common/Card.astro';
 import { VISION, MISSION, CORE_VALUES } from '@/data/company';
 ---
 
-<section class="mx-auto max-w-6xl px-6 py-20">
-  <!-- Company overview -->
-  <div class="mb-16 max-w-3xl">
-    <h2
-      class="mb-6 text-3xl font-bold text-content-primary md:text-4xl"
-    >
-      회사 개요
-    </h2>
-    <p class="leading-relaxed text-content-tertiary">
-      {VISION.description}
-    </p>
-    <div class="mt-6 grid grid-cols-2 gap-4 text-sm">
-      <div>
-        <span class="text-content-disabled">회사명</span>
-        <p class="font-medium text-content-secondary">
-          한국해양기상기술
-        </p>
+<section class="bg-surface-primary">
+  <div class="page-container py-20 lg:py-28">
+    <SectionHeading class="reveal" align="left" eyebrow="Vision & Mission" title="회사 개요" subtitle={VISION.description} />
+
+    <div class="reveal mt-14 grid gap-6 lg:mt-16 lg:grid-cols-2">
+      <div class="rounded-2xl bg-surface-brand p-8 lg:p-10">
+        <p class="text-sm font-bold tracking-wide text-content-on-inverse">VISION</p>
+        <h3 class="mt-4 text-2xl leading-snug font-bold text-content-on-inverse lg:text-3xl">{VISION.title}</h3>
+        <p class="mt-4 text-base text-content-on-inverse">{VISION.subtitle}</p>
       </div>
-      <div>
-        <span class="text-content-disabled">분야</span>
-        <p class="font-medium text-content-secondary">
-          해양·기상 데이터 기반 통합 솔루션
-        </p>
-      </div>
-      <div>
-        <span class="text-content-disabled">주요 고객</span>
-        <p class="font-medium text-content-secondary">
-          공공기관, 연구기관, 해양·기상 관련 기업
-        </p>
-      </div>
-      <div>
-        <span class="text-content-disabled">핵심 역량</span>
-        <p class="font-medium text-content-secondary">
-          관측, 수집, 예측, 분석, 시각화, 시스템 구축
-        </p>
+
+      <div class="rounded-2xl bg-surface-card p-8 lg:p-10">
+        <p class="text-sm font-bold tracking-wide text-content-brand">MISSION</p>
+        <ul class="mt-4 space-y-3">
+          {
+            MISSION.items.map((item) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-surface-brand" />
+                <span class="text-base text-content-secondary">{item}</span>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- Vision -->
-  <div
-    class="mb-16 rounded-2xl bg-surface-inverse-bolder p-8 text-content-interactive-inverse md:p-12"
-  >
-    <p class="mb-2 text-sm font-medium text-content-interactive-inverse/80">비전</p>
-    <h3 class="text-2xl font-bold md:text-3xl">
-      {VISION.title}
-    </h3>
-    <p class="mt-2 text-lg text-content-interactive-inverse/80">
-      해양·기상 데이터를 더 정확하게 이해하고, 더 빠르게 활용할 수 있는 기술을
-      만듭니다.
-    </p>
-  </div>
+<section class="bg-surface-subtle">
+  <div class="page-container py-20 lg:py-28">
+    <SectionHeading class="reveal" eyebrow="Core Values" title="핵심 가치" subtitle="해양·기상 도메인에 특화된 다섯 가지 기준으로 프로젝트를 수행합니다." />
 
-  <!-- Mission -->
-  <div class="mb-16">
-    <h3 class="mb-6 text-2xl font-bold text-content-primary">미션</h3>
-    <div class="grid gap-4 md:grid-cols-2">
-      {
-        MISSION.items.map((item) => (
-          <div class="flex items-start gap-3 rounded-lg bg-surface-secondary p-4">
-            <div class="mt-2 size-2 shrink-0 rounded-full bg-surface-inverse-bolder" />
-            <p class="text-content-secondary">{item}</p>
-          </div>
-        ))
-      }
-    </div>
-  </div>
-
-  <!-- Core Values -->
-  <div>
-    <h3 class="mb-6 text-2xl font-bold text-content-primary">
-      핵심 가치
-    </h3>
-    <div class="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+    <div class="reveal mt-14 grid gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-5">
       {
         CORE_VALUES.map((value) => (
-          <Card class="text-center">
-            <h4 class="font-semibold text-content-primary">
-              {value.title}
-            </h4>
-            <p class="mt-2 text-sm text-content-tertiary">
-              {value.description}
-            </p>
+          <Card class="h-full text-center">
+            <h3 class="text-lg font-bold text-content-primary">{value.title}</h3>
+            <p class="mt-3 text-sm leading-relaxed text-content-secondary">{value.description}</p>
           </Card>
         ))
       }

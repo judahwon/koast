@@ -1,51 +1,28 @@
 ---
-import hero1080 from '@/assets/videos/hero.mp4';
-import hero720 from '@/assets/videos/hero-720.mp4';
-import heroPoster from '@/assets/images/hero-poster.webp';
+import { Image } from 'astro:assets';
+
+import heroWave from '@/assets/images/home/hero-wave.png';
+import { HERO } from '@/data/home';
 ---
 
-<section id="hero" class="relative -mt-16 flex min-h-dvh items-center">
-  <!-- 영상 첫 프레임이라 로드 전/모션 최소화 설정에서도 영상이 멈춰 있는 것처럼 보인다. -->
-  <div
-    class="fixed inset-0 -z-20 bg-cover bg-center"
-    style={`background-image:url(${ heroPoster.src })`}
-  >
+<section id="hero" class="relative isolate bg-surface-primary pt-20 pb-40 text-center sm:pt-28 sm:pb-52 lg:pt-44 lg:pb-64 2xl:py-80">
+  <div class="page-container reveal">
+    <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl 2xl:text-[3.5rem]">
+      {HERO.titleTop}<br />
+      <span class="text-content-brand">{HERO.titleAccent}</span>{HERO.titleTail}
+    </h1>
+    <p class="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-content-secondary sm:text-lg">
+      {HERO.subtitle.map((line) => <span class="block">{line}</span>)}
+    </p>
   </div>
 
-  <video
-    class="fixed inset-0 -z-10 size-full object-cover motion-reduce:hidden"
-    poster={heroPoster.src}
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
+  <Image
+    src={heroWave}
+    alt=""
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
     aria-hidden="true"
-  >
-    <!-- media 를 모르는 구형 브라우저는 첫 source 를 쓴다 — 그쪽에 가벼운 720p 가 오도록 순서를 잡았다. -->
-    <source src={hero720} type="video/mp4" media="(max-width: 768px)" />
-    <source src={hero1080} type="video/mp4" />
-  </video>
-
-  <div class="relative mx-auto flex w-full max-w-6xl justify-end px-6 py-16">
-    <div class="max-w-3xl text-right">
-      <p class="mb-4 text-sm font-medium tracking-wide text-white [text-shadow:0_1px_4px_rgba(0,0,0,0.3)]">
-        해양·기상 데이터 전문기업
-      </p>
-      <h1 class="text-4xl leading-tight font-bold text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.25)] md:text-5xl lg:text-6xl">
-        해양·기상 데이터를<br />
-        <span class="text-content-interactive-primary">연결하는 기술</span>
-      </h1>
-      <p class="mt-6 ml-auto max-w-2xl text-lg leading-relaxed text-white/90 [text-shadow:0_1px_4px_rgba(0,0,0,0.3)]">
-        더 정확한 예측과 더 안전한 의사결정을 만듭니다.<br class="hidden md:block" />
-        관측장비, 데이터 수집, 수치모델, GIS 시각화, 관제시스템까지 통합 제공합니다.
-      </p>
-    </div>
-  </div>
-
-  <div class="absolute bottom-[5%] left-1/2 flex -translate-x-1/2 flex-col items-center gap-3">
-    <span class="text-xs font-light tracking-[0.3em] text-white/70">SCROLL</span>
-    <div class="h-16 w-px bg-white/40"></div>
-  </div>
+    class="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-auto w-full select-none"
+  />
 </section>
-

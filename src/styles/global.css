@@ -177,6 +177,19 @@ body {
   line-height: 1.7;
 }
 
+/* 페이지 컨테이너. `max-w-page px-6` 를 한 요소에 같이 주면 border-box 라 콘텐츠가 1440 이 아니라
+   1360 이 되어 목업의 240px 여백이 깨진다. 폭에서 거터를 빼는 방식이라야 1920 에서 정확히 1440 이 된다. */
+.page-container {
+  margin-inline: auto;
+  width: min(100% - 3rem, var(--container-page));
+}
+
+@media (width >= 64rem) {
+  .page-container {
+    width: min(100% - 5rem, var(--container-page));
+  }
+}
+
 /* IntersectionObserver 로 .is-visible 이 붙기 전까지의 초기 상태. 모션 라이브러리 없이 진입 연출을 낸다. */
 @media (prefers-reduced-motion: no-preference) {
   .reveal {
@@ -212,4 +225,141 @@ body {
   .marquee-track {
     animation: none;
   }
+}
+
+/* @tailwindcss/typography 가 설치돼 있지 않아 마크다운 본문 스타일을 여기서 직접 정의한다.
+   블로그 본문과 채용 공고 두 곳이 같은 규칙을 쓰므로 컴포넌트가 아니라 여기에 둔다. */
+.post-body {
+  line-height: 1.85;
+  color: var(--content-secondary);
+}
+
+.post-body h2 {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--content-primary);
+}
+
+.post-body h2:first-child {
+  margin-top: 0;
+}
+
+.post-body h3 {
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--content-primary);
+}
+
+.post-body h4 {
+  margin-top: 1.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--content-primary);
+}
+
+.post-body p {
+  margin-bottom: 1.25rem;
+}
+
+.post-body ul,
+.post-body ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.35rem;
+}
+
+.post-body ul {
+  list-style: disc;
+}
+
+.post-body ol {
+  list-style: decimal;
+}
+
+.post-body li {
+  margin-bottom: 0.4rem;
+}
+
+.post-body li::marker {
+  color: var(--content-brand);
+}
+
+.post-body strong {
+  font-weight: 700;
+  color: var(--content-primary);
+}
+
+.post-body a {
+  color: var(--content-interactive-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-body code {
+  border-radius: 0.375rem;
+  background: var(--bg-card);
+  padding: 0.125rem 0.375rem;
+  font-size: 0.875em;
+  color: var(--content-interactive-primary);
+}
+
+/* 어두운 pre 위에서 본문색(--content-secondary)을 그대로 상속하면 대비가 2.46:1 로 AA 에 못 미친다. */
+.post-body pre {
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  border-radius: 0.75rem;
+  background: var(--bg-inverse-bold);
+  padding: 1.25rem;
+  line-height: 1.6;
+  color: var(--content-on-inverse-secondary);
+}
+
+.post-body pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.post-body blockquote {
+  margin: 1.75rem 0;
+  border-left: 3px solid var(--border-info);
+  padding-left: 1.15rem;
+  color: var(--content-tertiary);
+}
+
+.post-body hr {
+  margin: 3rem 0;
+  border-top: 1px solid var(--border-secondary);
+}
+
+.post-body img {
+  margin: 1.75rem 0;
+  max-width: 100%;
+  border-radius: 0.75rem;
+}
+
+.post-body table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.post-body th,
+.post-body td {
+  border: 1px solid var(--border-secondary);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.post-body th {
+  background: var(--bg-subtle);
+  font-weight: 600;
+  color: var(--content-primary);
 }

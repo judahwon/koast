@@ -1,57 +1,28 @@
 ---
+import SectionHeading from '@/components/common/SectionHeading.astro';
 import { TIMELINE } from '@/data/company';
 ---
 
-<section class="bg-surface-secondary">
-  <div class="mx-auto max-w-4xl px-6 py-20">
-    <h2
-      class="mb-12 text-center text-3xl font-bold text-content-primary"
-    >
-      연혁
-    </h2>
+<section class="bg-surface-primary">
+  <div class="page-container py-20 lg:py-28">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,20rem)_minmax(0,1fr)] lg:gap-20">
+      <SectionHeading class="reveal lg:sticky lg:top-28 lg:self-start" align="left" eyebrow="History" title="연혁" subtitle="2010년 설립 이후 관측·예측·시각화 전 영역으로 기술 범위를 넓혀 왔습니다." />
 
-    <div class="relative">
-      <!-- Vertical line -->
-      <div
-        class="absolute inset-y-0 left-[7px] w-px bg-surface-disabled md:left-1/2 md:-translate-x-px"
-      >
-      </div>
-
-      <div class="space-y-6">
+      <ol class="reveal">
         {
-          TIMELINE.map((item, i) => (
-            <div class="relative flex gap-6 md:gap-0">
-              {/* Dot */}
-              <div class="absolute left-0 mt-0.5 size-4 rounded-full border-4 border-line-tertiary bg-surface-inverse-bolder md:left-1/2 md:-translate-x-1/2" />
-
-              {/* Year - always on left for mobile, alternating for desktop */}
-              <div
-                class={`hidden md:block md:w-1/2 ${ i % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:order-2 md:pl-8 md:text-left' }`}
-              >
-                <span class="text-lg font-bold text-content-interactive-primary">
-                  {item.year}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div
-                class={`ml-8 md:ml-0 md:w-1/2 ${ i % 2 === 0 ? 'md:pl-8' : 'md:order-1 md:pr-8 md:text-right' }`}
-              >
-                <span class="text-sm font-bold text-content-interactive-primary md:hidden">
-                  {item.year}
-                </span>
-                <ul class="mt-1 space-y-1 md:mt-0">
-                  {item.events.map((event) => (
-                    <li class="text-sm text-content-tertiary">
-                      {event}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+          TIMELINE.map((item) => (
+            <li class="relative grid gap-2 border-l border-line-secondary pb-10 pl-8 last:pb-0 sm:grid-cols-[5rem_minmax(0,1fr)] sm:gap-6">
+              <span class="absolute top-2.5 -left-1 size-2 rounded-full bg-surface-brand" />
+              <p class="text-lg leading-7 font-bold text-content-interactive-primary">{item.year}</p>
+              <ul class="space-y-1.5">
+                {item.events.map((event) => (
+                  <li class="text-base leading-7 text-content-secondary">{event}</li>
+                ))}
+              </ul>
+            </li>
           ))
         }
-      </div>
+      </ol>
     </div>
   </div>
 </section>

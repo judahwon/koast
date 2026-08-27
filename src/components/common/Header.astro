@@ -6,7 +6,8 @@ import logo from '@/assets/images/logo.png';
 ---
 
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color] duration-300">
-  <div class="relative mx-auto flex h-16 max-w-page items-center justify-between px-6 lg:px-10">
+  <!-- 목업 헤더는 1440 그리드가 아니라 full-bleed 다. 1920 에서 로고 x=48, CTA 우측 끝 x=1872. -->
+  <div class="relative flex h-16 items-center justify-between px-6 lg:px-12">
     <a href={`${ SITE.base }/`} class="flex items-center gap-2.5">
       <Image src={logo} alt="KOAST" width={73} densities={[1, 2]} class="h-8 w-auto" />
       <span class="hidden text-base font-bold text-content-primary sm:inline">{SITE.name}</span>

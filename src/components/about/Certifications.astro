@@ -1,40 +1,38 @@
 ---
+import SectionHeading from '@/components/common/SectionHeading.astro';
+import Card from '@/components/common/Card.astro';
 import { CERTIFICATIONS, CAPABILITIES } from '@/data/company';
 ---
 
-<section class="mx-auto max-w-6xl px-6 py-20">
-  <div class="grid gap-12 md:grid-cols-2">
-    <!-- Certifications -->
-    <div>
-      <h3 class="mb-6 text-2xl font-bold text-content-primary">
-        인증·등록
-      </h3>
-      <div class="flex flex-wrap gap-2">
-        {
-          CERTIFICATIONS.map((cert) => (
-            <span class="rounded-full border border-line-info-subtle bg-surface-info-subtle px-3 py-1.5 text-sm text-content-interactive-primary">
-              {cert}
-            </span>
-          ))
-        }
-      </div>
-    </div>
+<section class="bg-surface-subtle">
+  <div class="page-container py-20 lg:py-28">
+    <SectionHeading class="reveal" eyebrow="Certifications" title="인증·등록과 보유 역량" subtitle="공공·연구기관 사업 수행에 필요한 자격을 갖추고 전 과정을 자체 인력으로 소화합니다." />
 
-    <!-- Capabilities -->
-    <div>
-      <h3 class="mb-6 text-2xl font-bold text-content-primary">
-        조직·역량
-      </h3>
-      <div class="space-y-3">
-        {
-          CAPABILITIES.map((cap) => (
-            <div class="flex items-center gap-3">
-              <div class="size-2 shrink-0 rounded-full bg-surface-inverse-bolder" />
-              <span class="text-content-secondary">{cap}</span>
-            </div>
-          ))
-        }
-      </div>
+    <div class="reveal mt-14 grid gap-6 lg:mt-16 lg:grid-cols-2">
+      <Card class="h-full">
+        <h3 class="text-lg font-bold text-content-primary">인증·등록</h3>
+        <div class="mt-5 flex flex-wrap gap-2">
+          {
+            CERTIFICATIONS.map((cert) => (
+              <span class="rounded-full bg-surface-card px-4 py-2 text-sm font-medium text-content-interactive-primary">{cert}</span>
+            ))
+          }
+        </div>
+      </Card>
+
+      <Card class="h-full">
+        <h3 class="text-lg font-bold text-content-primary">조직·역량</h3>
+        <ul class="mt-5 grid gap-3 sm:grid-cols-2">
+          {
+            CAPABILITIES.map((cap) => (
+              <li class="flex items-start gap-3">
+                <span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-surface-brand" />
+                <span class="text-base text-content-secondary">{cap}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </Card>
     </div>
   </div>
 </section>

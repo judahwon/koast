@@ -4,42 +4,49 @@ import type { Service } from '@/data/services';
 
 interface Props {
   service: Service;
+  index?: number;
 }
 
-const { service } = Astro.props;
+const { service, index = 1 } = Astro.props;
 
+// lucide 아이콘을 React 아일랜드 없이 쓰기 위해 path 만 인라인으로 둔다.
 const iconMap: Record<string, string> = {
-  Radar: '📡',
-  Cpu: '🔧',
-  LineChart: '📈',
-  Globe: '🌐',
-  Monitor: '🖥️',
-  Building: '🏛️',
+  Radar: '<circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3.5" /><path d="M12 12 18.4 5.6" />',
+  Cpu: '<rect x="6" y="6" width="12" height="12" rx="2" /><rect x="9.5" y="9.5" width="5" height="5" rx="1" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />',
+  LineChart: '<path d="M3 3v18h18" /><path d="m7 14 4-4 3 3 5-6" />',
+  Globe: '<circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18" />',
+  Monitor: '<rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" />',
+  Building: '<rect x="4" y="3" width="16" height="18" rx="1.5" /><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2" />',
 };
+
+const icon = iconMap[service.icon] ?? iconMap.Monitor;
+const eyebrow = `SERVICE ${ String(index).padStart(2, '0') }`;
+const chipClass = 'rounded-full bg-surface-primary px-3 py-1.5 text-xs font-medium text-content-secondary';
+const blockClass = 'mt-6 border-t border-line-secondary pt-6';
+const labelClass = 'text-xs font-bold tracking-wide text-content-brand';
 ---
 
-<div id={service.id} class="scroll-mt-20">
-  <Card>
-    <div class="mb-4 flex items-start gap-4">
-      <div class="text-3xl">{iconMap[service.icon] || '💻'}</div>
+<article id={service.id} class="reveal scroll-mt-28">
+  <Card variant="filled" class="h-full hover:shadow-md">
+    <div class="flex items-start gap-4">
+      <span class="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-primary text-content-brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="size-6" aria-hidden="true" set:html={icon} />
+      </span>
       <div>
-        <h3 class="text-xl font-semibold text-content-primary">{service.title}</h3>
-        <p class="mt-2 text-sm leading-relaxed text-content-tertiary">
-          {service.description}
-        </p>
+        <p class={labelClass}>{eyebrow}</p>
+        <h3 class="mt-1 text-xl leading-snug font-bold text-content-primary">{service.title}</h3>
       </div>
     </div>
 
-    {/* Details */}
+    <p class="mt-5 text-base leading-relaxed text-content-secondary">{service.description}</p>
+
     {service.details.length > 0 && (
-      <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-content-secondary">
-          {service.products ? '주요 내용' : '주요 내용'}
-        </p>
-        <ul class="grid gap-1.5 md:grid-cols-2">
+      <div class={blockClass}>
+        <p class={labelClass}>주요 내용</p>
+        <ul class="mt-3 grid gap-2 sm:grid-cols-2">
           {service.details.map((d) => (
-            <li class="flex items-start gap-2 text-sm text-content-tertiary">
-              <span class="mt-1 text-content-interactive-primary">·</span>
+            <li class="flex items-start gap-2 text-sm text-content-secondary">
+              <span class="mt-2 size-1 shrink-0 rounded-full bg-surface-brand" />
               {d}
             </li>
           ))}
@@ -47,28 +54,22 @@ const iconMap: Record<string, string> = {
       </div>
     )}
 
-    {/* Products */}
     {service.products && (
-      <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-content-secondary">주요 제품·기술</p>
-        <div class="flex flex-wrap gap-2">
-          {service.products.map((p) => (
-            <span class="rounded-full bg-surface-info-subtle px-2.5 py-1 text-xs text-content-interactive-primary">
-              {p}
-            </span>
-          ))}
+      <div class={blockClass}>
+        <p class={labelClass}>주요 제품·기술</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {service.products.map((p) => <span class={chipClass}>{p}</span>)}
         </div>
       </div>
     )}
 
-    {/* Advantages */}
     {service.advantages && (
-      <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-content-secondary">장점</p>
-        <ul class="space-y-1">
+      <div class={blockClass}>
+        <p class={labelClass}>장점</p>
+        <ul class="mt-3 grid gap-2 sm:grid-cols-2">
           {service.advantages.map((a) => (
-            <li class="flex items-start gap-2 text-sm text-content-tertiary">
-              <span class="mt-1 text-content-interactive-primary">·</span>
+            <li class="flex items-start gap-2 text-sm text-content-secondary">
+              <span class="mt-2 size-1 shrink-0 rounded-full bg-surface-brand" />
               {a}
             </li>
           ))}
@@ -76,32 +77,22 @@ const iconMap: Record<string, string> = {
       </div>
     )}
 
-    {/* Applications */}
     {service.applications && (
-      <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-content-secondary">적용 분야</p>
-        <div class="flex flex-wrap gap-2">
-          {service.applications.map((a) => (
-            <span class="rounded-full bg-surface-tertiary px-2.5 py-1 text-xs text-content-tertiary">
-              {a}
-            </span>
-          ))}
+      <div class={blockClass}>
+        <p class={labelClass}>적용 분야</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {service.applications.map((a) => <span class={chipClass}>{a}</span>)}
         </div>
       </div>
     )}
 
-    {/* Customers */}
     {service.customers && (
-      <div class="mt-4">
-        <p class="mb-2 text-sm font-medium text-content-secondary">고객 유형</p>
-        <div class="flex flex-wrap gap-2">
-          {service.customers.map((c) => (
-            <span class="rounded-full bg-surface-tertiary px-2.5 py-1 text-xs text-content-tertiary">
-              {c}
-            </span>
-          ))}
+      <div class={blockClass}>
+        <p class={labelClass}>고객 유형</p>
+        <div class="mt-3 flex flex-wrap gap-2">
+          {service.customers.map((c) => <span class={chipClass}>{c}</span>)}
         </div>
       </div>
     )}
   </Card>
-</div>
+</article>

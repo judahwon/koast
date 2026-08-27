@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+
+import SectionHeading from '@/components/common/SectionHeading.astro';
+import { PARTNERS } from '@/data/home';
+
+// marquee-track 이 -50% 로 이동하므로 배열을 정확히 2벌 깔아야 이음매가 안 보인다.
+const MARQUEE_SETS = [false, true];
+---
+
+<section id="partners" class="bg-surface-subtle pt-16 pb-20 lg:pt-20 lg:pb-28">
+  <div class="page-container">
+    <SectionHeading
+      align="left"
+      eyebrow="What We do"
+      title="해양·기상 분야에 특화된 기술 전문 기업, KOAST"
+      subtitle="한국해양기상기술은 해양·기상·항공 분야의 데이터 기반 시스템을 개발하며 다양한 국가 연구개발사업을 수행하고 있습니다."
+      class="reveal"
+    />
+  </div>
+
+  <div class="reveal mt-12 overflow-hidden lg:mt-14">
+    <div class="marquee-track flex w-max">
+      {MARQUEE_SETS.map((isClone) => (
+        <div class="flex shrink-0 gap-6 pr-6" aria-hidden={isClone ? 'true' : undefined}>
+          {PARTNERS.map((partner) => (
+            <div class="flex h-[135px] w-[282px] shrink-0 items-center justify-center rounded-xl bg-surface-primary px-8 py-6">
+              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="size-auto max-h-16 max-w-full object-contain" />
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
