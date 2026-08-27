@@ -34,6 +34,10 @@ npm run dev -- --force  # 상주 서버를 교체하며 재시작
 실행이 필요하다고 판단되면 직접 돌리지 말고 **사용자에게 어떤 명령을 실행해 무엇을 확인해 달라고 요청한다.**
 Claude 가 스스로 할 수 있는 검증은 코드 읽기와 `npm run lint` 까지다.
 
+예외 — 사용자가 자리를 비운 상태에서 시각 검증이 필요하다고 명시적으로 위임한 경우에 한해,
+**`npm run dev -- --port 4322`** 로 검증 전용 서버를 띄울 수 있다. 위 두 이유(포트 충돌, `dist/` 덮어쓰기)를
+모두 피하기 때문이다. 기본 포트 4321 은 어떤 경우에도 점유하지 않는다.
+
 테스트 프레임워크는 아직 없다.
 
 ## 아키텍처
@@ -61,12 +65,12 @@ React 아일랜드는 `import.meta.env.BASE_URL` 을 직접 읽지 않고 prop �
 
 ### 컬러 토큰 시스템 (3계층)
 
-`src/styles/global.css` 하나가 디자인 시스템 전체다. 계층을 건너뛰면 다크모드가 깨진다.
+`src/styles/global.css` 하나가 디자인 시스템 전체다. 계층을 건너뛰면 토큰이 유틸로 노출되지 않는다.
 
-1. `:root` / `.dark` — 시맨틱 CSS 변수의 실제 값 (`--content-primary`, `--bg-primary`, `--border-primary` …).
-   다크 값은 `.dark` 블록에서만 재정의한다.
-2. `@theme inline` — 위 변수를 Tailwind 유틸로 노출. `inline` 이어야 유틸이 `var()` 를 직접 참조해
-   `.dark` 에서 값이 바뀐다. 여기를 `@theme` 로 바꾸면 다크모드가 동작하지 않는다.
+1. `:root` — 시맨틱 CSS 변수의 실제 값 (`--content-primary`, `--bg-primary`, `--border-primary` …).
+   **라이트 전용이다.** `.dark` 블록과 `@custom-variant dark` 는 phase7 에서 제거했으므로 되살리지 않는다.
+2. `@theme inline` — 위 변수를 Tailwind 유틸로 노출. `inline` 이어야 유틸이 `var()` 를 직접 참조한다.
+   여기를 `@theme` 로 바꾸면 `:root` 의 값이 반영되지 않고 토큰이 통째로 굳는다.
 3. `@theme` — 폰트와 raw 브랜드 컬러(`--color-brand-*`)만.
 
 컴포넌트에서는 **시맨틱 유틸만 사용한다**. `bg-blue-600`, `text-zinc-700` 같은 raw 팔레트 유틸은 쓰지 않는다.
@@ -75,32 +79,41 @@ React 아일랜드는 `import.meta.env.BASE_URL` 을 직접 읽지 않고 prop �
 
 raw 브랜드 컬러 — `@theme` 에 직접 hex 로 정의된 유일한 값. 로고/일러스트 등 고정색에만 쓴다.
 
-| 토큰 | 값 |
-|---|---|
-| `brand-primary` | `#194A8C` |
-| `brand-primary-medium` | `#066AB3` |
-| `brand-primary-light` | `#6DC5F2` |
+값은 `src/assets/images/App.png` (Figma 목업) 실측치다.
 
-시맨틱 토큰 — 라이트/다크 값은 `global.css` 의 `:root` / `.dark` 에서 zinc·blue·yellow·green·red 스케일로 매핑된다.
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| `brand-primary` | `#0066CC` | CTA 버튼, 스탯 숫자 |
+| `brand-primary-medium` | `#0173C2` | eyebrow, 강조 텍스트 |
+| `brand-primary-light` | `#6DC5F2` | 옅은 액센트 |
+| `brand-navy` | `#0F2038` | 헤드라인 |
+| `brand-ink` | `#54657D` | 본문 |
+
+컨테이너 폭도 `@theme` 에 있다 — `--container-page: 90rem` → `max-w-page` (1440px).
+목업이 1920px 뷰포트에서 좌우 여백 각 240px 을 쓰므로 이 값이 그리드의 기준이다.
+**`max-w-6xl`(1152px)은 phase7 이전 값이므로 새 코드에 쓰지 않는다.**
+
+시맨틱 토큰 — 값은 `global.css` 의 `:root` 에서 brand 컬러와 zinc·blue·yellow·green·red 스케일로 매핑된다.
 
 | 그룹 | 유틸 접두사 | 토큰 |
 |---|---|---|
-| 텍스트/아이콘 | `text-content-` | `primary` `secondary` `tertiary` `brand` `disabled` `info` `warning` `success` `danger` `info-bold` `warning-bold` `success-bold` `danger-bold` |
+| 텍스트/아이콘 | `text-content-` | `primary` `secondary` `tertiary` `brand` `disabled` `info` `warning` `success` `danger` `info-bold` `warning-bold` `success-bold` `danger-bold` `on-inverse` `on-inverse-secondary` `on-inverse-tertiary` |
 | 텍스트(인터랙션) | `text-content-interactive-` | `primary` `primary-hovered` `primary-pressed` `secondary` `secondary-hovered` `secondary-pressed` `selected` `visited` `inverse` |
-| 배경(정적) | `bg-surface-` | `primary` `secondary` `tertiary` `brand` `disabled` `info-subtle` `info-bold` `warning-subtle` `warning-bold` `success-subtle` `success-bold` `danger-subtle` `danger-bold` `inverse-bold` `inverse-bolder` |
+| 배경(정적) | `bg-surface-` | `primary` `secondary` `tertiary` `subtle` `card` `brand` `disabled` `info-subtle` `info-bold` `warning-subtle` `warning-bold` `success-subtle` `success-bold` `danger-subtle` `danger-bold` `inverse-bold` `inverse-bolder` |
 | 배경(인터랙션) | `bg-interactive-` | `primary` `primary-hovered` `primary-pressed` `secondary` `secondary-hovered` `secondary-pressed` `selected` `selected-hovered` `selected-pressed` `danger` `danger-hovered` `danger-pressed` |
 | 보더/아웃라인 | `border-line-` `outline-line-` `ring-line-` | `primary` `secondary` `tertiary` `focus-ring` `disabled` `info-subtle` `info` `warning-subtle` `warning` `success-subtle` `success` `danger-subtle` `danger` |
 
-`-bold` 는 채도 높은 강조(배지 배경 등), `-subtle` 은 옅은 배경, `inverse` 는 어두운 면 위의 반전색이다.
+`-bold` 는 채도 높은 강조(배지 배경 등), `-subtle` 은 옅은 배경, `on-inverse-*` 는 어두운 면
+(푸터·사진 오버레이) 위의 반전색이다. `surface-subtle`(`#F4F9FD`)은 옅은 섹션 배경,
+`surface-card`(`#F0F9FF`)는 카드 배경이다.
 새 색이 필요하면 컴포넌트에 hex 나 raw 팔레트를 박지 말고 `global.css` 에 토큰을 추가한다.
 
-다크모드는 `class` 기반(`@custom-variant dark`)이다. 토글은 `Navigation.tsx` 가
-`documentElement.classList` + `localStorage['theme']` 로 처리하고, FOUC 방지 인라인 스크립트가
-`BaseLayout.astro` `<head>` 에 있다.
+**다크모드는 없다.** phase7 에서 라이트 전용으로 정리했다. `.dark`, `@custom-variant dark`,
+`localStorage['theme']`, `prefers-color-scheme` 를 다시 넣지 않는다.
 
 ### 레이아웃 / 페이지
 
-- `BaseLayout.astro` — html/head/body, SEO, 다크모드 부트스트랩. 직접 쓰는 일은 거의 없다.
+- `BaseLayout.astro` — html/head/body, SEO, `.reveal` 진입 애니메이션 옵저버. 직접 쓰는 일은 거의 없다.
 - `PageLayout.astro` — BaseLayout + Header/Footer. 일반 페이지는 전부 이걸 쓴다.
 - `BlogPostLayout.astro` — 블로그 상세 전용.
 
@@ -118,7 +131,8 @@ raw 브랜드 컬러 — `@theme` 에 직접 hex 로 정의된 유일한 값. �
 
 ### React 아일랜드
 
-`.tsx` 는 상태가 필요한 3개뿐이다 — `Navigation`(메뉴/테마), `ContactForm`, `ApplicationForm`.
+`.tsx` 는 상태가 필요한 4개뿐이다 — `Navigation`(모바일 메뉴), `SolutionsAccordion`(홈 가로 아코디언),
+`ContactForm`, `ApplicationForm`.
 나머지는 전부 `.astro`. 새 컴포넌트는 기본적으로 `.astro` 로 만들고, 클라이언트 상태가 꼭 필요할 때만
 `.tsx` + `client:load` 를 쓴다.
 
@@ -161,7 +175,7 @@ className={`w-full rounded-lg border border-line-primary px-4 py-2.5`}
 
 ```ts
 // good — 이유가 코드에 안 보임
-// inline 이어야 유틸이 var() 를 직접 참조해 .dark 에서 바뀐다.
+// inline 이어야 유틸이 var(--content-primary) 를 직접 참조한다.
 ```
 
 Tailwind 클래스 순서/축약도 lint 로 경고한다(`tailwindcss/classnames-order` 등,
@@ -176,6 +190,8 @@ Tailwind 클래스 순서/축약도 lint 로 경고한다(`tailwindcss/classname
 
 - 커밋 메시지는 한국어, 어미는 "~한다" (`feat: semantic color token 체계를 도입한다`).
 - `phases/phase1~6-*.md` 는 이 사이트를 단계별로 만들어 온 구현 계획서다. 원래 의도를 확인할 때 참고한다.
+- `phases/phase7-design-layout.md` 는 App.png 목업 기준 전 페이지 재구성의 원샷 프롬프트다.
+  레이아웃 수치(컨테이너 1440px, 카드 463/342px 등)의 근거가 전부 여기에 실측값으로 있다.
 
 ## 배포
 

@@ -1,24 +1,21 @@
 @import "tailwindcss";
-
-@custom-variant dark (&:where(.dark, .dark *));
-
-@font-face {
-  font-family: 'Pretendard';
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
-}
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
 
 @theme {
   --font-sans: 'Pretendard', system-ui, -apple-system, sans-serif;
 
-  --color-brand-primary: #194A8C;
-  --color-brand-primary-medium: #066AB3;
+  /* App.png 목업 실측값. brand-primary 는 CTA/스탯 숫자, medium 은 eyebrow/강조에 쓴다. */
+  --color-brand-primary: #0066CC;
+  --color-brand-primary-medium: #0173C2;
   --color-brand-primary-light: #6DC5F2;
+  --color-brand-navy: #0F2038;
+  --color-brand-ink: #54657D;
+
+  /* 목업 컨테이너 폭. 1920px 뷰포트에서 좌우 여백 각 240px 이 된다. */
+  --container-page: 90rem;
 }
 
-/* inline 이어야 유틸이 var(--content-primary) 를 직접 참조해 .dark 에서 바뀐다. */
+/* inline 이어야 유틸이 var(--content-primary) 를 직접 참조한다. */
 @theme inline {
   --color-content-primary: var(--content-primary);
   --color-content-secondary: var(--content-secondary);
@@ -33,6 +30,9 @@
   --color-content-danger-bold: var(--content-danger-bold);
   --color-content-disabled: var(--content-disabled);
   --color-content-brand: var(--content-brand);
+  --color-content-on-inverse: var(--content-on-inverse);
+  --color-content-on-inverse-secondary: var(--content-on-inverse-secondary);
+  --color-content-on-inverse-tertiary: var(--content-on-inverse-tertiary);
 
   --color-content-interactive-primary: var(--content-interactive-primary);
   --color-content-interactive-primary-hovered: var(--content-interactive-primary-hovered);
@@ -47,6 +47,8 @@
   --color-surface-primary: var(--bg-primary);
   --color-surface-secondary: var(--bg-secondary);
   --color-surface-tertiary: var(--bg-tertiary);
+  --color-surface-subtle: var(--bg-subtle);
+  --color-surface-card: var(--bg-card);
   --color-surface-info-subtle: var(--bg-info-subtle);
   --color-surface-info-bold: var(--bg-info-bold);
   --color-surface-warning-subtle: var(--bg-warning-subtle);
@@ -89,9 +91,9 @@
 }
 
 :root {
-  --content-primary: var(--color-zinc-900);
-  --content-secondary: var(--color-zinc-700);
-  --content-tertiary: var(--color-zinc-600);
+  --content-primary: var(--color-brand-navy);
+  --content-secondary: var(--color-brand-ink);
+  --content-tertiary: var(--color-zinc-500);
   --content-info: var(--color-blue-600);
   --content-warning: var(--color-yellow-600);
   --content-success: var(--color-green-600);
@@ -101,21 +103,28 @@
   --content-success-bold: var(--color-green-800);
   --content-danger-bold: var(--color-red-800);
   --content-disabled: var(--color-zinc-400);
-  --content-brand: var(--color-blue-600);
+  --content-brand: var(--color-brand-primary-medium);
 
-  --content-interactive-primary: var(--color-blue-600);
-  --content-interactive-primary-hovered: var(--color-blue-700);
+  /* 어두운 면(푸터·사진 오버레이) 위 텍스트. #202A33 대비 9.1:1 / 4.75:1 로 AA 를 넘긴다. */
+  --content-on-inverse: var(--color-white);
+  --content-on-inverse-secondary: #C6CDD6;
+  --content-on-inverse-tertiary: #8A94A1;
+
+  --content-interactive-primary: var(--color-brand-primary);
+  --content-interactive-primary-hovered: var(--color-brand-primary-medium);
   --content-interactive-primary-pressed: var(--color-blue-800);
-  --content-interactive-secondary: var(--color-zinc-600);
-  --content-interactive-secondary-hovered: var(--color-zinc-700);
-  --content-interactive-secondary-pressed: var(--color-zinc-800);
-  --content-interactive-selected: var(--color-blue-600);
+  --content-interactive-secondary: var(--color-brand-ink);
+  --content-interactive-secondary-hovered: var(--color-brand-navy);
+  --content-interactive-secondary-pressed: var(--color-brand-navy);
+  --content-interactive-selected: var(--color-brand-primary);
   --content-interactive-visited: var(--color-indigo-600);
   --content-interactive-inverse: var(--color-white);
 
   --bg-primary: var(--color-white);
   --bg-secondary: var(--color-zinc-100);
   --bg-tertiary: var(--color-zinc-200);
+  --bg-subtle: #F4F9FD;
+  --bg-card: #F0F9FF;
   --bg-info-subtle: var(--color-blue-50);
   --bg-info-bold: var(--color-blue-700);
   --bg-warning-subtle: var(--color-yellow-50);
@@ -125,105 +134,35 @@
   --bg-danger-subtle: var(--color-red-50);
   --bg-danger-bold: var(--color-red-700);
   --bg-disabled: var(--color-zinc-300);
-  --bg-brand: var(--color-blue-600);
-  --bg-inverse-bold: var(--color-zinc-700);
-  --bg-inverse-bolder: var(--color-blue-600);
+  --bg-brand: var(--color-brand-primary);
+  --bg-inverse-bold: #202A33;
+  --bg-inverse-bolder: var(--color-brand-navy);
 
-  --bg-interactive-primary: var(--color-blue-600);
-  --bg-interactive-primary-hovered: var(--color-blue-700);
+  --bg-interactive-primary: var(--color-brand-primary);
+  --bg-interactive-primary-hovered: var(--color-brand-primary-medium);
   --bg-interactive-primary-pressed: var(--color-blue-800);
   --bg-interactive-secondary: var(--color-zinc-50);
-  --bg-interactive-secondary-hovered: var(--color-zinc-200);
-  --bg-interactive-secondary-pressed: var(--color-zinc-300);
-  --bg-interactive-selected: var(--color-blue-50);
+  --bg-interactive-secondary-hovered: var(--color-zinc-100);
+  --bg-interactive-secondary-pressed: var(--color-zinc-200);
+  --bg-interactive-selected: var(--bg-card);
   --bg-interactive-selected-hovered: var(--color-blue-100);
   --bg-interactive-selected-pressed: var(--color-blue-200);
   --bg-interactive-danger: var(--color-red-600);
   --bg-interactive-danger-hovered: var(--color-red-700);
   --bg-interactive-danger-pressed: var(--color-red-800);
 
-  --border-primary: var(--color-zinc-400);
+  --border-primary: var(--color-zinc-300);
   --border-secondary: var(--color-zinc-200);
   --border-tertiary: var(--color-zinc-100);
-  --border-focus-ring: var(--color-blue-600);
+  --border-focus-ring: var(--color-brand-primary);
   --border-info-subtle: var(--color-blue-50);
   --border-info: var(--color-blue-600);
   --border-warning-subtle: var(--color-yellow-50);
   --border-warning: var(--color-yellow-500);
   --border-success-subtle: var(--color-green-50);
   --border-success: var(--color-green-600);
-  --border-danger-subtle: var(--color-red-50);
+  --border-danger-subtle: var(--color-red-100);
   --border-danger: var(--color-red-600);
-  --border-disabled: var(--color-zinc-400);
-}
-
-.dark {
-  --content-primary: var(--color-white);
-  --content-secondary: var(--color-zinc-100);
-  --content-tertiary: var(--color-zinc-200);
-  --content-info: var(--color-blue-500);
-  --content-warning: var(--color-yellow-500);
-  --content-success: var(--color-green-500);
-  --content-danger: var(--color-red-500);
-  --content-info-bold: var(--color-blue-300);
-  --content-warning-bold: var(--color-yellow-300);
-  --content-success-bold: var(--color-green-200);
-  --content-danger-bold: var(--color-red-300);
-  --content-disabled: var(--color-zinc-300);
-  --content-brand: var(--color-blue-600);
-
-  --content-interactive-primary: var(--color-blue-400);
-  --content-interactive-primary-hovered: var(--color-blue-300);
-  --content-interactive-primary-pressed: var(--color-blue-200);
-  --content-interactive-secondary: var(--color-zinc-300);
-  --content-interactive-secondary-hovered: var(--color-zinc-200);
-  --content-interactive-secondary-pressed: var(--color-zinc-100);
-  --content-interactive-selected: var(--color-blue-400);
-  --content-interactive-visited: var(--color-indigo-500);
-  --content-interactive-inverse: var(--color-zinc-900);
-
-  --bg-primary: var(--color-zinc-900);
-  --bg-secondary: var(--color-zinc-800);
-  --bg-tertiary: var(--color-zinc-700);
-  --bg-info-subtle: var(--color-blue-800);
-  --bg-info-bold: var(--color-blue-400);
-  --bg-warning-subtle: var(--color-yellow-800);
-  --bg-warning-bold: var(--color-yellow-700);
-  --bg-success-subtle: var(--color-green-800);
-  --bg-success-bold: var(--color-green-300);
-  --bg-danger-subtle: var(--color-red-900);
-  --bg-danger-bold: var(--color-red-400);
-  --bg-disabled: var(--color-zinc-500);
-  --bg-brand: var(--color-blue-600);
-  --bg-inverse-bold: var(--color-zinc-100);
-  --bg-inverse-bolder: var(--color-blue-400);
-
-  --bg-interactive-primary: var(--color-blue-400);
-  --bg-interactive-primary-hovered: var(--color-blue-300);
-  --bg-interactive-primary-pressed: var(--color-blue-200);
-  --bg-interactive-secondary: var(--color-zinc-900);
-  --bg-interactive-secondary-hovered: var(--color-zinc-800);
-  --bg-interactive-secondary-pressed: var(--color-zinc-700);
-  --bg-interactive-selected: var(--color-blue-900);
-  --bg-interactive-selected-hovered: var(--color-blue-800);
-  --bg-interactive-selected-pressed: var(--color-blue-700);
-  --bg-interactive-danger: var(--color-red-500);
-  --bg-interactive-danger-hovered: var(--color-red-400);
-  --bg-interactive-danger-pressed: var(--color-red-300);
-
-  --border-primary: var(--color-zinc-500);
-  --border-secondary: var(--color-zinc-700);
-  --border-tertiary: var(--color-zinc-700);
-  --border-focus-ring: var(--color-blue-700);
-  --border-info-subtle: var(--color-blue-800);
-  --border-info: var(--color-blue-500);
-  --border-warning-subtle: var(--color-yellow-800);
-  --border-warning: var(--color-yellow-700);
-  --border-success-subtle: var(--color-green-700);
-  --border-success: var(--color-green-500);
-  /* FIXME: 다크 값이 라이트와 동일(red-50). 디자인에서 수정 예정. */
-  --border-danger-subtle: var(--color-red-50);
-  --border-danger: var(--color-red-500);
   --border-disabled: var(--color-zinc-300);
 }
 
@@ -236,7 +175,41 @@ body {
   background-color: var(--bg-primary);
   color: var(--content-primary);
   line-height: 1.7;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+}
+
+/* IntersectionObserver 로 .is-visible 이 붙기 전까지의 초기 상태. 모션 라이브러리 없이 진입 연출을 낸다. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 파트너 로고 마퀴. 배열을 2회 반복해 -50% 지점에서 seamless 하게 이어진다. */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: marquee-x 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
 }
