@@ -11,7 +11,7 @@ import partnerKcg from '@/assets/images/home/partner-05-kcg.png';
 import solutionBuoy from '@/assets/images/home/solution-buoy.jpg';
 import solutionControl from '@/assets/images/home/solution-control.jpg';
 import solutionVessel from '@/assets/images/home/solution-vessel.jpg';
-import solutionTurtle from '@/assets/images/home/solution-turtle.jpg';
+import solutionTidal from '@/assets/images/home/solution-tidal.jpg';
 
 export const HERO = {
   titleTop: '해양과 기상 데이터로',
@@ -113,7 +113,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'Digital Twin Project',
     shortName: 'Digital Twin Project',
     title: ['해양 예측자료', '3D 디지털트윈 가시화'],
-    photo: solutionVessel,
+    photo: solutionTidal,
     features: [
       {
         title: '자체 3D 가시화 엔진',
@@ -135,7 +135,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'IUU EM Project',
     shortName: 'IUU EM Project',
     title: ['불법 어업 방지', '모니터링 시스템'],
-    photo: solutionTurtle,
+    photo: solutionVessel,
     features: [
       {
         title: '조업 영상 자동 분석',

@@ -1,73 +1,60 @@
 ---
 import Card from '@/components/common/Card.astro';
 import { COMPANY } from '@/utils/constants';
+
+const fullAddress = `${ COMPANY.address } ${ COMPANY.addressDetail }`;
+// 국제 표기에서는 국가번호 뒤의 0 이 빠진다.
+const telHref = `tel:${ COMPANY.phone.replace(/[^\d+]/g, '').replace(/^\+820/, '+82') }`;
+const mapHref = `https://map.naver.com/p/search/${ encodeURIComponent(fullAddress) }`;
 ---
 
-<div class="space-y-6">
-  <Card>
-    <h3 class="mb-4 text-lg font-semibold text-content-primary">회사 정보</h3>
-    <div class="space-y-4 text-sm">
-      {COMPANY.address && (
-        <div>
-          <span class="text-content-disabled">주소</span>
-          <p class="text-content-secondary">{COMPANY.address}</p>
-        </div>
-      )}
-      {COMPANY.phone && (
-        <div>
-          <span class="text-content-disabled">대표 전화</span>
-          <p class="text-content-secondary">{COMPANY.phone}</p>
-        </div>
-      )}
-      {COMPANY.email && (
-        <div>
-          <span class="text-content-disabled">이메일</span>
-          <p class="text-content-secondary">
-            <a href={`mailto:${ COMPANY.email }`} class="text-content-interactive-primary hover:underline">
-              {COMPANY.email}
-            </a>
-          </p>
-        </div>
-      )}
-      {COMPANY.fax && (
-        <div>
-          <span class="text-content-disabled">팩스</span>
-          <p class="text-content-secondary">{COMPANY.fax}</p>
-        </div>
-      )}
-    </div>
+<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  <Card class="h-full lg:col-span-2">
+    <p class="text-xs font-bold tracking-wider text-content-brand">
+      ADDRESS <span class="ml-1.5 font-medium text-content-tertiary">주소</span>
+    </p>
+    <address class="mt-4 text-xl leading-snug font-bold text-content-primary not-italic sm:text-2xl">
+      {COMPANY.address}<br />{COMPANY.addressDetail}
+    </address>
+    <p class="mt-4 text-sm text-content-secondary">{COMPANY.legalName}</p>
+    <a
+      href={mapHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-content-interactive-primary transition-colors hover:text-content-interactive-primary-hovered"
+    >
+      지도에서 보기
+      <span aria-hidden="true">→</span>
+    </a>
   </Card>
 
-  <Card>
-    <h3 class="mb-4 text-lg font-semibold text-content-primary">문의 전 안내</h3>
-    <p class="mb-3 text-sm text-content-tertiary">
-      보다 정확한 상담을 위해 아래 내용을 함께 남겨주시면 빠르게 검토할 수 있습니다.
+  <Card class="h-full">
+    <p class="text-xs font-bold tracking-wider text-content-brand">
+      TEL <span class="ml-1.5 font-medium text-content-tertiary">대표 전화</span>
     </p>
-    <ul class="space-y-1.5 text-sm text-content-tertiary">
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        구축하고자 하는 시스템의 목적
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        보유 중인 데이터 종류
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        연동이 필요한 장비 또는 외부 시스템
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        원하는 표출 방식
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        예상 일정 및 예산 범위
-      </li>
-      <li class="flex items-start gap-2">
-        <span class="mt-0.5 text-content-interactive-primary">·</span>
-        유지보수 필요 여부
-      </li>
-    </ul>
+    <a
+      href={telHref}
+      class="mt-4 block text-xl leading-snug font-bold text-content-primary transition-colors hover:text-content-interactive-primary sm:text-2xl"
+    >
+      {COMPANY.phone}
+    </a>
+    <p class="mt-4 text-sm text-content-secondary">
+      FAX. {COMPANY.fax}
+    </p>
+  </Card>
+
+  <Card class="h-full">
+    <p class="text-xs font-bold tracking-wider text-content-brand">
+      EMAIL <span class="ml-1.5 font-medium text-content-tertiary">이메일</span>
+    </p>
+    <a
+      href={`mailto:${ COMPANY.email }`}
+      class="mt-4 block text-lg leading-snug font-bold break-all text-content-primary transition-colors hover:text-content-interactive-primary sm:text-xl"
+    >
+      {COMPANY.email}
+    </a>
+    <p class="mt-4 text-sm text-content-secondary">
+      제안서·견적 요청도 이메일로 받습니다.
+    </p>
   </Card>
 </div>

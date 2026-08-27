@@ -3,34 +3,62 @@ import Button from '@/components/common/Button.astro';
 import { SITE } from '@/utils/constants';
 ---
 
-<section class="bg-surface-inverse-bolder">
-  <div class="mx-auto max-w-6xl px-6 py-20">
-    <div class="grid gap-12 md:grid-cols-2">
-      <!-- 채용 유도 -->
-      <div>
-        <h3 class="text-2xl font-bold text-content-interactive-inverse">함께 만들어갈 인재를 찾습니다</h3>
-        <p class="mt-3 leading-relaxed text-content-interactive-inverse/80">
-          해양·기상 데이터 기술의 미래를 함께 만들 인재를 찾습니다.
-        </p>
-        <div class="mt-6">
-          <Button href={`${ SITE.base }/careers`} variant="outline" class="border-current! text-content-interactive-inverse!">
-            채용 바로가기
-          </Button>
-        </div>
-      </div>
+<section class="relative overflow-hidden">
+  <div class="cta-bg absolute inset-0" aria-hidden="true">
+    <svg class="size-full" viewBox="0 0 1920 275" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="ctaWaveA">
+          <stop offset="0.72" stop-color="#FFFFFF" stop-opacity="0" />
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.34" />
+        </radialGradient>
+        <radialGradient id="ctaWaveB">
+          <stop offset="0.53" stop-color="#FFFFFF" stop-opacity="0" />
+          <stop offset="0.545" stop-color="#FFFFFF" stop-opacity="0.34" />
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="ctaFade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="275">
+          <stop offset="0" stop-color="#4D4D4D" />
+          <stop offset="1" stop-color="#FFFFFF" />
+        </linearGradient>
+        <mask id="ctaFadeMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="275">
+          <rect width="1920" height="275" fill="url(#ctaFade)" />
+        </mask>
+        <linearGradient id="ctaStreak" gradientUnits="userSpaceOnUse" x1="560" y1="0" x2="800" y2="0">
+          <stop offset="0" stop-color="#FFFFFF" stop-opacity="0" />
+          <stop offset="0.45" stop-color="#FFFFFF" stop-opacity="0.34" />
+          <stop offset="1" stop-color="#FFFFFF" stop-opacity="0" />
+        </linearGradient>
+        <filter id="ctaSoft" x="-25%" y="-25%" width="150%" height="150%">
+          <feGaussianBlur stdDeviation="18" />
+        </filter>
+      </defs>
+      <g transform="skewX(45)">
+        <rect x="560" y="-80" width="240" height="435" fill="url(#ctaStreak)" filter="url(#ctaSoft)" />
+      </g>
+      <circle cx="1583" cy="-8" r="442" fill="url(#ctaWaveA)" />
+      <circle cx="1891" cy="80" r="380" fill="url(#ctaWaveB)" mask="url(#ctaFadeMask)" />
+    </svg>
+  </div>
 
-      <!-- 문의 유도 -->
-      <div>
-        <h3 class="text-2xl font-bold text-content-interactive-inverse">프로젝트를 상담하세요</h3>
-        <p class="mt-3 leading-relaxed text-content-interactive-inverse/80">
-          프로젝트 상담, 솔루션 도입, 기술 협력 문의를 환영합니다.
-        </p>
-        <div class="mt-6">
-          <Button href={`${ SITE.base }/contact`} variant="outline" class="border-current! text-content-interactive-inverse!">
-            문의하기
-          </Button>
-        </div>
-      </div>
+  <div class="page-container reveal relative flex min-h-[275px] flex-col items-start justify-center gap-8 py-14 md:flex-row md:items-center md:justify-between md:gap-10">
+    <div class="w-full md:w-auto">
+      <p class="text-base font-bold tracking-wide text-content-brand">Contact Us</p>
+      <h2 class="mt-2.5 text-2xl font-bold tracking-tight text-content-primary sm:text-3xl lg:text-[2.375rem] lg:leading-tight">도입부터 운영까지 KOAST가 함께합니다.</h2>
     </div>
+    <Button href={`${ SITE.base }/contact`} variant="primary" shape="pill" size="lg" class="shrink-0">
+      전문가에게 문의하기
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m9 6 6 6-6 6" />
+      </svg>
+    </Button>
   </div>
 </section>
+
+<style>
+  /* 목업의 그라디언트/웨이브 배경 에셋이 없어 일러스트 색은 hex 로 직접 재현한다. */
+  .cta-bg {
+    background:
+      radial-gradient(90% 175% at 4% 128%, rgb(255 255 255 / 46%), rgb(255 255 255 / 0%) 62%),
+      linear-gradient(90deg, #ddf0fc 0%, #dbeefc 25%, #c6e6f9 50%, #b5dff8 75%, #addcf7 100%);
+  }
+</style>

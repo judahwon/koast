@@ -12,39 +12,44 @@ const categories = [...new Set(posts.map((p) => p.data.category))];
 ---
 
 <PageLayout title="블로그" description="해양·기상 데이터 기술에 관한 인사이트와 소식을 공유합니다.">
-  <section class="mx-auto max-w-6xl px-6 py-20">
-    <SectionHeading
-      title="블로그"
-      subtitle="해양·기상 데이터 기술에 관한 인사이트와 소식을 공유합니다."
-    />
-
-    <!-- Category filter -->
-    <div class="mb-10 flex flex-wrap justify-center gap-2">
-      {categories.map((cat) => (
-        <span class="rounded-full bg-surface-info-subtle px-3 py-1 text-sm text-content-interactive-primary">
-          {cat}
-        </span>
-      ))}
+  <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
+  <section class="-mt-16 bg-surface-subtle">
+    <div class="page-container reveal pt-36 pb-20">
+      <SectionHeading
+        eyebrow="Blog"
+        title="해양·기상 데이터 기술 인사이트"
+        subtitle="관측·예측·시각화 현장에서 쌓은 기술 이야기와 회사 소식을 공유합니다."
+      />
+      {categories.length > 0 && (
+        <div class="mt-10 flex flex-wrap justify-center gap-2">
+          {categories.map((cat) => (
+            <span class="rounded-full border border-line-info-subtle bg-surface-primary px-4 py-1.5 text-sm font-medium text-content-brand">{cat}</span>
+          ))}
+        </div>
+      )}
     </div>
+  </section>
 
-    <!-- Posts grid -->
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {posts.map((post) => (
-        <BlogCard
-          title={post.data.title}
-          description={post.data.description}
-          publishedAt={post.data.publishedAt}
-          category={post.data.category}
-          tags={post.data.tags}
-          slug={post.id}
-        />
-      ))}
+  <section class="bg-surface-primary">
+    <div class="page-container py-20">
+      {posts.length > 0 ? (
+        <div class="reveal grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <BlogCard
+              title={post.data.title}
+              description={post.data.description}
+              publishedAt={post.data.publishedAt}
+              category={post.data.category}
+              tags={post.data.tags}
+              slug={post.id}
+            />
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-2xl border border-line-secondary py-20 text-center text-content-tertiary">
+          <p>아직 작성된 블로그 포스트가 없습니다.</p>
+        </div>
+      )}
     </div>
-
-    {posts.length === 0 && (
-      <div class="py-12 text-center text-content-disabled">
-        <p>아직 작성된 블로그 포스트가 없습니다.</p>
-      </div>
-    )}
   </section>
 </PageLayout>

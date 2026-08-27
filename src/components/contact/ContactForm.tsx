@@ -11,6 +11,11 @@ const INQUIRY_TYPES = [
   '기타 문의',
 ];
 
+const inputClass = 'w-full rounded-lg border border-line-secondary bg-surface-primary px-4 py-3 text-content-primary transition-colors placeholder:text-content-disabled focus:border-line-focus-ring focus:outline-2 focus:outline-offset-2 focus:outline-line-focus-ring';
+const labelClass = 'mb-2 block text-sm font-medium text-content-secondary';
+// Button.astro 의 primary/lg/pill 조합을 아일랜드에서 그대로 재현한다.
+const submitClass = 'inline-flex w-full items-center justify-center gap-2 rounded-full bg-interactive-primary px-7 py-3.5 text-base font-semibold text-content-interactive-inverse transition-colors hover:bg-interactive-primary-hovered focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring active:bg-interactive-primary-pressed disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-56';
+
 export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -22,7 +27,6 @@ export default function ContactForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // File validation
     const file = formData.get('attachment') as File;
     if (file && file.size > 0) {
       if (file.size > 5 * 1024 * 1024) {
@@ -53,67 +57,65 @@ export default function ContactForm() {
 
   if (status === 'success') {
     return (
-      <div className={'rounded-xl bg-surface-success-subtle p-8 text-center'}>
-        <p className={'text-lg font-semibold text-content-success-bold'}>
-          {'문의가 정상적으로 접수되었습니다.\r'}
+      <div className={'rounded-2xl border border-line-success-subtle bg-surface-success-subtle p-10 text-center'}>
+        <p className={'text-xl font-bold text-content-success-bold'}>
+          {'문의가 정상적으로 접수되었습니다.'}
         </p>
-        <p className={'mt-2 text-sm text-content-success'}>
-          {'확인 후 빠르게 답변드리겠습니다. 감사합니다.\r'}
+        <p className={'mt-3 text-sm text-content-secondary'}>
+          {'확인 후 빠르게 답변드리겠습니다. 감사합니다.'}
         </p>
         <button
+          type={'button'}
           onClick={() => setStatus('idle')}
-          className={'mt-4 text-sm text-content-success underline'}
+          className={'mt-6 rounded-full border border-line-success px-5 py-2 text-sm font-semibold text-content-success-bold transition-colors hover:bg-surface-success-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring'}
         >
-          {'추가 문의하기\r'}
+          {'추가 문의하기'}
         </button>
       </div>
     );
   }
 
-  const inputClass = 'w-full px-4 py-2.5 rounded-lg border border-line-primary bg-surface-primary text-content-primary focus:ring-2 focus:ring-line-focus-ring focus:border-transparent outline-none transition-colors';
-
   return (
-    <form onSubmit={handleSubmit} className={'space-y-5'}>
-      {/* Web3Forms config */}
+    <form onSubmit={handleSubmit} className={'rounded-2xl border border-line-secondary bg-surface-primary p-6 sm:p-10'}>
       <input type={'hidden'} name={'access_key'} value={'YOUR_WEB3FORMS_ACCESS_KEY'} />
       <input type={'hidden'} name={'subject'} value={'한국해양기상기술 홈페이지 문의'} />
       <input type={'hidden'} name={'from_name'} value={'한국해양기상기술 문의'} />
 
-      <div className={'grid gap-5 md:grid-cols-2'}>
+      <div className={'grid gap-6 md:grid-cols-2'}>
         <div>
-          <label htmlFor={'name'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-            {'이름 *\r'}
+          <label htmlFor={'name'} className={labelClass}>
+            {'이름 *'}
           </label>
           <input type={'text'} id={'name'} name={'name'} required className={inputClass} />
         </div>
         <div>
-          <label htmlFor={'organization'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-            {'소속/기관명\r'}
+          <label htmlFor={'organization'} className={labelClass}>
+            {'소속/기관명'}
           </label>
           <input type={'text'} id={'organization'} name={'organization'} className={inputClass} />
         </div>
       </div>
 
-      <div className={'grid gap-5 md:grid-cols-2'}>
+      <div className={'mt-6 grid gap-6 md:grid-cols-2'}>
         <div>
-          <label htmlFor={'email'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-            {'이메일 *\r'}
+          <label htmlFor={'email'} className={labelClass}>
+            {'이메일 *'}
           </label>
           <input type={'email'} id={'email'} name={'email'} required className={inputClass} />
         </div>
         <div>
-          <label htmlFor={'phone'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-            {'연락처\r'}
+          <label htmlFor={'phone'} className={labelClass}>
+            {'연락처'}
           </label>
           <input type={'tel'} id={'phone'} name={'phone'} className={inputClass} />
         </div>
       </div>
 
-      <div>
-        <label htmlFor={'inquiry_type'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-          {'문의 유형 *\r'}
+      <div className={'mt-6'}>
+        <label htmlFor={'inquiry_type'} className={labelClass}>
+          {'문의 유형 *'}
         </label>
-        <select id={'inquiry_type'} name={'inquiry_type'} required className={inputClass}>
+        <select id={'inquiry_type'} name={'inquiry_type'} required defaultValue={''} className={inputClass}>
           <option value={''}>{'선택해주세요'}</option>
           {INQUIRY_TYPES.map((type) => (
             <option key={type} value={type}>{type}</option>
@@ -121,50 +123,52 @@ export default function ContactForm() {
         </select>
       </div>
 
-      <div>
-        <label htmlFor={'title'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-          {'문의 제목 *\r'}
+      <div className={'mt-6'}>
+        <label htmlFor={'title'} className={labelClass}>
+          {'문의 제목 *'}
         </label>
         <input type={'text'} id={'title'} name={'title'} required className={inputClass} />
       </div>
 
-      <div>
-        <label htmlFor={'message'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-          {'문의 내용 *\r'}
+      <div className={'mt-6'}>
+        <label htmlFor={'message'} className={labelClass}>
+          {'문의 내용 *'}
         </label>
-        <textarea id={'message'} name={'message'} rows={6} required className={`${ inputClass } resize-y`} />
+        <textarea id={'message'} name={'message'} rows={7} required className={`${ inputClass } resize-y`} />
       </div>
 
-      <div>
-        <label htmlFor={'attachment'} className={'mb-1 block text-sm font-medium text-content-secondary'}>
-          {'첨부파일 (5MB 이하)\r'}
+      <div className={'mt-6'}>
+        <label htmlFor={'attachment'} className={labelClass}>
+          {'첨부파일 (5MB 이하)'}
         </label>
         <input
           type={'file'}
           id={'attachment'}
           name={'attachment'}
-          className={'w-full text-sm text-content-tertiary file:mr-4 file:cursor-pointer file:rounded-lg file:border-0 file:bg-surface-info-subtle file:px-4 file:py-2 file:text-sm file:font-medium file:text-content-interactive-primary file:transition-colors hover:file:bg-interactive-selected-hovered'}
+          className={'w-full cursor-pointer rounded-lg border border-dashed border-line-secondary px-4 py-3 text-sm text-content-tertiary transition-colors file:mr-4 file:cursor-pointer file:rounded-full file:border-0 file:bg-interactive-selected file:px-4 file:py-2 file:text-sm file:font-semibold file:text-content-interactive-primary hover:border-line-info focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring'}
         />
       </div>
 
-      <div className={'flex items-start gap-2'}>
-        <input type={'checkbox'} id={'privacy'} name={'privacy'} required className={'mt-1 rounded border-line-primary'} />
-        <label htmlFor={'privacy'} className={'text-sm text-content-tertiary'}>
-          {'개인정보 수집 및 이용에 동의합니다. *\r'}
+      <div className={'mt-8 flex items-start gap-3 rounded-lg bg-surface-subtle p-4'}>
+        <input type={'checkbox'} id={'privacy'} name={'privacy'} required className={'mt-1 size-4 shrink-0 rounded-sm border-line-secondary accent-interactive-primary'} />
+        <label htmlFor={'privacy'} className={'text-sm text-content-secondary'}>
+          {'개인정보 수집 및 이용에 동의합니다. 문의 처리 목적 외에는 사용하지 않습니다. *'}
         </label>
       </div>
 
       {status === 'error' && (
-        <p className={'text-sm text-content-danger'}>{errorMessage}</p>
+        <p className={'mt-4 text-sm text-content-danger'}>{errorMessage}</p>
       )}
 
-      <button
-        type={'submit'}
-        disabled={status === 'submitting'}
-        className={'w-full rounded-lg bg-interactive-primary px-6 py-3 font-medium text-content-interactive-inverse transition-colors hover:bg-interactive-primary-hovered active:bg-interactive-primary-pressed disabled:cursor-not-allowed disabled:opacity-50'}
-      >
-        {status === 'submitting' ? '전송 중...' : '문의하기'}
-      </button>
+      <div className={'mt-8'}>
+        <button
+          type={'submit'}
+          disabled={status === 'submitting'}
+          className={submitClass}
+        >
+          {status === 'submitting' ? '전송 중...' : '문의 보내기'}
+        </button>
+      </div>
     </form>
   );
 }

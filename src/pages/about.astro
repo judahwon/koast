@@ -1,12 +1,44 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
+import SectionHeading from '@/components/common/SectionHeading.astro';
+import Button from '@/components/common/Button.astro';
 import VisionMission from '@/components/about/VisionMission.astro';
 import Timeline from '@/components/about/Timeline.astro';
 import Certifications from '@/components/about/Certifications.astro';
+import { VISION, HIGHLIGHTS } from '@/data/company';
+import { SITE } from '@/utils/constants';
 ---
 
 <PageLayout title="회사소개" description="한국해양기상기술의 비전, 미션, 연혁, 인증을 소개합니다.">
+  <section class="bg-surface-subtle">
+    <div class="page-container py-20 lg:py-28">
+      <SectionHeading class="reveal" eyebrow="About KOAST" title={VISION.title} subtitle={VISION.subtitle} />
+
+      <div class="reveal mt-14 grid grid-cols-2 gap-6 lg:mt-16 lg:grid-cols-4">
+        {
+          HIGHLIGHTS.map((item) => (
+            <div class="rounded-2xl bg-surface-primary px-6 py-8 text-center">
+              <p class="text-3xl font-bold text-content-interactive-primary lg:text-4xl">{item.value}</p>
+              <p class="mt-2 text-sm text-content-secondary">{item.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   <VisionMission />
   <Timeline />
   <Certifications />
+
+  <section class="bg-surface-primary">
+    <div class="page-container py-20 lg:py-28">
+      <div class="reveal rounded-3xl bg-linear-to-br from-surface-card to-surface-subtle px-6 py-14 lg:p-16">
+        <SectionHeading eyebrow="Contact Us" title="도입부터 운영까지 KOAST가 함께합니다" subtitle="관측 장비부터 예측 시스템, 시각화 플랫폼까지 목적에 맞는 구성을 제안드립니다." />
+        <div class="mt-9 text-center">
+          <Button href={`${ SITE.base }/contact`} size="lg" shape="pill">전문가에게 문의하기</Button>
+        </div>
+      </div>
+    </div>
+  </section>
 </PageLayout>

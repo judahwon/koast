@@ -1,22 +1,20 @@
 ---
 import SectionHeading from '@/components/common/SectionHeading.astro';
-import { SOLUTIONS } from '@/data/services';
+import SolutionsAccordion from '@/components/home/SolutionsAccordion';
+import { HOME_SOLUTIONS } from '@/data/home';
+import { SITE } from '@/utils/constants';
 ---
 
-<section class="bg-surface-secondary">
-  <div class="mx-auto max-w-6xl px-6 py-20">
+<section id="solutions" class="bg-surface-primary py-20 lg:py-24">
+  <div class="page-container reveal">
     <SectionHeading
-      title="대표 솔루션"
-      subtitle="자체 개발한 소프트웨어와 하드웨어로 현장의 문제를 해결합니다."
+      align="center"
+      eyebrow="Solutions"
+      title="공공기관의 의사결정을 지원하는 분야별 맞춤 솔루션을 제공합니다"
     />
+  </div>
 
-    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {SOLUTIONS.map((solution) => (
-        <div class="flex items-center gap-3 rounded-lg border border-line-secondary bg-surface-primary p-4">
-          <div class="size-2 shrink-0 rounded-full bg-surface-inverse-bolder"></div>
-          <span class="text-sm font-medium text-content-secondary">{solution}</span>
-        </div>
-      ))}
-    </div>
+  <div class="mt-10 px-6 lg:mt-14">
+    <SolutionsAccordion solutions={HOME_SOLUTIONS} base={SITE.base} client:load />
   </div>
 </section>

@@ -1,0 +1,35 @@
+---
+import SectionHeading from '@/components/common/SectionHeading.astro';
+import { QUALIFICATIONS, STATS } from '@/data/home';
+---
+
+<section id="research" class="bg-surface-primary pt-20 pb-24 lg:pt-30 lg:pb-32">
+  <div class="page-container">
+    <SectionHeading
+      align="center"
+      eyebrow="Technology and Research"
+      title="KOAST 한눈에 보기"
+      class="reveal"
+    />
+
+    <div class="mt-10 grid grid-cols-2 gap-6 lg:mt-14 lg:grid-cols-4">
+      {STATS.map((stat) => (
+        <div class="reveal flex h-[170px] flex-col items-center justify-center rounded-2xl bg-surface-card px-5 text-center">
+          <p class="text-4xl leading-none font-bold text-content-interactive-primary lg:text-[3.5rem]">{stat.value}</p>
+          <p class="mt-4 text-sm text-content-secondary">
+            {stat.label}{stat.labelEn && <span class="text-content-tertiary"> {stat.labelEn}</span>}
+          </p>
+        </div>
+      ))}
+    </div>
+
+    <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-2">
+      <span class="text-xs text-content-tertiary">보유 자격 ·</span>
+      {QUALIFICATIONS.map((qualification) => (
+        <span class="rounded-full border border-line-secondary bg-surface-primary px-3 py-1.5 text-xs text-content-secondary">
+          {qualification}
+        </span>
+      ))}
+    </div>
+  </div>
+</section>
