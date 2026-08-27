@@ -40,12 +40,13 @@ export interface BusinessArea {
   label: string;
   title: string;
   illustration: ImageMetadata;
+  href: string;
 }
 
 export const BUSINESS_AREAS: BusinessArea[] = [
-  { label: '영상·예측 분석', title: 'AI', illustration: illustAi },
-  { label: '대용량 관측', title: 'Big Data', illustration: illustBigData },
-  { label: '3D 공간정보', title: 'GIS', illustration: illustGis },
+  { label: '영상·예측 분석', title: 'AI', illustration: illustAi, href: '/services#modeling' },
+  { label: '대용량 관측', title: 'Big Data', illustration: illustBigData, href: '/services#observation' },
+  { label: '3D 공간정보', title: 'GIS', illustration: illustGis, href: '/services#visualization' },
 ];
 
 export interface SolutionFeature {
