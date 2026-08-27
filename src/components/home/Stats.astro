@@ -12,7 +12,7 @@ import { QUALIFICATIONS, STATS } from '@/data/home';
       class="reveal"
     />
 
-    <div class="mt-10 grid grid-cols-2 gap-6 lg:mt-14 lg:grid-cols-4">
+    <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
       {STATS.map((stat) => (
         <div class="reveal flex h-[170px] flex-col items-center justify-center rounded-2xl bg-surface-card px-5 text-center">
           <p class="text-4xl leading-none font-bold text-content-interactive-primary lg:text-[3.5rem]">{stat.value}</p>

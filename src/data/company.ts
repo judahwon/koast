@@ -77,7 +77,7 @@ export const CAPABILITIES = [
 
 export const HIGHLIGHTS = [
   { label: '설립', value: '2010' },
-  { label: '프로젝트 수행', value: '다수' },
+  { label: '정부 R&D 수행', value: '15+' },
   { label: '인증·등록', value: '10+' },
   { label: '핵심 역량', value: '6개 분야' },
 ];
