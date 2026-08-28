@@ -27,8 +27,8 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
           return (
             <div key={solution.id} style={{ flexGrow: isActive ? 1 : 0 }} className={'relative isolate shrink-0 basis-21 overflow-hidden rounded-lg transition-[flex-grow] duration-200 ease-out'}>
               <img src={solution.photo.src} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
-              <div aria-hidden={true} className={'absolute inset-0 -z-10 bg-linear-to-r from-surface-inverse-bolder/88 from-8% via-surface-inverse-bolder/46 via-45% to-surface-inverse-bolder/88'} />
-              <div aria-hidden={true} className={`absolute inset-0 -z-10 bg-surface-inverse-bolder transition-opacity duration-200 ease-out ${ isActive ? 'opacity-0' : 'opacity-12' }`} />
+              <div aria-hidden={true} className={'solution-scrim absolute inset-0 -z-10'} />
+              <div aria-hidden={true} className={`absolute inset-0 -z-10 bg-surface-inverse-bolder transition-opacity duration-200 ease-out ${ isActive ? 'opacity-0' : 'opacity-45' }`} />
 
               <button type={'button'} aria-expanded={isActive} aria-controls={`solution-panel-${ solution.id }`} onClick={() => setActiveId(solution.id)} onFocus={() => setActiveId(solution.id)} className={'absolute inset-0 flex cursor-pointer items-center justify-center focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-content-on-inverse'}>
                 <span className={'sr-only'}>{solution.code}</span>
