@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css');
+@import "tailwindcss";
 
 @theme {
   --font-sans: 'Pretendard', system-ui, -apple-system, sans-serif;
@@ -365,4 +365,21 @@ body {
   background: var(--bg-subtle);
   font-weight: 600;
   color: var(--content-primary);
+}
+
+/* Solutions 확장 패널 오버레이.
+   사진 전체에 그라디언트를 덮는 방식은 본문 대비가 "어떤 사진이 뒤에 오느냐"에 좌우된다.
+   실제로 밝은 포말/관제실 사진에서 14px 본문이 3.47:1 까지 떨어졌다(어두운 사진에서는 5.19:1).
+   불투명도를 다시 조정하는 대신, 텍스트가 놓이는 좌측(0~25%)과 우측(47%~)을 고정으로 덮고
+   사진은 그 사이 창에서만 보이게 한다. 대비가 사진과 무관해진다. */
+.solution-scrim {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--bg-inverse-bolder) 90%, transparent) 0%,
+    color-mix(in srgb, var(--bg-inverse-bolder) 88%, transparent) 25%,
+    color-mix(in srgb, var(--bg-inverse-bolder) 30%, transparent) 33%,
+    color-mix(in srgb, var(--bg-inverse-bolder) 30%, transparent) 40%,
+    color-mix(in srgb, var(--bg-inverse-bolder) 88%, transparent) 47%,
+    color-mix(in srgb, var(--bg-inverse-bolder) 90%, transparent) 100%
+  );
 }
