@@ -37,7 +37,8 @@ const iconTileClass = 'grid size-12 shrink-0 place-items-center rounded-xl bg-su
     />
   </section>
 
-  <section class="bg-surface-primary">
+  {/* 카드가 좌우로 벌어지는 구간에서 문서에 가로 스크롤이 생기지 않도록 섹션에서 잘라 낸다. */}
+  <section class="overflow-x-clip bg-surface-primary">
     <div class="page-container py-20 lg:py-28">
       <SectionHeading
         eyebrow="Who We Look For"

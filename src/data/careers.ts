@@ -1,15 +1,35 @@
+import type { ImageMetadata } from 'astro';
+
+// 이미지 파일을 png/jpg 로 바꿔 끼워도 import 가 깨지지 않도록 확장자를 glob 로 흡수한다.
+const CANDIDATE_IMAGES = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/images/careers/candidate-*.{png,jpg,jpeg,webp,avif}',
+  { eager: true },
+);
+
+const candidateImage = (n: number): ImageMetadata | undefined => {
+  const stem = `candidate-${ String(n).padStart(2, '0') }.`;
+  const path = Object.keys(CANDIDATE_IMAGES).find((key) => key.includes(stem));
+  return path ? CANDIDATE_IMAGES[path].default : undefined;
+};
+
 export const CAREERS_INTRO = {
   title: '해양·기상 데이터 기술의 미래를 함께 만들 동료를 찾습니다.',
   description:
     '한국해양기상기술은 바다와 대기의 데이터를 수집하고, 분석하고, 예측하고, 시각화하는 시스템을 만듭니다. 우리가 만드는 기술은 해양 안전, 기상 서비스, 재난 대응, 연구 분석, 공공 데이터 활용에 쓰입니다.',
 };
 
-export const IDEAL_CANDIDATE = [
-  { icon: 'Waves', label: '도메인에 대한 관심', text: '해양·기상·환경 데이터에 관심 있는 분' },
-  { icon: 'LineChart', label: '데이터를 보여주는 감각', text: '복잡한 데이터를 이해하기 쉽게 표현하는 일에 흥미가 있는 분' },
-  { icon: 'ShieldCheck', label: '공공성과 완성도', text: '공공성과 기술적 완성도를 함께 중요하게 생각하는 분' },
-  { icon: 'Layers', label: '폭넓은 기술 경험', text: '웹, 서버, GIS, 데이터 처리, 하드웨어 연동 경험이 있는 분' },
-  { icon: 'Sparkles', label: '배우고 적용하는 힘', text: '새로운 기술을 배우고 실제 시스템에 적용하는 것을 좋아하는 분' },
+export interface CandidateItem {
+  icon?: string;
+  label: string;
+  text: string;
+  image?: ImageMetadata;
+}
+
+export const IDEAL_CANDIDATE: CandidateItem[] = [
+  { icon: 'Waves', label: '도메인에 대한 관심', text: '해양·기상·환경 데이터에 관심 있는 분', image: candidateImage(1) },
+  { icon: 'LineChart', label: '데이터를 보여주는 감각', text: '복잡한 데이터를 이해하기 쉽게 표현하는 일에 흥미가 있는 분', image: candidateImage(2) },
+  { icon: 'Layers', label: '폭넓은 기술 경험', text: '웹, 서버, GIS, 데이터 처리, 하드웨어 연동 경험이 있는 분', image: candidateImage(3) },
+  { icon: 'Sparkles', label: '배우고 적용하는 힘', text: '새로운 기술을 배우고 실제 시스템에 적용하는 것을 좋아하는 분', image: candidateImage(4) },
 ];
 
 export const WORK_CULTURE = [
