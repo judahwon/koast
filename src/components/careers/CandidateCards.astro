@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '@/components/common/Icon.astro';
+import type { ImageMetadata } from 'astro';
+
+export interface CandidateItem {
+  icon: string;
+  label: string;
+  text: string;
+  image?: ImageMetadata | string;
+}
+
+interface Props {
+  items: CandidateItem[];
+}
+
+const { items } = Astro.props;
+
+// 기본 그래픽 플레이스홀더 배경 테마
+const PLACEHOLDER_THEMES = [
+  'from-[#051937] via-[#004d7a] to-[#008793]', // 01 Waves / Marine
+  'from-[#0f2027] via-[#203a43] to-[#2c5364]', // 02 LineChart / Data
+  'from-[#141e30] via-[#243b55] to-[#141e30]', // 03 ShieldCheck / Trust
+  'from-[#0b192c] via-[#1e3e62] to-[#000000]', // 04 Layers / Tech & GIS
+  'from-[#111827] via-[#1f2937] to-[#374151]', // 05 Sparkles / Growth
+];
+---
+
+<div class="mt-16 flex flex-col gap-16 lg:gap-24">
+  {
+    items.map((item, index) => {
+      const isEven = index % 2 === 1; // 02, 04 등 짝수 번호 (0-index 기준 홀수)
+      const stepNumber = String(index + 1).padStart(2, '0');
+      const themeGradient = PLACEHOLDER_THEMES[index % PLACEHOLDER_THEMES.length];
+
+      return (
+        <article
+          class="reveal group grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-16"
+        >
+          {/* 이미지 영역 (1200 x 700 px 권장, 16:9 ~ 16:10 비율) */}
+          <div
+            class={`relative overflow-hidden rounded-3xl bg-slate-900 shadow-md transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:shadow-2xl ${
+              isEven ? 'lg:order-2' : 'lg:order-1'
+            }`}
+          >
+            <div class="relative aspect-[16/10] w-full overflow-hidden">
+              {item.image ? (
+                typeof item.image === 'string' ? (
+                  <img
+                    src={item.image}
+                    alt={item.label}
+                    class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                ) : (
+                  <Image
+                    src={item.image}
+                    alt={item.label}
+                    widths={[600, 900, 1200]}
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                    class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                )
+              ) : (
+                /* 이미지가 아직 등록되지 않았을 때 표시되는 고품질 플레이스홀더 */
+                <div class={`relative flex size-full items-center justify-center bg-gradient-to-br ${themeGradient} p-8`}>
+                  {/* 배경 그리드 및 파티클 장식 */}
+                  <div
+                    class="pointer-events-none absolute inset-0 opacity-15"
+                    style={{
+                      backgroundImage:
+                        'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                      backgroundSize: '24px 24px',
+                    }}
+                  />
+                  <div class="relative flex flex-col items-center text-center">
+                    <div class="flex size-16 items-center justify-center rounded-2xl bg-white/10 text-white backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+                      <Icon name={item.icon} class="size-8 text-cyan-300" />
+                    </div>
+                    <span class="mt-4 text-xs font-semibold tracking-wider text-white/50 uppercase">
+                      Image Area (1200 × 700 px)
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* 텍스트 영역 */}
+          <div
+            class={`flex flex-col justify-center ${
+              isEven ? 'lg:order-1 lg:pr-6' : 'lg:order-2 lg:pl-6'
+            }`}
+          >
+            {/* 메인 블루 번호 뱃지 */}
+            <div class="w-fit">
+              <span class="inline-flex items-center justify-center rounded-md bg-brand-primary px-2.5 py-1 text-xs font-bold tracking-wider text-white shadow-sm">
+                {stepNumber}
+              </span>
+            </div>
+
+            {/* 타이틀 */}
+            <h3 class="mt-4 text-2xl font-bold tracking-tight text-content-primary sm:text-3xl lg:text-3xl lg:leading-snug">
+              {item.label}
+            </h3>
+
+            {/* 설명 본문 */}
+            <p class="mt-4 text-base leading-relaxed text-content-secondary sm:text-lg">
+              {item.text}
+            </p>
+          </div>
+        </article>
+      );
+    })
+  }
+</div>

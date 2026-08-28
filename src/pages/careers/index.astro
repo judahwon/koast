@@ -5,6 +5,7 @@ import SectionHeading from '@/components/common/SectionHeading.astro';
 import Card from '@/components/common/Card.astro';
 import Icon from '@/components/common/Icon.astro';
 import JobCard from '@/components/careers/JobCard.astro';
+import CandidateCards from '@/components/careers/CandidateCards.astro';
 import { getCollection } from 'astro:content';
 import { IDEAL_CANDIDATE, WORK_CULTURE, BENEFITS, HIRING_PROCESS } from '@/data/careers';
 import heroCareers from '@/assets/images/careers/hero-careers.png';
@@ -37,7 +38,7 @@ const iconTileClass = 'grid size-12 shrink-0 place-items-center rounded-xl bg-su
   </section>
 
   <section class="bg-surface-primary">
-    <div class="page-container py-20">
+    <div class="page-container py-20 lg:py-28">
       <SectionHeading
         eyebrow="Who We Look For"
         title="이런 분과 함께하고 싶습니다"
@@ -45,23 +46,7 @@ const iconTileClass = 'grid size-12 shrink-0 place-items-center rounded-xl bg-su
         align="left"
         class="reveal"
       />
-      <!-- 5개 카드를 12칸 그리드에 4-4-4 / 6-6 으로 배치해 마지막 줄 빈칸을 없앤다. -->
-      <div class="reveal mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-12">
-        {IDEAL_CANDIDATE.map((item, i) => (
-          <Card variant="filled" class={`flex h-full flex-col gap-5 ${ i < 3 ? 'lg:col-span-4' : 'lg:col-span-6' }`}>
-            <div class="flex items-center justify-between gap-3">
-              <span class={iconTileClass}>
-                <Icon name={item.icon} class="size-6" />
-              </span>
-              <span class="text-sm font-bold text-content-brand">{String(i + 1).padStart(2, '0')}</span>
-            </div>
-            <div>
-              <h3 class="text-lg leading-snug font-bold text-content-primary">{item.label}</h3>
-              <p class="mt-2 leading-relaxed text-content-secondary">{item.text}</p>
-            </div>
-          </Card>
-        ))}
-      </div>
+      <CandidateCards items={IDEAL_CANDIDATE} />
     </div>
   </section>
 
