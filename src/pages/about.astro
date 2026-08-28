@@ -1,20 +1,39 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
 import Button from '@/components/common/Button.astro';
 import VisionMission from '@/components/about/VisionMission.astro';
 import Timeline from '@/components/about/Timeline.astro';
 import Certifications from '@/components/about/Certifications.astro';
-import { VISION, HIGHLIGHTS } from '@/data/company';
+import { HIGHLIGHTS } from '@/data/company';
 import { SITE } from '@/utils/constants';
+import heroCareers from '@/assets/images/careers/hero-careers.png';
 ---
 
 <PageLayout title="회사소개" description="한국해양기상기술의 비전, 미션, 연혁, 인증을 소개합니다.">
-  <section class="bg-surface-subtle">
-    <div class="page-container py-20 lg:py-28">
-      <SectionHeading class="reveal" eyebrow="About KOAST" title={VISION.title} subtitle={VISION.subtitle} />
+  <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
+  <section class="relative isolate -mt-16 overflow-hidden bg-surface-primary pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
+    <div class="page-container reveal">
+      <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl lg:leading-tight">
+        해양·기상 데이터를<br class="hidden sm:inline" /> 의사결정으로 연결합니다
+      </h1>
+    </div>
 
-      <div class="reveal mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+    <Image
+      src={heroCareers}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom select-none"
+    />
+  </section>
+
+  <section class="bg-surface-subtle py-20 lg:py-28">
+    <div class="page-container">
+      <div class="reveal grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {
           HIGHLIGHTS.map((item) => (
             <div class="rounded-2xl bg-surface-primary px-6 py-8 text-center">

@@ -1,8 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
-import SectionHeading from '@/components/common/SectionHeading.astro';
 import BlogCard from '@/components/blog/BlogCard.astro';
 import { getCollection } from 'astro:content';
+import heroCareers from '@/assets/images/careers/hero-careers.png';
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
@@ -13,25 +14,33 @@ const categories = [...new Set(posts.map((p) => p.data.category))];
 
 <PageLayout title="블로그" description="해양·기상 데이터 기술에 관한 인사이트와 소식을 공유합니다.">
   <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
-  <section class="-mt-16 bg-surface-subtle">
-    <div class="page-container reveal pt-36 pb-20">
-      <SectionHeading
-        eyebrow="Blog"
-        title="해양·기상 데이터 기술 인사이트"
-        subtitle="관측·예측·시각화 현장에서 쌓은 기술 이야기와 회사 소식을 공유합니다."
-      />
+  <section class="relative isolate -mt-16 overflow-hidden bg-surface-primary pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
+    <div class="page-container reveal">
+      <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl lg:leading-tight">
+        주어진 문제를 정의하고 해결해 가는 과정과<br class="hidden sm:inline" /> 인사이트를 공유합니다.
+      </h1>
+    </div>
+
+    <Image
+      src={heroCareers}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom select-none"
+    />
+  </section>
+
+  <section class="bg-surface-primary py-20">
+    <div class="page-container">
       {categories.length > 0 && (
-        <div class="mt-10 flex flex-wrap justify-center gap-2">
+        <div class="reveal mb-12 flex flex-wrap justify-center gap-2">
           {categories.map((cat) => (
-            <span class="rounded-full border border-line-info-subtle bg-surface-primary px-4 py-1.5 text-sm font-medium text-content-brand">{cat}</span>
+            <span class="rounded-full border border-line-info-subtle bg-surface-subtle px-4 py-1.5 text-sm font-medium text-content-brand">{cat}</span>
           ))}
         </div>
       )}
-    </div>
-  </section>
-
-  <section class="bg-surface-primary">
-    <div class="page-container py-20">
       {posts.length > 0 ? (
         <div class="reveal grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (

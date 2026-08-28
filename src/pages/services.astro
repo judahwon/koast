@@ -1,27 +1,32 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
 import ServiceCard from '@/components/services/ServiceCard.astro';
 import Button from '@/components/common/Button.astro';
 import { SERVICES, SOLUTIONS } from '@/data/services';
 import { SITE } from '@/utils/constants';
+import heroServices from '@/assets/images/services/hero-services.png';
 ---
 
 <PageLayout title="서비스" description="한국해양기상기술이 제공하는 해양·기상 데이터 통합 솔루션을 소개합니다.">
-  <section class="bg-surface-subtle">
-    <div class="page-container py-20 lg:py-28">
-      <SectionHeading class="reveal" eyebrow="Our Services" title="서비스" subtitle="관측부터 시각화까지, 고객의 목적에 맞는 최적의 솔루션을 제공합니다." />
-
-      <div class="reveal mt-10 flex flex-wrap justify-center gap-3">
-        {
-          SERVICES.map((service) => (
-            <a href={`#${ service.id }`} class="rounded-full bg-surface-primary px-4 py-2 text-sm font-medium text-content-secondary transition-colors hover:text-content-interactive-primary">
-              {service.title}
-            </a>
-          ))
-        }
-      </div>
+  <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
+  <section class="relative isolate -mt-16 overflow-hidden bg-[#03091e] pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
+    <div class="page-container reveal">
+      <h1 class="text-3xl leading-snug font-bold tracking-tight text-white sm:text-4xl lg:text-5xl lg:leading-tight">
+        관측부터 시각화까지,<br class="hidden sm:inline" /> 목적에 맞는 최적의 솔루션을 제공합니다.
+      </h1>
     </div>
+
+    <Image
+      src={heroServices}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-center select-none"
+    />
   </section>
 
   <section class="bg-surface-primary">

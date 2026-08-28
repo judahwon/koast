@@ -1,12 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
-import Button from '@/components/common/Button.astro';
 import Card from '@/components/common/Card.astro';
 import Icon from '@/components/common/Icon.astro';
 import JobCard from '@/components/careers/JobCard.astro';
 import { getCollection } from 'astro:content';
-import { CAREERS_INTRO, IDEAL_CANDIDATE, WORK_CULTURE, BENEFITS, HIRING_PROCESS } from '@/data/careers';
+import { IDEAL_CANDIDATE, WORK_CULTURE, BENEFITS, HIRING_PROCESS } from '@/data/careers';
+import heroCareers from '@/assets/images/careers/hero-careers.png';
 
 const jobs = (await getCollection('jobs'))
   .filter((job) => job.data.isActive)
@@ -17,20 +18,22 @@ const iconTileClass = 'grid size-12 shrink-0 place-items-center rounded-xl bg-su
 
 <PageLayout title="채용" description="한국해양기상기술과 함께할 인재를 찾습니다.">
   <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
-  <section class="-mt-16 bg-surface-subtle">
-    <div class="page-container reveal pt-36 pb-20">
-      <SectionHeading
-        eyebrow="Careers"
-        title={CAREERS_INTRO.title}
-        subtitle={CAREERS_INTRO.description}
-      />
-      <div class="mt-10 flex justify-center">
-        <Button href="#positions" shape="pill" size="lg">
-          모집 중인 포지션 보기
-          <Icon name="ChevronRight" class="size-4" />
-        </Button>
-      </div>
+  <section class="relative isolate -mt-16 overflow-hidden bg-surface-primary pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
+    <div class="page-container reveal">
+      <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl lg:leading-tight">
+        해양·기상 데이터 기술의 미래를<br class="hidden sm:inline" /> 함께 만들 동료를 찾습니다.
+      </h1>
     </div>
+
+    <Image
+      src={heroCareers}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom select-none"
+    />
   </section>
 
   <section class="bg-surface-primary">
