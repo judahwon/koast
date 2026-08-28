@@ -4,7 +4,7 @@ import Icon from '@/components/common/Icon.astro';
 import type { ImageMetadata } from 'astro';
 
 export interface CandidateItem {
-  icon: string;
+  icon?: string;
   label: string;
   text: string;
   image?: ImageMetadata | string;
@@ -62,7 +62,7 @@ const PLACEHOLDER_THEMES = [
                 )
               ) : (
                 /* 이미지가 아직 등록되지 않았을 때 표시되는 고품질 플레이스홀더 */
-                <div class={`relative flex size-full items-center justify-center bg-gradient-to-br ${themeGradient} p-8`}>
+                <div class={`relative flex size-full items-center justify-center bg-gradient-to-br ${ themeGradient } p-8`}>
                   {/* 배경 그리드 및 파티클 장식 */}
                   <div
                     class="pointer-events-none absolute inset-0 opacity-15"
@@ -73,9 +73,11 @@ const PLACEHOLDER_THEMES = [
                     }}
                   />
                   <div class="relative flex flex-col items-center text-center">
-                    <div class="flex size-16 items-center justify-center rounded-2xl bg-white/10 text-white backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
-                      <Icon name={item.icon} class="size-8 text-cyan-300" />
-                    </div>
+                    {item.icon && (
+                      <div class="flex size-16 items-center justify-center rounded-2xl bg-white/10 text-white backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+                        <Icon name={item.icon} class="size-8 text-cyan-300" />
+                      </div>
+                    )}
                     <span class="mt-4 text-xs font-semibold tracking-wider text-white/50 uppercase">
                       Image Area (1200 × 700 px)
                     </span>
@@ -98,13 +100,13 @@ const PLACEHOLDER_THEMES = [
               </span>
             </div>
 
-            {/* 타이틀 */}
-            <h3 class="mt-4 text-2xl font-bold tracking-tight text-content-primary sm:text-3xl lg:text-3xl lg:leading-snug">
+            {/* 타이틀 (32px) */}
+            <h3 class="mt-4 text-2xl font-bold tracking-tight text-content-primary sm:text-[32px] sm:leading-snug lg:text-[32px]">
               {item.label}
             </h3>
 
-            {/* 설명 본문 */}
-            <p class="mt-4 text-base leading-relaxed text-content-secondary sm:text-lg">
+            {/* 설명 본문 (20px) */}
+            <p class="mt-4 text-lg leading-relaxed text-content-secondary sm:text-[20px] sm:leading-relaxed">
               {item.text}
             </p>
           </div>
