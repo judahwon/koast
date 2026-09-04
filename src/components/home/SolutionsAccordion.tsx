@@ -20,22 +20,76 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
 
   return (
     <div className={'mx-auto w-full max-w-415'}>
-      <div className={'hidden h-[521px] gap-4 lg:flex'}>
+      {/* Desktop Layout with Interactive Image Accordion Animation */}
+      <div className={'hidden h-130 gap-4 lg:flex'}>
         {solutions.map((solution) => {
           const isActive = solution.id === activeId;
 
           return (
-            <div key={solution.id} style={{ flexGrow: isActive ? 1 : 0 }} className={'relative isolate shrink-0 basis-21 overflow-hidden rounded-lg transition-[flex-grow] duration-200 ease-out'}>
-              <img src={solution.photo.src} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
+            <div
+              key={solution.id}
+              role={'button'}
+              tabIndex={0}
+              aria-expanded={isActive}
+              aria-controls={`solution-panel-${ solution.id }`}
+              style={{ flexGrow: isActive ? 1 : 0 }}
+              onClick={() => setActiveId(solution.id)}
+              onMouseEnter={() => setActiveId(solution.id)}
+              onFocus={() => setActiveId(solution.id)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveId(solution.id);
+                }
+              }}
+              className={`group relative isolate shrink-0 basis-20 cursor-pointer overflow-hidden rounded-2xl transition-all duration-700 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring ${
+                isActive ? 'basis-40' : 'basis-20 hover:basis-24'
+              }`}
+            >
+              {/* Background Photo with smooth scale transition */}
+              <img
+                src={solution.photo.src}
+                width={solution.photo.width}
+                height={solution.photo.height}
+                alt={''}
+                aria-hidden={true}
+                className={`absolute inset-0 -z-10 size-full object-cover transition-transform duration-700 ease-in-out ${
+                  isActive ? 'scale-100' : 'scale-110 brightness-90 group-hover:scale-105'
+                }`}
+              />
+
+              {/* Scrim / Gradient overlays */}
               <div aria-hidden={true} className={'solution-scrim absolute inset-0 -z-10'} />
-              <div aria-hidden={true} className={`absolute inset-0 -z-10 bg-surface-inverse-bolder transition-opacity duration-200 ease-out ${ isActive ? 'opacity-0' : 'opacity-45' }`} />
+              <div
+                aria-hidden={true}
+                className={`absolute inset-0 -z-10 bg-surface-inverse-bolder transition-opacity duration-700 ease-in-out ${
+                  isActive ? 'opacity-0' : 'opacity-40 group-hover:opacity-25'
+                }`}
+              />
 
-              <button type={'button'} aria-expanded={isActive} aria-controls={`solution-panel-${ solution.id }`} onClick={() => setActiveId(solution.id)} onFocus={() => setActiveId(solution.id)} className={'absolute inset-0 flex cursor-pointer items-center justify-center focus-visible:outline-2 focus-visible:-outline-offset-4 focus-visible:outline-content-on-inverse'}>
+              {/* Inactive Vertical Caption */}
+              <div
+                className={`pointer-events-none absolute inset-0 flex items-center justify-center transition-all duration-500 ease-in-out ${
+                  isActive ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
+                }`}
+              >
                 <span className={'sr-only'}>{solution.code}</span>
-                <span style={{ writingMode: 'vertical-rl' }} aria-hidden={true} className={`text-base font-semibold tracking-tight whitespace-nowrap text-content-on-inverse transition-opacity duration-200 ease-out ${ isActive ? 'opacity-0' : 'opacity-100' }`}>{solution.shortName}</span>
-              </button>
+                <span
+                  style={{ writingMode: 'vertical-rl' }}
+                  aria-hidden={true}
+                  className={'text-base font-semibold tracking-tight whitespace-nowrap text-content-on-inverse drop-shadow-md'}
+                >
+                  {solution.shortName}
+                </span>
+              </div>
 
-              <div id={`solution-panel-${ solution.id }`} className={`pointer-events-none absolute inset-y-0 left-0 flex w-full min-w-130 justify-between gap-10 p-12 transition-opacity duration-200 ease-out ${ isActive ? 'opacity-100' : 'opacity-0' }`}>
+              {/* Active Panel Content */}
+              <div
+                id={`solution-panel-${ solution.id }`}
+                className={`pointer-events-none absolute inset-y-0 left-0 flex w-full min-w-130 justify-between gap-10 p-12 transition-all duration-700 ease-in-out ${
+                  isActive ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
+                }`}
+              >
                 <div className={'flex w-80 shrink-0 flex-col'}>
                   <p className={'text-sm font-semibold tracking-wide text-content-on-inverse'}>{solution.code}</p>
                   <h3 className={'mt-5 text-3xl leading-snug font-bold text-content-on-inverse'}>
@@ -43,7 +97,11 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
                       <span key={line} className={'block'}>{line}</span>
                     ))}
                   </h3>
-                  <a href={`${ base }${ solution.href }`} tabIndex={isActive ? 0 : -1} className={'pointer-events-auto mt-auto inline-flex w-fit items-center gap-2.5 rounded-full bg-surface-primary/20 px-5 py-3 text-sm font-medium text-content-on-inverse backdrop-blur-sm transition-colors duration-200 ease-out hover:bg-surface-primary/30'}>
+                  <a
+                    href={`${ base }${ solution.href }`}
+                    tabIndex={isActive ? 0 : -1}
+                    className={'pointer-events-auto mt-auto inline-flex w-fit items-center gap-2.5 rounded-full bg-surface-primary/20 px-5 py-3 text-sm font-medium text-content-on-inverse backdrop-blur-sm transition-colors duration-200 ease-out hover:bg-surface-primary/30'}
+                  >
                     {'더보기'}
                     <ArrowIcon />
                   </a>
@@ -63,9 +121,13 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
         })}
       </div>
 
+      {/* Mobile Accordion */}
       <div className={'flex flex-col gap-4 lg:hidden'}>
         {solutions.map((solution) => (
-          <article key={solution.id} className={'relative isolate overflow-hidden rounded-lg'}>
+          <article
+            key={solution.id}
+            className={'relative isolate overflow-hidden rounded-2xl'}
+          >
             <img src={solution.photo.src} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
             <div aria-hidden={true} className={'absolute inset-0 -z-10 bg-linear-to-b from-surface-inverse-bolder/70 to-surface-inverse-bolder/86'} />
 

@@ -1,5 +1,9 @@
-import Waitlist from '@/components/ui/background-shader';
+import { LandingAccordionItem } from '@/components/ui/interactive-image-accordion';
 
 export default function DemoOne() {
-  return <Waitlist />;
+  return (
+    <div className={'w-full'}>
+      <LandingAccordionItem />
+    </div>
+  );
 }
