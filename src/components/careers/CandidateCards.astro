@@ -40,8 +40,8 @@ const PLACEHOLDER_THEMES = [
           {/* 이미지 영역 (870 x 436 px) */}
           {/* 진입 연출은 래퍼에 둔다. 카드 본체에 주면 hover scale 의 transition 과 서로 덮어쓴다. */}
           <div class={`converge ${ isEven ? 'converge-right lg:order-2' : 'converge-left lg:order-1' }`}>
-            <div class="relative overflow-hidden rounded-3xl bg-slate-900 transition-transform duration-500 ease-out group-hover:scale-[1.02]">
-              <div class="relative aspect-[870/436] w-full overflow-hidden">
+            <div class="group-hover:scale-1.02 relative overflow-hidden rounded-3xl bg-slate-900 transition-transform duration-500 ease-out">
+              <div class="relative aspect-870/436 w-full overflow-hidden">
                 {item.image ? (
                   typeof item.image === 'string' ? (
                     <img
@@ -60,7 +60,7 @@ const PLACEHOLDER_THEMES = [
                   )
                 ) : (
                   /* 이미지가 아직 등록되지 않았을 때 표시되는 고품질 플레이스홀더 */
-                  <div class={`relative flex size-full items-center justify-center bg-gradient-to-br ${ themeGradient } p-8`}>
+                  <div class={`relative flex size-full items-center justify-center bg-linear-to-br ${ themeGradient } p-8`}>
                     {/* 배경 그리드 및 파티클 장식 */}
                     <div
                       class="pointer-events-none absolute inset-0 opacity-15"
