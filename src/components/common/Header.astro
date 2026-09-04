@@ -2,8 +2,8 @@
 import { Image } from 'astro:assets';
 import Navigation from './Navigation.tsx';
 import { NAV_LINKS, NAV_CTA, SITE } from '@/utils/constants';
-import logoDark from '@/assets/images/logo-dark.png';
-import logoLight from '@/assets/images/logo-light.png';
+import logoBlack from '@/assets/images/Koast_Logo_black.svg';
+import logoWhite from '@/assets/images/Koast_Logo_white.svg';
 
 interface Props {
   darkTop?: boolean;
@@ -33,20 +33,18 @@ const { darkTop = isDarkHeroPage } = Astro.props;
       <div class="relative flex h-6 items-center sm:h-7">
         <!-- 흰색 로고 (투명 헤더 / 어두운 배경) -->
         <Image
-          src={logoLight}
+          src={logoWhite}
           alt="KOAST"
           height={24}
-          densities={[1, 2]}
           class={`h-5 w-auto object-contain transition-opacity duration-300 sm:h-5.5 ${
             darkTop ? 'opacity-100 group-[.is-scrolled]:opacity-0' : 'opacity-0'
           }`}
         />
         <!-- 검은색 로고 (스크롤 시 / 밝은 배경) -->
         <Image
-          src={logoDark}
+          src={logoBlack}
           alt="KOAST"
           height={24}
-          densities={[1, 2]}
           class={`absolute inset-0 my-auto h-5 w-auto object-contain transition-opacity duration-300 sm:h-5.5 ${
             darkTop ? 'opacity-0 group-[.is-scrolled]:opacity-100' : 'opacity-100'
           }`}
