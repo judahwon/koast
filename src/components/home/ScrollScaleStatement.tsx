@@ -8,6 +8,7 @@ export interface FloatingCardItem {
   xPercent: number; // % of viewport width from center (-40 to 40)
   baseYPercent: number; // % of viewport height base coordinate (-40 to 60)
   scrollSpeedMultiplier?: number; // Parallax speed multiplier
+  isVideo?: boolean;
 }
 
 interface Props {
@@ -367,52 +368,82 @@ export default function ScrollScaleStatement({
 
           {/* Left Column Floating Cards (5 items) */}
           <div className={'pointer-events-none absolute inset-0 z-10 hidden items-center justify-center lg:flex'}>
-            {leftCards.map((card, index) => (
-              <div
-                key={card.id}
-                ref={(el) => {
-                  leftCardElementsRef.current[index] = el;
-                }}
-                style={{
-                  opacity: 0,
-                  transform: 'translate3d(0, 0, 0)',
-                  willChange: 'opacity, transform',
-                }}
-                className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl bg-surface-card'}
-              >
-                <img
-                  src={card.image}
-                  alt={card.alt}
-                  loading={'lazy'}
-                  className={'size-full object-cover select-none'}
-                />
-              </div>
-            ))}
+            {leftCards.map((card, index) => {
+              const isVideo = card.isVideo || (typeof card.image === 'string' && card.image.includes('.webm'));
+
+              return (
+                <div
+                  key={card.id}
+                  ref={(el) => {
+                    leftCardElementsRef.current[index] = el;
+                  }}
+                  style={{
+                    opacity: 0,
+                    transform: 'translate3d(0, 0, 0)',
+                    willChange: 'opacity, transform',
+                  }}
+                  className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-line-secondary bg-white shadow-xs'}
+                >
+                  {isVideo ? (
+                    <video
+                      src={card.image}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={'pointer-events-none size-full object-cover select-none'}
+                    />
+                  ) : (
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      loading={'lazy'}
+                      className={'size-full object-cover select-none'}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Right Column Floating Cards (5 items) */}
           <div className={'pointer-events-none absolute inset-0 z-10 hidden items-center justify-center lg:flex'}>
-            {rightCards.map((card, index) => (
-              <div
-                key={card.id}
-                ref={(el) => {
-                  rightCardElementsRef.current[index] = el;
-                }}
-                style={{
-                  opacity: 0,
-                  transform: 'translate3d(0, 0, 0)',
-                  willChange: 'opacity, transform',
-                }}
-                className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl bg-surface-card'}
-              >
-                <img
-                  src={card.image}
-                  alt={card.alt}
-                  loading={'lazy'}
-                  className={'size-full object-cover select-none'}
-                />
-              </div>
-            ))}
+            {rightCards.map((card, index) => {
+              const isVideo = card.isVideo || (typeof card.image === 'string' && card.image.includes('.webm'));
+
+              return (
+                <div
+                  key={card.id}
+                  ref={(el) => {
+                    rightCardElementsRef.current[index] = el;
+                  }}
+                  style={{
+                    opacity: 0,
+                    transform: 'translate3d(0, 0, 0)',
+                    willChange: 'opacity, transform',
+                  }}
+                  className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-line-secondary bg-white shadow-xs'}
+                >
+                  {isVideo ? (
+                    <video
+                      src={card.image}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className={'pointer-events-none size-full object-cover select-none'}
+                    />
+                  ) : (
+                    <img
+                      src={card.image}
+                      alt={card.alt}
+                      loading={'lazy'}
+                      className={'size-full object-cover select-none'}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Text 2: Second Narrative Manifesto Statement strictly locked in the CENTER (Word Highlight Animation) */}
