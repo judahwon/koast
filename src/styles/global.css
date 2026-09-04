@@ -214,6 +214,20 @@ body {
     transform: none;
   }
 
+  .reveal.reveal-ease-in {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+    transition:
+      opacity 1s cubic-bezier(0.42, 0, 1, 1),
+      transform 1s cubic-bezier(0.42, 0, 1, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal.reveal-ease-in.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
   /* 이미지와 텍스트가 좌우 바깥에서 가운데로 모인다. .is-in 은 CandidateCards 의 스크립트가 카드 단위로 하나씩 붙인다. */
   .converge {
     --converge-x: 0rem;
@@ -263,44 +277,6 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
-  }
-}
-
-/* 히어로 Split Text 애니메이션 */
-@keyframes split-text-reveal {
-  0% {
-    opacity: 0;
-    transform: translateY(110%) scale(0.92);
-    filter: blur(8px);
-  }
-
-  60% {
-    opacity: 1;
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-.split-char {
-  display: inline-block;
-  opacity: 0;
-  animation-name: split-text-reveal;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  animation-fill-mode: forwards;
-  will-change: transform, opacity, filter;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .split-char {
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-    animation: none !important;
   }
 }
 

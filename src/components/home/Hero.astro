@@ -1,5 +1,4 @@
 ---
-import SplitText from '@/components/ui/split-text';
 import HeroShader from './HeroShader.tsx';
 ---
 
@@ -11,14 +10,9 @@ import HeroShader from './HeroShader.tsx';
   {/* 텍스트 가독성을 위한 은은한 다크 오버레이 */}
   <div class="pointer-events-none absolute inset-0 -z-10 bg-slate-950/25" aria-hidden="true" />
 
-  <div class="page-container relative z-10">
-    <SplitText
-      client:load
-      lines={['해양과 기상 데이터로', '안전한 미래를 만들어갑니다.']}
-      className="text-3xl leading-snug font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl lg:text-5xl lg:leading-15.5"
-      delay={200}
-      stagger={40}
-      duration={850}
-    />
+  <div class="page-container reveal relative z-10">
+    <h1 class="text-3xl leading-snug font-bold tracking-tight text-white drop-shadow-lg sm:text-4xl lg:text-5xl lg:leading-15.5">
+      해양과 기상 데이터로<br class="hidden sm:inline" /> 안전한 미래를 만들어갑니다.
+    </h1>
   </div>
 </section>
