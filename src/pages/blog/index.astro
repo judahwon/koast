@@ -1,64 +1,153 @@
 ---
-import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import BlogCard from '@/components/blog/BlogCard.astro';
 import { getCollection } from 'astro:content';
-import heroCareers from '@/assets/images/careers/hero-careers.png';
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
 
-const categories = [...new Set(posts.map((p) => p.data.category))];
+const PREFERRED_CATEGORIES = ['기술 이야기', '해양·기상 인사이트', '프로젝트/사례', '제품/솔루션', '회사 소식'];
+const uniqueCategories = [...new Set(posts.map((p) => p.data.category))];
+const orderedCategories = [
+  ...PREFERRED_CATEGORIES.filter((cat) => uniqueCategories.includes(cat)),
+  ...uniqueCategories.filter((cat) => !PREFERRED_CATEGORIES.includes(cat)),
+];
+const categories = ['전체', ...orderedCategories];
 ---
 
-<PageLayout title="블로그" description="해양·기상 데이터 기술에 관한 인사이트와 소식을 공유합니다.">
-  <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
-  <section class="relative isolate -mt-16 overflow-hidden bg-surface-primary pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
-    <div class="page-container reveal">
-      <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl lg:leading-tight">
-        주어진 문제를 정의하고 해결해 가는 과정과<br class="hidden sm:inline" /> 인사이트를 공유합니다.
-      </h1>
-    </div>
+<PageLayout title="블로그" description="주어진 문제를 정의하고 해결해 가는 과정과 해양·기상 기술에 관한 인사이트를 공유합니다.">
+  <section class="bg-surface-primary pt-10 pb-16 sm:pt-14 sm:pb-20 lg:pt-16 lg:pb-24">
+    <div class="mx-auto w-full max-w-280 px-5 sm:px-8">
+      {/* 2. 블로그 상단 영역 (왼쪽 정렬 및 게시물 수 표시) */}
+      <div class="reveal">
+        <div class="flex items-baseline gap-3">
+          <h1 class="text-3xl leading-tight font-bold tracking-tight text-content-primary sm:text-4xl lg:text-[40px]">
+            KOAST Blog
+          </h1>
+          <span id="post-count" class="text-2xl leading-none font-bold text-content-brand sm:text-3xl lg:text-[32px]">
+            {posts.length}
+          </span>
+        </div>
+        <p class="mt-4 max-w-2xl text-lg leading-relaxed text-content-secondary sm:text-xl">
+          주어진 문제를 정의하고 해결해 가는 과정과 해양·기상 기술에 관한 인사이트를 공유합니다.
+        </p>
+      </div>
 
-    <Image
-      src={heroCareers}
-      alt=""
-      widths={[768, 1280, 1920]}
-      sizes="100vw"
-      loading="eager"
-      aria-hidden="true"
-      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom select-none"
-    />
-  </section>
+      {/* 3. 카테고리 필터 영역 (확장 가능한 구조) */}
+      <div class="reveal mt-10 sm:mt-12">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex flex-wrap items-center gap-2" role="tablist" aria-label="블로그 카테고리">
+            {categories.map((cat, i) => (
+              <button
+                type="button"
+                data-category-filter={cat}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                class={`inline-flex h-9 cursor-pointer items-center justify-center rounded-full px-4 text-sm transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-line-focus-ring focus-visible:ring-offset-2 focus-visible:outline-none sm:h-10 sm:px-5 ${
+                  i === 0
+                    ? 'bg-interactive-primary font-semibold text-content-on-inverse'
+                    : 'bg-surface-subtle font-medium text-content-secondary hover:bg-surface-secondary hover:text-content-primary'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-  <section class="bg-surface-primary py-20">
-    <div class="page-container">
-      {categories.length > 0 && (
-        <div class="reveal mb-12 flex flex-wrap justify-center gap-2">
-          {categories.map((cat) => (
-            <span class="rounded-full border border-line-info-subtle bg-surface-subtle px-4 py-1.5 text-sm font-medium text-content-brand">{cat}</span>
-          ))}
+      {/* 4. 게시물 목록 */}
+      <div class="reveal mt-12 sm:mt-16 lg:mt-20">
+        {posts.length > 0 ? (
+          <div id="posts-container" class="space-y-14 sm:space-y-18 lg:space-y-22">
+            {posts.map((post, index) => (
+              <div
+                data-post-wrapper
+                data-category={post.data.category}
+                class="border-b border-line-secondary/60 pb-14 last:border-b-0 last:pb-0 sm:pb-18 lg:pb-22"
+              >
+                <BlogCard
+                  title={post.data.title}
+                  description={post.data.description}
+                  publishedAt={post.data.publishedAt}
+                  category={post.data.category}
+                  tags={post.data.tags}
+                  slug={post.id}
+                  thumbnail={post.data.thumbnail}
+                  index={index}
+                />
+              </div>
+            ))}
+          </div>
+        ) : null}
+
+        {/* 빈 상태 메시지 */}
+        <div
+          id="empty-state"
+          class={`rounded-2xl border border-line-secondary py-20 text-center text-content-tertiary ${ posts.length > 0 ? 'hidden' : '' }`}
+        >
+          <p class="text-base text-content-secondary">해당 카테고리에 등록된 게시물이 없습니다.</p>
         </div>
-      )}
-      {posts.length > 0 ? (
-        <div class="reveal grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <BlogCard
-              title={post.data.title}
-              description={post.data.description}
-              publishedAt={post.data.publishedAt}
-              category={post.data.category}
-              tags={post.data.tags}
-              slug={post.id}
-            />
-          ))}
-        </div>
-      ) : (
-        <div class="rounded-2xl border border-line-secondary py-20 text-center text-content-tertiary">
-          <p>아직 작성된 블로그 포스트가 없습니다.</p>
-        </div>
-      )}
+      </div>
     </div>
   </section>
 </PageLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll('[data-category-filter]');
+  const postWrappers = document.querySelectorAll('[data-post-wrapper]');
+  const postCountEl = document.getElementById('post-count');
+  const emptyStateEl = document.getElementById('empty-state');
+
+  const ACTIVE_CLASSES = ['bg-interactive-primary', 'font-semibold', 'text-content-on-inverse'];
+  const INACTIVE_CLASSES = ['bg-surface-subtle', 'font-medium', 'text-content-secondary'];
+
+  function applyCategory(selectedCategory) {
+    let visibleCount = 0;
+
+    filterButtons.forEach((btn) => {
+      const isSelected = btn.getAttribute('data-category-filter') === selectedCategory;
+      btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      if (isSelected) {
+        btn.classList.remove(...INACTIVE_CLASSES);
+        btn.classList.add(...ACTIVE_CLASSES);
+      } else {
+        btn.classList.remove(...ACTIVE_CLASSES);
+        btn.classList.add(...INACTIVE_CLASSES);
+      }
+    });
+
+    postWrappers.forEach((wrapper) => {
+      const itemCategory = wrapper.getAttribute('data-category');
+      const isMatch = selectedCategory === '전체' || itemCategory === selectedCategory;
+
+      if (isMatch) {
+        visibleCount++;
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+      }
+    });
+
+    if (postCountEl) {
+      postCountEl.textContent = String(visibleCount);
+    }
+
+    if (emptyStateEl) {
+      if (visibleCount === 0) {
+        emptyStateEl.classList.remove('hidden');
+      } else {
+        emptyStateEl.classList.add('hidden');
+      }
+    }
+  }
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const category = btn.getAttribute('data-category-filter') || '전체';
+      applyCategory(category);
+    });
+  });
+</script>
+
