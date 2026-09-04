@@ -2,31 +2,84 @@
 import { Image } from 'astro:assets';
 import Navigation from './Navigation.tsx';
 import { NAV_LINKS, NAV_CTA, SITE } from '@/utils/constants';
-import logo from '@/assets/images/logo.png';
+import logoDark from '@/assets/images/logo-dark.png';
+import logoLight from '@/assets/images/logo-light.png';
+
+interface Props {
+  darkTop?: boolean;
+}
+
+const currentPath = Astro.url.pathname.replace(SITE.base, '').replace(/\/$/, '') || '/';
+const isDarkHeroPage = currentPath === '/' || currentPath === '/services';
+const { darkTop = isDarkHeroPage } = Astro.props;
 ---
 
-<header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent transition-[background-color,border-color] duration-300">
+<header
+  id="site-header"
+  data-dark-top={darkTop ? 'true' : 'false'}
+  class={`group fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
+    darkTop
+      ? 'border-transparent bg-transparent'
+      : 'is-scrolled border-line-secondary bg-surface-primary/85 shadow-xs backdrop-blur-md'
+  }`}
+>
   <!-- 목업 헤더는 1440 그리드가 아니라 full-bleed 다. 1920 에서 로고 x=48, CTA 우측 끝 x=1872. -->
   <div class="relative flex h-16 items-center justify-between px-6 lg:px-12">
-    <a href={`${ SITE.base }/`} class="flex items-center gap-2.5">
-      <Image src={logo} alt="KOAST" width={73} densities={[1, 2]} class="h-8 w-auto" />
-      <span class="hidden text-base font-bold text-content-primary sm:inline">{SITE.name}</span>
+    <a
+      href={`${ SITE.base }/`}
+      class="relative flex items-center rounded-md focus-visible:ring-2 focus-visible:ring-line-focus-ring focus-visible:ring-offset-4 focus-visible:outline-none"
+      aria-label={SITE.name}
+    >
+      <div class="relative flex h-6 items-center sm:h-7">
+        <!-- 흰색 로고 (투명 헤더 / 어두운 배경) -->
+        <Image
+          src={logoLight}
+          alt="KOAST"
+          height={24}
+          densities={[1, 2]}
+          class={`h-5 w-auto object-contain transition-opacity duration-300 sm:h-5.5 ${
+            darkTop ? 'opacity-100 group-[.is-scrolled]:opacity-0' : 'opacity-0'
+          }`}
+        />
+        <!-- 검은색 로고 (스크롤 시 / 밝은 배경) -->
+        <Image
+          src={logoDark}
+          alt="KOAST"
+          height={24}
+          densities={[1, 2]}
+          class={`absolute inset-0 my-auto h-5 w-auto object-contain transition-opacity duration-300 sm:h-5.5 ${
+            darkTop ? 'opacity-0 group-[.is-scrolled]:opacity-100' : 'opacity-100'
+          }`}
+        />
+      </div>
     </a>
-    <Navigation links={NAV_LINKS} cta={NAV_CTA} base={SITE.base} client:load />
+    <Navigation links={NAV_LINKS} cta={NAV_CTA} base={SITE.base} darkTop={darkTop} client:load />
   </div>
 </header>
 
 <script>
   const header = document.getElementById('site-header');
-  const base = 'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-300';
-  const scrolled = `${ base } border-line-secondary bg-surface-primary/85 backdrop-blur-md`;
-  const atTop = `${ base } border-transparent`;
+  const isDarkTop = header?.getAttribute('data-dark-top') === 'true';
 
   function updateHeader() {
     if (!header) return;
-    header.className = window.scrollY > 8 ? scrolled : atTop;
+    const isScrolled = window.scrollY > 8;
+
+    if (isDarkTop) {
+      if (isScrolled) {
+        header.classList.add('is-scrolled', 'border-line-secondary', 'bg-surface-primary/85', 'backdrop-blur-md', 'shadow-xs');
+        header.classList.remove('border-transparent', 'bg-transparent');
+      } else {
+        header.classList.remove('is-scrolled', 'border-line-secondary', 'bg-surface-primary/85', 'backdrop-blur-md', 'shadow-xs');
+        header.classList.add('border-transparent', 'bg-transparent');
+      }
+    } else {
+      header.classList.add('is-scrolled', 'border-line-secondary', 'bg-surface-primary/85', 'backdrop-blur-md', 'shadow-xs');
+      header.classList.remove('border-transparent', 'bg-transparent');
+    }
   }
 
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
 </script>
+
