@@ -3,7 +3,7 @@ import HeroShader from './HeroShader.tsx';
 ---
 
 <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
-<section id="hero" class="relative isolate -mt-16 flex min-h-screen flex-col justify-center overflow-hidden pt-24 pb-16 text-center">
+<section id="hero" class="relative isolate -mt-16 flex min-h-screen flex-col justify-center overflow-hidden pt-24 pb-32 text-center lg:pb-36">
   {/* WebGL MeshGradient 배경 셰이더 효과 */}
   <HeroShader client:only="react" />
 
