@@ -8,7 +8,7 @@ import { PARTNERS } from '@/data/home';
 const MARQUEE_SETS = [false, true];
 ---
 
-<section id="partners" class="bg-surface-subtle pt-16 pb-20 lg:pt-20 lg:pb-28">
+<section id="partners" class="bg-surface-primary pt-32 pb-36 lg:pt-36 lg:pb-44">
   <div class="page-container">
     <SectionHeading
       align="left"
@@ -24,8 +24,8 @@ const MARQUEE_SETS = [false, true];
       {MARQUEE_SETS.map((isClone) => (
         <div class="flex shrink-0 gap-6 pr-6" aria-hidden={isClone ? 'true' : undefined}>
           {PARTNERS.map((partner) => (
-            <div class="flex h-[135px] w-[282px] shrink-0 items-center justify-center rounded-xl bg-surface-primary px-8 py-6">
-              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="size-auto max-h-16 max-w-full object-contain" />
+            <div class="flex h-44 w-96 shrink-0 items-center justify-center rounded-2xl border border-white bg-surface-primary p-6">
+              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-24 w-auto max-w-[85%] object-contain" />
             </div>
           ))}
         </div>

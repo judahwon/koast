@@ -1,0 +1,125 @@
+---
+import ScrollScaleStatement, { type FloatingCardItem } from './ScrollScaleStatement.tsx';
+import imageCloud from '@/assets/images/home/image_cloud.jpg';
+import imageDeepOcean from '@/assets/images/home/image_deep-ocean.jpg';
+import imageFish from '@/assets/images/home/image_fish.jpg';
+import imageMountain from '@/assets/images/home/image_mountain.jpg';
+import imageOcean from '@/assets/images/home/image_ocean.jpg';
+import imageRadar from '@/assets/images/home/image_radar.jpg';
+import imageRain from '@/assets/images/home/image_rain.jpg';
+import imageSnow from '@/assets/images/home/image_snow.jpg';
+import imageStorm from '@/assets/images/home/image_storm.jpg';
+import imageWideViewOcean from '@/assets/images/home/image_wide-view-ocean.jpg';
+import waveSkyImage from '@/assets/images/home/wave_sky_image.webp';
+
+// 좌측 컬럼 카드 5개 (1번 카드부터 아래에서 순차적으로 상승, 1·3·5 수직 평행, 2·4 수직 평행)
+const leftCards: FloatingCardItem[] = [
+  {
+    id: 'left-1',
+    image: imageCloud.src,
+    alt: '기상 구름 관측 데이터',
+    side: 'left',
+    xPercent: -28,
+    baseYPercent: -30,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'left-2',
+    image: imageDeepOcean.src,
+    alt: '심해 해양 관측',
+    side: 'left',
+    xPercent: -35,
+    baseYPercent: 0,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'left-3',
+    image: imageFish.src,
+    alt: '해양 생태 및 수산 자원 모니터링',
+    side: 'left',
+    xPercent: -28,
+    baseYPercent: 30,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'left-4',
+    image: imageMountain.src,
+    alt: '산악 기상 및 지형 관측',
+    side: 'left',
+    xPercent: -35,
+    baseYPercent: 60,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'left-5',
+    image: imageOcean.src,
+    alt: '연안 해양 환경 분석',
+    side: 'left',
+    xPercent: -28,
+    baseYPercent: 90,
+    scrollSpeedMultiplier: 1.0,
+  },
+];
+
+// 우측 컬럼 카드 5개 (1번 카드부터 아래에서 순차적으로 상승, 1·3·5 수직 평행, 2·4 수직 평행)
+const rightCards: FloatingCardItem[] = [
+  {
+    id: 'right-1',
+    image: imageRadar.src,
+    alt: '기상 레이더 및 원격 탐사',
+    side: 'right',
+    xPercent: 28,
+    baseYPercent: -30,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'right-2',
+    image: imageRain.src,
+    alt: '강수량 및 기상 예측',
+    side: 'right',
+    xPercent: 35,
+    baseYPercent: 0,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'right-3',
+    image: imageSnow.src,
+    alt: '적설 및 동절기 기상 모니터링',
+    side: 'right',
+    xPercent: 28,
+    baseYPercent: 30,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'right-4',
+    image: imageStorm.src,
+    alt: '태풍 및 해양 재난 조기 경보',
+    side: 'right',
+    xPercent: 35,
+    baseYPercent: 60,
+    scrollSpeedMultiplier: 1.0,
+  },
+  {
+    id: 'right-5',
+    image: imageWideViewOcean.src,
+    alt: '광역 해양 공간 정보 가시화',
+    side: 'right',
+    xPercent: 28,
+    baseYPercent: 90,
+    scrollSpeedMultiplier: 1.0,
+    imageScale: 1.15,
+  },
+];
+---
+
+<section id="statement" class="bg-surface-primary">
+  <ScrollScaleStatement
+    client:load
+    mainImageSrc={waveSkyImage.src}
+    mainImageWidth={waveSkyImage.width}
+    mainImageHeight={waveSkyImage.height}
+    leftCards={leftCards}
+    rightCards={rightCards}
+  />
+</section>
+

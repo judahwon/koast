@@ -1,8 +1,8 @@
 import type { ImageMetadata } from 'astro';
 
-import illustAi from '@/assets/images/home/illust-ai.png';
-import illustBigData from '@/assets/images/home/illust-bigdata.png';
-import illustGis from '@/assets/images/home/illust-gis.png';
+import imageAi from '@/assets/images/home/image-ai.webp';
+import imageBigData from '@/assets/images/home/image-bigdata.webp';
+import imageGis from '@/assets/images/home/image-gis.webp';
 import partnerKma from '@/assets/images/home/partner-01-kma.png';
 import partnerMof from '@/assets/images/home/partner-02-mof.png';
 import partnerAmo from '@/assets/images/home/partner-03-amo.png';
@@ -37,6 +37,7 @@ export const PARTNERS: Partner[] = [
 ];
 
 export interface BusinessArea {
+  id: 'ai' | 'bigdata' | 'gis';
   label: string;
   title: string;
   illustration: ImageMetadata;
@@ -44,9 +45,9 @@ export interface BusinessArea {
 }
 
 export const BUSINESS_AREAS: BusinessArea[] = [
-  { label: '영상·예측 분석', title: 'AI', illustration: illustAi, href: '/services#modeling' },
-  { label: '대용량 관측', title: 'Big Data', illustration: illustBigData, href: '/services#observation' },
-  { label: '3D 공간정보', title: 'GIS', illustration: illustGis, href: '/services#visualization' },
+  { id: 'ai', label: '영상·예측 분석', title: 'AI', illustration: imageAi, href: '/services#modeling' },
+  { id: 'bigdata', label: '대용량 관측', title: 'Big Data', illustration: imageBigData, href: '/services#observation' },
+  { id: 'gis', label: '3D 공간정보', title: 'GIS', illustration: imageGis, href: '/services#visualization' },
 ];
 
 export interface SolutionFeature {

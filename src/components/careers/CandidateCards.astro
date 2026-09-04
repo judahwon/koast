@@ -1,0 +1,151 @@
+---
+import { Image } from 'astro:assets';
+import Icon from '@/components/common/Icon.astro';
+import type { ImageMetadata } from 'astro';
+
+export interface CandidateItem {
+  icon?: string;
+  label: string;
+  text: string;
+  image?: ImageMetadata | string;
+}
+
+interface Props {
+  items: CandidateItem[];
+}
+
+const { items } = Astro.props;
+
+// 기본 그래픽 플레이스홀더 배경 테마
+const PLACEHOLDER_THEMES = [
+  'from-[#051937] via-[#004d7a] to-[#008793]', // 01 Waves / Marine
+  'from-[#0f2027] via-[#203a43] to-[#2c5364]', // 02 LineChart / Data
+  'from-[#141e30] via-[#243b55] to-[#141e30]', // 03 ShieldCheck / Trust
+  'from-[#0b192c] via-[#1e3e62] to-[#000000]', // 04 Layers / Tech & GIS
+  'from-[#111827] via-[#1f2937] to-[#374151]', // 05 Sparkles / Growth
+];
+---
+
+<div class="mt-16 flex flex-col gap-16 lg:gap-24">
+  {
+    items.map((item, index) => {
+      const isEven = index % 2 === 1; // 02, 04 등 짝수 번호 (0-index 기준 홀수)
+      const stepNumber = String(index + 1).padStart(2, '0');
+      const themeGradient = PLACEHOLDER_THEMES[index % PLACEHOLDER_THEMES.length];
+      // 컨테이너 1440 - gap 80 = 1360 을 870:490 으로 갈라 이미지가 정확히 870px 이 되게 한다.
+      const columns = isEven ? 'lg:grid-cols-[490fr_870fr]' : 'lg:grid-cols-[870fr_490fr]';
+
+      return (
+        <article data-converge-card class={`group grid grid-cols-1 items-center gap-8 lg:gap-20 ${ columns }`}>
+          {/* 이미지 영역 (870 x 436 px) */}
+          {/* 진입 연출은 래퍼에 둔다. 카드 본체에 주면 hover scale 의 transition 과 서로 덮어쓴다. */}
+          <div class={`converge ${ isEven ? 'converge-right lg:order-2' : 'converge-left lg:order-1' }`}>
+            <div class="group-hover:scale-1.02 relative overflow-hidden rounded-3xl bg-slate-900 transition-transform duration-500 ease-out">
+              <div class="relative aspect-870/436 w-full overflow-hidden">
+                {item.image ? (
+                  typeof item.image === 'string' ? (
+                    <img
+                      src={item.image}
+                      alt={item.label}
+                      class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  ) : (
+                    <Image
+                      src={item.image}
+                      alt={item.label}
+                      widths={[600, 870, 1200, 1740]}
+                      sizes="(max-width: 1024px) 100vw, 870px"
+                      class="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                  )
+                ) : (
+                  /* 이미지가 아직 등록되지 않았을 때 표시되는 고품질 플레이스홀더 */
+                  <div class={`relative flex size-full items-center justify-center bg-linear-to-br ${ themeGradient } p-8`}>
+                    {/* 배경 그리드 및 파티클 장식 */}
+                    <div
+                      class="pointer-events-none absolute inset-0 opacity-15"
+                      style={{
+                        backgroundImage:
+                          'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+                        backgroundSize: '24px 24px',
+                      }}
+                    />
+                    <div class="relative flex flex-col items-center text-center">
+                      {item.icon && (
+                        <div class="flex size-16 items-center justify-center rounded-2xl bg-white/10 text-white backdrop-blur-md transition-transform duration-500 group-hover:scale-110">
+                          <Icon name={item.icon} class="size-8 text-cyan-300" />
+                        </div>
+                      )}
+                      <span class="mt-4 text-xs font-semibold tracking-wider text-white/50 uppercase">
+                        Image Area (870 × 436 px)
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* 텍스트 영역 */}
+          <div class={`converge flex flex-col justify-center text-left ${ isEven ? 'converge-left lg:order-1 lg:text-right' : 'converge-right lg:order-2' }`}>
+            {/* 번호 */}
+            <span class="text-sm font-bold tracking-wider text-content-brand">{stepNumber}</span>
+
+            {/* 타이틀 (32px) */}
+            <h3 class="mt-3 text-2xl font-bold tracking-tight text-content-primary sm:text-[32px] sm:leading-snug lg:text-[32px]">
+              {item.label}
+            </h3>
+
+            {/* 설명 본문 (20px) */}
+            <p class="mt-4 text-lg leading-relaxed text-content-secondary sm:text-[20px] sm:leading-relaxed">
+              {item.text}
+            </p>
+          </div>
+        </article>
+      );
+    })
+  }
+</div>
+
+<script>
+  // 인라인 스크립트는 순수 JS 로만 컴파일된다. 타입 표기를 넣으면 파스 에러로 통째로 죽는다.
+  // 카드가 화면에 들어온 순서대로 큐에 쌓아 한 장씩 재생한다.
+  const cards = Array.from(document.querySelectorAll('[data-converge-card]'));
+  const STEP_MS = 240;
+
+  const reveal = (card) => {
+    card.querySelectorAll('.converge').forEach((el) => el.classList.add('is-in'));
+  };
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (cards.length > 0 && !reduced && 'IntersectionObserver' in window) {
+    const queue = [];
+    let playing = false;
+
+    const play = () => {
+      const next = queue.shift();
+      if (!next) {
+        playing = false;
+        return;
+      }
+      playing = true;
+      reveal(next);
+      window.setTimeout(play, STEP_MS);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        queue.push(entry.target);
+        // 큐가 비어 있었다면 지연 없이 바로 시작한다. 카드 한 장만 들어올 때 헛도는 대기를 없애기 위함.
+        if (!playing) play();
+      });
+    }, { rootMargin: '0px 0px -20% 0px' });
+
+    cards.forEach((card) => observer.observe(card));
+  } else {
+    cards.forEach(reveal);
+  }
+</script>

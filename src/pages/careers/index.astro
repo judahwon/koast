@@ -1,37 +1,45 @@
 ---
+import { Image } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
-import Button from '@/components/common/Button.astro';
 import Card from '@/components/common/Card.astro';
+import Icon from '@/components/common/Icon.astro';
 import JobCard from '@/components/careers/JobCard.astro';
+import CandidateCards from '@/components/careers/CandidateCards.astro';
 import { getCollection } from 'astro:content';
-import { CAREERS_INTRO, IDEAL_CANDIDATE, WORK_CULTURE, BENEFITS, HIRING_PROCESS } from '@/data/careers';
+import { IDEAL_CANDIDATE, WORK_CULTURE, BENEFITS, HIRING_PROCESS } from '@/data/careers';
+import heroCareers from '@/assets/images/careers/hero-careers.png';
 
 const jobs = (await getCollection('jobs'))
   .filter((job) => job.data.isActive)
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+
+const iconTileClass = 'grid size-12 shrink-0 place-items-center rounded-xl bg-surface-primary text-content-brand';
 ---
 
 <PageLayout title="채용" description="한국해양기상기술과 함께할 인재를 찾습니다.">
   <!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
-  <section class="-mt-16 bg-surface-subtle">
-    <div class="page-container reveal pt-36 pb-20">
-      <SectionHeading
-        eyebrow="Careers"
-        title={CAREERS_INTRO.title}
-        subtitle={CAREERS_INTRO.description}
-      />
-      <div class="mt-10 flex justify-center">
-        <Button href="#positions" shape="pill" size="lg">
-          모집 중인 포지션 보기
-          <span aria-hidden="true">→</span>
-        </Button>
-      </div>
+  <section class="relative isolate -mt-16 overflow-hidden bg-surface-primary pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40">
+    <div class="page-container reveal">
+      <h1 class="text-3xl leading-snug font-bold tracking-tight text-content-primary sm:text-4xl lg:text-5xl lg:leading-tight">
+        해양·기상 데이터 기술의 미래를<br class="hidden sm:inline" /> 함께 만들 동료를 찾습니다.
+      </h1>
     </div>
+
+    <Image
+      src={heroCareers}
+      alt=""
+      widths={[768, 1280, 1920]}
+      sizes="100vw"
+      loading="eager"
+      aria-hidden="true"
+      class="pointer-events-none absolute inset-0 -z-10 size-full object-cover object-bottom select-none"
+    />
   </section>
 
-  <section class="bg-surface-primary">
-    <div class="page-container py-20">
+  {/* 카드가 좌우로 벌어지는 구간에서 문서에 가로 스크롤이 생기지 않도록 섹션에서 잘라 낸다. */}
+  <section class="overflow-x-clip bg-surface-primary">
+    <div class="page-container py-20 lg:py-28">
       <SectionHeading
         eyebrow="Who We Look For"
         title="이런 분과 함께하고 싶습니다"
@@ -39,14 +47,7 @@ const jobs = (await getCollection('jobs'))
         align="left"
         class="reveal"
       />
-      <div class="reveal mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {IDEAL_CANDIDATE.map((item, i) => (
-          <Card variant="filled" class="flex h-full flex-col gap-3">
-            <span class="text-sm font-bold text-content-brand">{String(i + 1).padStart(2, '0')}</span>
-            <p class="leading-relaxed font-medium text-content-primary">{item}</p>
-          </Card>
-        ))}
-      </div>
+      <CandidateCards items={IDEAL_CANDIDATE} />
     </div>
   </section>
 
@@ -90,23 +91,38 @@ const jobs = (await getCollection('jobs'))
       />
       <div class="reveal mt-12 grid gap-6 lg:grid-cols-2">
         <Card variant="filled" class="h-full">
-          <h3 class="text-xl font-bold text-content-primary">일하는 방식</h3>
-          <ul class="mt-5 space-y-3">
+          <div class="flex items-center gap-4">
+            <span class={iconTileClass}>
+              <Icon name="Workflow" class="size-6" />
+            </span>
+            <h3 class="text-xl font-bold text-content-primary">일하는 방식</h3>
+          </div>
+          <ul class="mt-6 space-y-3">
             {WORK_CULTURE.map((item) => (
               <li class="flex items-start gap-3">
-                <span aria-hidden="true" class="mt-2 size-1.5 shrink-0 rounded-full bg-surface-brand"></span>
-                <span class="leading-relaxed text-content-secondary">{item}</span>
+                <span class="grid size-8 shrink-0 place-items-center rounded-lg bg-surface-primary text-content-brand">
+                  <Icon name={item.icon} class="size-4" />
+                </span>
+                <span class="pt-1 leading-relaxed text-content-secondary">{item.text}</span>
               </li>
             ))}
           </ul>
         </Card>
         <Card variant="filled" class="h-full">
-          <h3 class="text-xl font-bold text-content-primary">복지·근무환경</h3>
-          <div class="mt-5 flex flex-wrap gap-2">
-            {BENEFITS.map((item) => (
-              <span class="rounded-full border border-line-info-subtle bg-surface-primary px-4 py-1.5 text-sm font-medium text-content-brand">{item}</span>
-            ))}
+          <div class="flex items-center gap-4">
+            <span class={iconTileClass}>
+              <Icon name="Heart" class="size-6" />
+            </span>
+            <h3 class="text-xl font-bold text-content-primary">복지·근무환경</h3>
           </div>
+          <ul class="mt-6 grid gap-3 sm:grid-cols-2">
+            {BENEFITS.map((item) => (
+              <li class="flex items-center gap-3 rounded-xl border border-line-info-subtle bg-surface-primary px-4 py-3">
+                <Icon name={item.icon} class="size-5 shrink-0 text-content-brand" />
+                <span class="text-sm font-medium text-content-primary">{item.label}</span>
+              </li>
+            ))}
+          </ul>
         </Card>
       </div>
     </div>
@@ -121,11 +137,21 @@ const jobs = (await getCollection('jobs'))
         class="reveal"
       />
       <div class="reveal mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {HIRING_PROCESS.map((item) => (
-          <div class="h-full rounded-2xl border border-line-secondary bg-surface-primary p-6">
-            <span class="text-2xl font-bold text-content-interactive-primary">{item.step}</span>
-            <h3 class="mt-3 text-lg font-bold text-content-primary">{item.title}</h3>
+        {HIRING_PROCESS.map((item, i) => (
+          <div class="relative h-full rounded-2xl border border-line-secondary bg-surface-primary p-6">
+            <div class="flex items-center justify-between gap-3">
+              <span class="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-card text-content-brand">
+                <Icon name={item.icon} class="size-6" />
+              </span>
+              <span class="text-2xl font-bold text-content-interactive-primary">{item.step}</span>
+            </div>
+            <h3 class="mt-5 text-lg font-bold text-content-primary">{item.title}</h3>
             <p class="mt-2 text-sm leading-relaxed text-content-secondary">{item.description}</p>
+            {i < HIRING_PROCESS.length - 1 && (
+              <span class="absolute top-12 -right-6 hidden w-6 place-items-center text-content-tertiary lg:grid" aria-hidden="true">
+                <Icon name="ChevronRight" class="size-4" />
+              </span>
+            )}
           </div>
         ))}
       </div>
