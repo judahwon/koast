@@ -9,6 +9,8 @@ export interface FloatingCardItem {
   baseYPercent: number; // % of viewport height base coordinate (-40 to 60)
   scrollSpeedMultiplier?: number; // Parallax speed multiplier
   isVideo?: boolean;
+  imageScale?: number;
+  imageClassName?: string;
 }
 
 interface Props {
@@ -398,7 +400,8 @@ export default function ScrollScaleStatement({
                       src={card.image}
                       alt={card.alt}
                       loading={'lazy'}
-                      className={'size-full object-cover select-none'}
+                      style={card.imageScale ? { transform: `scale(${ card.imageScale })` } : undefined}
+                      className={`size-full object-cover select-none ${ card.imageClassName ?? '' }`}
                     />
                   )}
                 </div>
@@ -438,7 +441,8 @@ export default function ScrollScaleStatement({
                       src={card.image}
                       alt={card.alt}
                       loading={'lazy'}
-                      className={'size-full object-cover select-none'}
+                      style={card.imageScale ? { transform: `scale(${ card.imageScale })` } : undefined}
+                      className={`size-full object-cover select-none ${ card.imageClassName ?? '' }`}
                     />
                   )}
                 </div>
