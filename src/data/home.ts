@@ -8,10 +8,10 @@ import partnerMof from '@/assets/images/home/partner-02-mof.png';
 import partnerAmo from '@/assets/images/home/partner-03-amo.png';
 import partnerNims from '@/assets/images/home/partner-04-nims.png';
 import partnerKcg from '@/assets/images/home/partner-05-kcg.png';
-import solutionBuoy from '@/assets/images/home/solution_buoy.jpg';
-import solutionHelicopter from '@/assets/images/home/solution_helicopter.jpg';
-import solutionIuu from '@/assets/images/home/solution_iuu.jpg';
-import solutionDigitalTwin from '@/assets/images/home/solution_digitaltwin.jpg';
+import solutionBuoy from '@/assets/images/home/solution_buoy.webp';
+import solutionHelicopter from '@/assets/images/home/solution_helicopter.webp';
+import solutionIuu from '@/assets/images/home/solution_iuu.webp';
+import solutionDigitalTwin from '@/assets/images/home/solution_digitaltwin.webp';
 
 export const HERO = {
   titleTop: '해양과 기상 데이터로',
