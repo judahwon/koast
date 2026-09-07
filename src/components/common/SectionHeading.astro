@@ -11,7 +11,7 @@ interface Props {
 const { eyebrow, title, subtitle, align = 'center', as = 'h2', class: className = '' } = Astro.props;
 const isCenter = align === 'center';
 const rootClass = isCenter ? 'text-center' : 'text-left';
-const subtitleClass = isCenter ? 'mx-auto max-w-3xl text-base text-content-secondary' : 'max-w-4xl text-base text-content-secondary';
+const subtitleClass = isCenter ? 'mx-auto max-w-3xl text-xl text-content-secondary' : 'max-w-4xl text-xl text-content-secondary';
 // 페이지 최상단 섹션은 as="h1" 을 줘야 문서에 h1 이 하나 생긴다.
 const Heading = as;
 ---
