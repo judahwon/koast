@@ -40,6 +40,7 @@ export interface BusinessArea {
   id: 'ai' | 'bigdata' | 'gis';
   label: string;
   title: string;
+  backTitle: string;
   description: string;
   illustration: ImageMetadata;
   href: string;
@@ -50,7 +51,8 @@ export const BUSINESS_AREAS: BusinessArea[] = [
     id: 'ai',
     label: '영상·예측 분석',
     title: 'AI',
-    description: '위성·레이더 영상 딥러닝 분석과 AI 기반 해양·기상 예측 모델링을 통해 고정밀 기상 분석을 제공합니다.',
+    backTitle: '실시간 이상 탐지 및 예측 모델링',
+    description: '위성·레이더·CCTV 영상을 딥러닝으로 정밀 분석하여 위험 기상 상황을 사전에 감지하고 신속한 대응을 지원합니다.',
     illustration: imageAi,
     href: '/services#modeling',
   },
@@ -58,7 +60,8 @@ export const BUSINESS_AREAS: BusinessArea[] = [
     id: 'bigdata',
     label: '대용량 관측',
     title: 'Big Data',
-    description: '등표, 부이, 연안 관측소 등에서 24시간 수집되는 실시간 데이터를 표준화하고 자동 품질관리를 수행합니다.',
+    backTitle: '24시간 무중단 데이터 품질관리',
+    description: '전국 관측망에서 수집되는 대용량 시계열 자료를 실시간으로 표준화하고 자동 품질관리(QC)를 수행합니다.',
     illustration: imageBigData,
     href: '/services#observation',
   },
@@ -66,7 +69,8 @@ export const BUSINESS_AREAS: BusinessArea[] = [
     id: 'gis',
     label: '3D 공간정보',
     title: 'GIS',
-    description: '3D 디지털트윈 및 공간정보 가시화 엔진으로 해양 예측 정보와 관측 데이터를 직관적으로 표출합니다.',
+    backTitle: '웹 기반 3D 디지털트윈 가시화',
+    description: '조석·조류·유류확산 등 복합 해양 수치 모델 결과를 3D 공간 위에 직관적으로 표출하여 입체 관제 환경을 제공합니다.',
     illustration: imageGis,
     href: '/services#visualization',
   },
