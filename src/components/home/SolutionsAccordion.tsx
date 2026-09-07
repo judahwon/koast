@@ -54,18 +54,12 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
                 alt={''}
                 aria-hidden={true}
                 className={`absolute inset-0 -z-10 size-full object-cover transition-transform duration-700 ease-in-out ${
-                  isActive ? 'scale-100' : 'scale-110 brightness-90 group-hover:scale-105'
+                  isActive ? 'scale-100' : 'scale-110 group-hover:scale-105'
                 }`}
               />
 
-              {/* Scrim / Gradient overlays */}
-              <div aria-hidden={true} className={'solution-scrim absolute inset-0 -z-10'} />
-              <div
-                aria-hidden={true}
-                className={`absolute inset-0 -z-10 bg-surface-inverse-bolder transition-opacity duration-700 ease-in-out ${
-                  isActive ? 'opacity-0' : 'opacity-40 group-hover:opacity-25'
-                }`}
-              />
+              {/* 50% 딤 오버레이 */}
+              <div aria-hidden={true} className={'pointer-events-none absolute inset-0 -z-10 bg-black/50'} />
 
               {/* Inactive Vertical Caption */}
               <div
@@ -86,13 +80,13 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
               {/* Active Panel Content */}
               <div
                 id={`solution-panel-${ solution.id }`}
-                className={`pointer-events-none absolute inset-y-0 left-0 flex w-full min-w-130 justify-between gap-10 p-12 transition-all duration-700 ease-in-out ${
+                className={`pointer-events-none absolute inset-y-0 left-0 flex w-full min-w-130 justify-between gap-10 p-12 drop-shadow-md transition-all duration-700 ease-in-out ${
                   isActive ? 'translate-x-0 opacity-100' : '-translate-x-4 opacity-0'
                 }`}
               >
                 <div className={'flex w-80 shrink-0 flex-col'}>
-                  <p className={'text-sm font-semibold tracking-wide text-content-on-inverse'}>{solution.code}</p>
-                  <h3 className={'mt-5 text-3xl leading-snug font-bold text-content-on-inverse'}>
+                  <p className={'text-sm font-semibold tracking-wide text-content-on-inverse drop-shadow-sm'}>{solution.code}</p>
+                  <h3 className={'mt-5 text-3xl leading-snug font-bold text-content-on-inverse drop-shadow-md'}>
                     {solution.title.map((line) => (
                       <span key={line} className={'block'}>{line}</span>
                     ))}
@@ -110,8 +104,8 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
                 <div className={'hidden w-100 shrink-0 flex-col justify-center xl:flex'}>
                   {solution.features.map((feature, index) => (
                     <div key={feature.title} className={index > 0 ? 'mt-7 border-t border-content-on-inverse/25 pt-7' : ''}>
-                      <h4 className={'text-base font-bold text-content-on-inverse'}>{feature.title}</h4>
-                      <p className={'mt-3 text-sm leading-relaxed text-content-on-inverse-secondary'}>{feature.description}</p>
+                      <h4 className={'text-base font-bold text-content-on-inverse drop-shadow-sm'}>{feature.title}</h4>
+                      <p className={'mt-3 text-sm leading-relaxed text-content-on-inverse-secondary drop-shadow-sm'}>{feature.description}</p>
                     </div>
                   ))}
                 </div>
@@ -129,11 +123,13 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
             className={'relative isolate overflow-hidden rounded-2xl'}
           >
             <img src={solution.photo.src} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
-            <div aria-hidden={true} className={'absolute inset-0 -z-10 bg-linear-to-b from-surface-inverse-bolder/70 to-surface-inverse-bolder/86'} />
 
-            <div className={'p-7 sm:p-9'}>
-              <p className={'text-xs font-semibold tracking-wide text-content-on-inverse'}>{solution.code}</p>
-              <h3 className={'mt-3 text-2xl leading-snug font-bold text-content-on-inverse'}>
+            {/* 50% 딤 오버레이 */}
+            <div aria-hidden={true} className={'pointer-events-none absolute inset-0 -z-10 bg-black/50'} />
+
+            <div className={'p-7 drop-shadow-md sm:p-9'}>
+              <p className={'text-xs font-semibold tracking-wide text-content-on-inverse drop-shadow-sm'}>{solution.code}</p>
+              <h3 className={'mt-3 text-2xl leading-snug font-bold text-content-on-inverse drop-shadow-md'}>
                 {solution.title.map((line) => (
                   <span key={line} className={'block'}>{line}</span>
                 ))}
@@ -141,8 +137,8 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
               <ul className={'mt-6 flex flex-col gap-5'}>
                 {solution.features.map((feature) => (
                   <li key={feature.title} className={'border-t border-content-on-inverse/25 pt-5'}>
-                    <p className={'text-sm font-bold text-content-on-inverse'}>{feature.title}</p>
-                    <p className={'mt-2 text-sm leading-relaxed text-content-on-inverse-secondary'}>{feature.description}</p>
+                    <p className={'text-sm font-bold text-content-on-inverse drop-shadow-sm'}>{feature.title}</p>
+                    <p className={'mt-2 text-sm leading-relaxed text-content-on-inverse-secondary drop-shadow-sm'}>{feature.description}</p>
                   </li>
                 ))}
               </ul>

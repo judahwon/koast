@@ -8,10 +8,10 @@ import partnerMof from '@/assets/images/home/partner-02-mof.png';
 import partnerAmo from '@/assets/images/home/partner-03-amo.png';
 import partnerNims from '@/assets/images/home/partner-04-nims.png';
 import partnerKcg from '@/assets/images/home/partner-05-kcg.png';
-import solutionBuoy from '@/assets/images/home/solution-buoy.jpg';
-import solutionControl from '@/assets/images/home/solution-control.jpg';
-import solutionVessel from '@/assets/images/home/solution-vessel.jpg';
-import solutionTidal from '@/assets/images/home/solution-tidal.jpg';
+import solutionBuoy from '@/assets/images/home/solution_buoy.jpg';
+import solutionHelicopter from '@/assets/images/home/solution_helicopter.jpg';
+import solutionIuu from '@/assets/images/home/solution_iuu.jpg';
+import solutionDigitalTwin from '@/assets/images/home/solution_digitaltwin.jpg';
 
 export const HERO = {
   titleTop: '해양과 기상 데이터로',
@@ -93,7 +93,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'LAMIS Project',
     shortName: 'LAMIS Project',
     title: ['연안방재 관측망', '실시간 관제 시스템'],
-    photo: solutionControl,
+    photo: solutionHelicopter,
     features: [
       {
         title: '24시간 무중단 관제',
@@ -115,7 +115,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'Digital Twin Project',
     shortName: 'Digital Twin Project',
     title: ['해양 예측자료', '3D 디지털트윈 가시화'],
-    photo: solutionTidal,
+    photo: solutionDigitalTwin,
     features: [
       {
         title: '자체 3D 가시화 엔진',
@@ -137,7 +137,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'IUU EM Project',
     shortName: 'IUU EM Project',
     title: ['불법 어업 방지', '모니터링 시스템'],
-    photo: solutionVessel,
+    photo: solutionIuu,
     features: [
       {
         title: '조업 영상 자동 분석',
