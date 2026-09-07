@@ -5,37 +5,62 @@ import { BUSINESS_AREAS } from '@/data/home';
 import { SITE } from '@/utils/constants';
 ---
 
-<section id="business" class="scroll-mt-16 bg-surface-primary pt-36 pb-32 lg:pt-44 lg:pb-36">
+<section id="business" class="scroll-mt-16 bg-surface-primary pt-44 pb-40 lg:pt-56 lg:pb-48">
   <div class="page-container">
     <SectionHeading
       align="left"
       eyebrow="Business Area"
-      title="클라우드와 AI 기반 기술 전문성을 바탕으로 다양한 솔루션을 제공합니다"
-      subtitle="(주)한국해양기상기술은 AI, 빅데이터, GIS 기술을 기반으로 국가 연구개발사업을 수행하며 공공 안전과 산업 혁신에 기여하고 있습니다."
+      title="클라우드와 AI GIS 기반 기술 전문성을 보유하고 있습니다"
       class="reveal"
     />
 
     <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-20 lg:grid-cols-3">
       {BUSINESS_AREAS.map((area, index) => (
-        <a
-          href={`${ SITE.base }${ area.href }`}
-          class="reveal group relative block h-[357px] overflow-hidden rounded-2xl border border-line-secondary bg-white px-8 pt-9 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-line-info hover:shadow-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring lg:px-10 lg:pt-10"
-        >
-          <p class="text-sm text-content-secondary">{area.label}</p>
-          <p class="mt-3 text-3xl font-bold text-content-primary">{area.title}</p>
-          <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-content-brand">
-            자세히 보기
-            <span aria-hidden="true" class="transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </span>
-          <div class={`floating-wrapper pointer-events-none absolute right-0 bottom-0 w-[59%] select-none floating-card-${ index + 1 }`}>
-            <Image
-              src={area.illustration}
-              alt=""
-              aria-hidden="true"
-              class="h-auto w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
-            />
+        <div class="reveal group/flipping-card h-[357px] w-full perspective-[1000px]">
+          <div class="relative size-full rounded-2xl border border-line-secondary bg-white shadow-xs transition-transform duration-700 transform-3d group-focus-within/flipping-card:transform-[rotateY(180deg)] group-hover/flipping-card:transform-[rotateY(180deg)]">
+            {/* Front Face */}
+            <div class="absolute inset-0 flex size-full transform-[rotateY(0deg)] flex-col justify-between overflow-hidden rounded-2xl bg-white px-8 pt-9 backface-hidden lg:px-10 lg:pt-10">
+              <div class="relative z-10">
+                <p class="text-sm text-content-secondary">{area.label}</p>
+                <p class="mt-3 text-3xl font-bold text-content-primary">{area.title}</p>
+              </div>
+
+              <div class={`floating-wrapper pointer-events-none absolute right-0 bottom-0 w-[59%] select-none floating-card-${ index + 1 }`}>
+                <Image
+                  src={area.illustration}
+                  alt=""
+                  aria-hidden="true"
+                  class="h-auto w-full object-contain transition-transform duration-500 ease-out group-hover/flipping-card:scale-105"
+                />
+              </div>
+            </div>
+
+            {/* Back Face */}
+            <div class="absolute inset-0 flex size-full transform-[rotateY(180deg)] flex-col justify-between rounded-2xl border border-line-info/40 bg-linear-to-br from-white via-surface-subtle to-surface-card p-8 shadow-lg backface-hidden lg:p-10">
+              <div>
+                <span class="inline-block rounded-full border border-line-secondary bg-white px-3 py-1 text-xs font-semibold text-content-brand shadow-xs">
+                  {area.label}
+                </span>
+                <h3 class="mt-4 text-2xl font-bold text-content-primary">
+                  {area.title}
+                </h3>
+                <p class="mt-3 text-[15px] leading-relaxed text-content-secondary">
+                  {area.description}
+                </p>
+              </div>
+
+              <div class="pt-4">
+                <a
+                  href={`${ SITE.base }${ area.href }`}
+                  class="inline-flex items-center gap-1.5 rounded-lg bg-content-primary px-4 py-2.5 text-sm font-medium text-white shadow-xs transition-colors hover:bg-content-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-line-focus-ring"
+                >
+                  자세히 보기
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
           </div>
-        </a>
+        </div>
       ))}
     </div>
   </div>
@@ -74,28 +99,26 @@ import { SITE } from '@/utils/constants';
     will-change: transform;
   }
 
-  .group:hover .floating-card-1,
-  .group:focus-visible .floating-card-1 {
+  .group\/flipping-card:hover .floating-card-1 {
     animation: floatMotion1 3s ease-in-out infinite;
   }
 
-  .group:hover .floating-card-2,
-  .group:focus-visible .floating-card-2 {
+  .group\/flipping-card:hover .floating-card-2 {
     animation: floatMotion2 3.2s ease-in-out infinite;
   }
 
-  .group:hover .floating-card-3,
-  .group:focus-visible .floating-card-3 {
+  .group\/flipping-card:hover .floating-card-3 {
     animation: floatMotion3 3.1s ease-in-out infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .group:hover .floating-card-1,
-    .group:hover .floating-card-2,
-    .group:hover .floating-card-3,
-    .group:focus-visible .floating-card-1,
-    .group:focus-visible .floating-card-2,
-    .group:focus-visible .floating-card-3 {
+    .group\/flipping-card .relative {
+      transition: none !important;
+      transform: none !important;
+    }
+    .group\/flipping-card:hover .floating-card-1,
+    .group\/flipping-card:hover .floating-card-2,
+    .group\/flipping-card:hover .floating-card-3 {
       animation: none !important;
     }
   }

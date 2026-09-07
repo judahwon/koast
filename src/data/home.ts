@@ -40,14 +40,36 @@ export interface BusinessArea {
   id: 'ai' | 'bigdata' | 'gis';
   label: string;
   title: string;
+  description: string;
   illustration: ImageMetadata;
   href: string;
 }
 
 export const BUSINESS_AREAS: BusinessArea[] = [
-  { id: 'ai', label: '영상·예측 분석', title: 'AI', illustration: imageAi, href: '/services#modeling' },
-  { id: 'bigdata', label: '대용량 관측', title: 'Big Data', illustration: imageBigData, href: '/services#observation' },
-  { id: 'gis', label: '3D 공간정보', title: 'GIS', illustration: imageGis, href: '/services#visualization' },
+  {
+    id: 'ai',
+    label: '영상·예측 분석',
+    title: 'AI',
+    description: '위성·레이더 영상 딥러닝 분석과 AI 기반 해양·기상 예측 모델링을 통해 고정밀 기상 분석을 제공합니다.',
+    illustration: imageAi,
+    href: '/services#modeling',
+  },
+  {
+    id: 'bigdata',
+    label: '대용량 관측',
+    title: 'Big Data',
+    description: '등표, 부이, 연안 관측소 등에서 24시간 수집되는 실시간 데이터를 표준화하고 자동 품질관리를 수행합니다.',
+    illustration: imageBigData,
+    href: '/services#observation',
+  },
+  {
+    id: 'gis',
+    label: '3D 공간정보',
+    title: 'GIS',
+    description: '3D 디지털트윈 및 공간정보 가시화 엔진으로 해양 예측 정보와 관측 데이터를 직관적으로 표출합니다.',
+    illustration: imageGis,
+    href: '/services#visualization',
+  },
 ];
 
 export interface SolutionFeature {
