@@ -7,9 +7,11 @@ import BusinessAreas from '@/components/home/BusinessAreas.astro';
 import Solutions from '@/components/home/Solutions.astro';
 import Stats from '@/components/home/Stats.astro';
 import CTASection from '@/components/home/CTASection.astro';
+import SectionNavigation from '@/components/home/SectionNavigation.tsx';
 ---
 
 <PageLayout>
+  <SectionNavigation client:load />
   <Hero />
   <Statement />
   <Partners />
