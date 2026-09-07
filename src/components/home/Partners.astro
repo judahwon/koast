@@ -12,9 +12,8 @@ const MARQUEE_SETS = [false, true];
   <div class="page-container">
     <SectionHeading
       align="left"
-      eyebrow="What We do"
-      title="해양·기상 분야에 특화된 기술 전문 기업, KOAST"
-      subtitle="한국해양기상기술은 해양·기상·항공 분야의 데이터 기반 시스템을 개발하며 다양한 국가 연구개발사업을 수행하고 있습니다."
+      eyebrow="Partners"
+      title="다양한 국가기관과 R&D 사업을 수행하고 있습니다"
       class="reveal"
     />
   </div>
@@ -25,7 +24,7 @@ const MARQUEE_SETS = [false, true];
         <div class="flex shrink-0 gap-6 pr-6" aria-hidden={isClone ? 'true' : undefined}>
           {PARTNERS.map((partner) => (
             <div class="flex h-44 w-96 shrink-0 items-center justify-center rounded-2xl border border-white bg-surface-primary p-6">
-              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-24 w-auto max-w-[85%] object-contain" />
+              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-19 w-auto max-w-[68%] object-contain" />
             </div>
           ))}
         </div>
