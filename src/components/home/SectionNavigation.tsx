@@ -7,84 +7,99 @@ interface SectionItem {
 }
 
 const SECTIONS: SectionItem[] = [
-  { id: 'partners', index: '1', label: 'What We Do' },
-  { id: 'business', index: '2', label: 'Business Area' },
-  { id: 'solutions', index: '3', label: 'Solutions' },
-  { id: 'research', index: '4', label: 'Tech & Research' },
+  { id: 'business', index: '1', label: 'Business Area' },
+  { id: 'solutions', index: '2', label: 'Solutions' },
+  { id: 'research', index: '3', label: 'Tech & Research' },
+  { id: 'partners', index: '4', label: 'Partners' },
   { id: 'contact', index: '5', label: 'Contact Us' },
 ];
 
 export default function SectionNavigation() {
-  const [activeId, setActiveId] = useState<string>('partners');
+  const [activeId, setActiveId] = useState<string>('business');
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isDarkBackground, setIsDarkBackground] = useState<boolean>(false);
 
   useEffect(() => {
     let ticking = false;
+    let prevVisible = false;
+    let prevActiveId = 'business';
+    let prevDark = false;
+
+    // DOM 요소 캐싱
+    const businessEl = document.getElementById('business');
+    const footerEl = document.querySelector('footer');
+    const researchEl = document.getElementById('research');
+    const sectionElements = SECTIONS.map((s) => ({ id: s.id, el: document.getElementById(s.id) }));
 
     const handleScroll = () => {
       if (ticking) return;
       ticking = true;
 
       window.requestAnimationFrame(() => {
-        const partnersEl = document.getElementById('partners');
-        const footerEl = document.querySelector('footer');
         const viewportHeight = window.innerHeight;
         const headerOffset = 80;
 
-        // 1번 What We Do(#partners) 섹션에 도달하기 전(히어로 및 Statement 영역)에서는 숨김
-        if (partnersEl) {
-          const partnersRect = partnersEl.getBoundingClientRect();
-          if (partnersRect.top > headerOffset + 160) {
-            setIsVisible(false);
-            ticking = false;
-            return;
+        let newVisible = true;
+
+        // 1번 Business Area(#business) 섹션에 도달하기 전(히어로 및 Statement 영역)에서는 숨김
+        if (businessEl) {
+          const businessRect = businessEl.getBoundingClientRect();
+          if (businessRect.top > headerOffset + 160) {
+            newVisible = false;
           }
         }
 
         // 푸터 영역에 진입하면 콘텐츠 겹침 방지를 위해 숨김
-        if (footerEl) {
+        if (newVisible && footerEl) {
           const footerRect = footerEl.getBoundingClientRect();
           if (footerRect.top < viewportHeight - 60) {
-            setIsVisible(false);
-            ticking = false;
-            return;
+            newVisible = false;
           }
         }
 
-        // 1~5번 섹션 영역에서는 표시
-        setIsVisible(true);
+        if (prevVisible !== newVisible) {
+          prevVisible = newVisible;
+          setIsVisible(newVisible);
+        }
 
-        // 현재 뷰포트 기준 활성 섹션 계산
-        const checkY = headerOffset + 150;
-        let currentSectionId = SECTIONS[0].id;
+        if (newVisible) {
+          // 현재 뷰포트 기준 활성 섹션 계산
+          const checkY = headerOffset + 150;
+          let currentSectionId = SECTIONS[0].id;
 
-        for (let i = 0; i < SECTIONS.length; i++) {
-          const el = document.getElementById(SECTIONS[i].id);
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            if (rect.top <= checkY) {
-              currentSectionId = SECTIONS[i].id;
+          for (let i = 0; i < sectionElements.length; i++) {
+            const item = sectionElements[i];
+            if (item.el) {
+              const rect = item.el.getBoundingClientRect();
+              if (rect.top <= checkY) {
+                currentSectionId = item.id;
+              }
             }
           }
-        }
 
-        setActiveId(currentSectionId);
+          if (prevActiveId !== currentSectionId) {
+            prevActiveId = currentSectionId;
+            setActiveId(currentSectionId);
+          }
 
-        // 내비게이션 중심(50vh)이 어두운 배경 섹션(#research) 위에 위치하는지 감지
-        const navCenterY = viewportHeight / 2;
-        const researchEl = document.getElementById('research');
-        let isDark = false;
+          // 내비게이션 중심(50vh)이 어두운 배경 섹션(#research) 위에 위치하는지 감지
+          const navCenterY = viewportHeight / 2;
+          let isDark = false;
 
-        if (researchEl) {
-          const researchRect = researchEl.getBoundingClientRect();
-          if (researchRect.top <= navCenterY + 40 && researchRect.bottom >= navCenterY - 40) {
-            isDark = true;
+          if (researchEl) {
+            const researchRect = researchEl.getBoundingClientRect();
+            if (researchRect.top <= navCenterY + 40 && researchRect.bottom >= navCenterY - 40) {
+              isDark = true;
+            }
+          }
+
+          if (prevDark !== isDark) {
+            prevDark = isDark;
+            setIsDarkBackground(isDark);
           }
         }
 
-        setIsDarkBackground(isDark);
         ticking = false;
       });
     };
