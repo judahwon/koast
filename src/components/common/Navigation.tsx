@@ -10,10 +10,11 @@ interface Props {
   links: NavLink[];
   cta: NavLink;
   base: string;
+  currentPath: string;
   darkTop?: boolean;
 }
 
-export default function Navigation({ links, cta, base, darkTop = true }: Props) {
+export default function Navigation({ links, cta, base, currentPath, darkTop = true }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   function resolveHref(href: string) {
@@ -21,9 +22,15 @@ export default function Navigation({ links, cta, base, darkTop = true }: Props) 
     return `${ base }${ href }`;
   }
 
+  const isActive = (href: string) => currentPath === href || currentPath.startsWith(`${ href }/`);
+
   const linkClass = darkTop
     ? 'text-sm font-medium text-white/90 transition-colors duration-300 hover:text-white group-[.is-scrolled]:text-content-secondary group-[.is-scrolled]:hover:text-content-brand'
     : 'text-sm font-medium text-content-secondary transition-colors duration-300 hover:text-content-brand';
+
+  const activeLinkClass = darkTop
+    ? 'text-sm font-bold text-white transition-colors duration-300 group-[.is-scrolled]:text-content-brand'
+    : 'text-sm font-bold text-content-brand transition-colors duration-300';
 
   const ctaClass = darkTop
     ? 'hidden rounded-lg border border-white/40 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 group-[.is-scrolled]:border-line-info group-[.is-scrolled]:text-content-brand group-[.is-scrolled]:hover:bg-interactive-selected md:inline-flex'
@@ -40,7 +47,8 @@ export default function Navigation({ links, cta, base, darkTop = true }: Props) 
           <a
             key={link.href}
             href={resolveHref(link.href)}
-            className={linkClass}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+            className={isActive(link.href) ? activeLinkClass : linkClass}
           >
             {link.label}
           </a>
@@ -70,7 +78,8 @@ export default function Navigation({ links, cta, base, darkTop = true }: Props) 
               <a
                 key={link.href}
                 href={resolveHref(link.href)}
-                className={'py-2.5 text-sm font-medium text-content-secondary transition-colors hover:text-content-brand'}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                className={isActive(link.href) ? 'py-2.5 text-sm font-bold text-content-brand' : 'py-2.5 text-sm font-medium text-content-secondary transition-colors hover:text-content-brand'}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
