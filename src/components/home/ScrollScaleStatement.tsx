@@ -362,7 +362,7 @@ export default function ScrollScaleStatement({
               style={{
                 clipPath: 'inset(0% 0% 0% 0% round 24px)',
               }}
-              className={'relative aspect-video w-full overflow-hidden rounded-3xl bg-surface-subtle'}
+              className={'relative -top-20 aspect-video w-full overflow-hidden rounded-3xl bg-surface-subtle'}
             >
               <img
                 src={mainImageSrc}

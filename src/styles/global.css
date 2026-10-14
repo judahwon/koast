@@ -434,3 +434,11 @@ body {
     color-mix(in srgb, var(--bg-inverse-bolder) 90%, transparent) 100%
   );
 }
+
+/* 배경 블러 없이 사진·카드 위에서도 TOC 글자가 읽히도록 글자 둘레에만 흰 테두리를 두른다. */
+@utility text-halo {
+  text-shadow:
+    0 0 1px var(--bg-primary),
+    0 0 2px var(--bg-primary),
+    0 0 3px var(--bg-primary);
+}

@@ -11,7 +11,6 @@ const SECTIONS: SectionItem[] = [
   { id: 'solutions', index: '2', label: 'Solutions' },
   { id: 'research', index: '3', label: 'Tech & Research' },
   { id: 'partners', index: '4', label: 'Partners' },
-  { id: 'contact', index: '5', label: 'Contact Us' },
 ];
 
 export default function SectionNavigation() {
@@ -126,7 +125,7 @@ export default function SectionNavigation() {
 
   const activeIndex = SECTIONS.findIndex((s) => s.id === activeId);
   const safeActiveIndex = activeIndex >= 0 ? activeIndex : 0;
-  // 5개 섹션 축(0% ~ 100%) 기준 활성 진행 비율
+  // 섹션 축(0% ~ 100%) 기준 활성 진행 비율
   const progressPercent = (safeActiveIndex / (SECTIONS.length - 1)) * 100;
 
   return (
@@ -139,7 +138,7 @@ export default function SectionNavigation() {
         aria-label={'페이지 섹션 내비게이션'}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={'group relative flex flex-col items-start rounded-2xl py-14 pr-5 pl-1 font-sans backdrop-blur-[2px] transition-all duration-300'}
+        className={'group relative flex flex-col items-start rounded-2xl py-14 pr-5 pl-1 font-sans transition-all duration-300'}
       >
         {/* 세로 관측 축 기준선 & 진행선 */}
         <div
@@ -161,7 +160,7 @@ export default function SectionNavigation() {
           />
         </div>
 
-        {/* 섹션 항목 목록 (1~5번 5개 항목, 세로 높이 추가 확장 gap-[135px]) */}
+        {/* 섹션 항목 목록 (세로 높이 추가 확장 gap-[135px]) */}
         <ul className={'relative flex flex-col gap-[135px]'} role={'list'}>
           {SECTIONS.map((section, index) => {
             const isActive = section.id === activeId;
@@ -175,10 +174,10 @@ export default function SectionNavigation() {
                   onClick={(e) => handleClick(e, section.id)}
                   aria-current={isActive ? 'location' : undefined}
                   className={`group/item flex items-center justify-start gap-3 rounded-md py-1.5 pr-3 pl-4 transition-colors focus-visible:ring-2 focus-visible:outline-none ${
-                    isDarkBackground ? 'focus-visible:ring-white' : 'focus-visible:ring-line-primary'
+                    isDarkBackground ? 'focus-visible:ring-white' : 'text-halo focus-visible:ring-line-primary'
                   }`}
                 >
-                  {/* 단일 자릿수 인덱스 번호 (1~5, Pretendard 13pt) */}
+                  {/* 단일 자릿수 인덱스 번호 (Pretendard 13pt) */}
                   <span
                     className={`text-[13pt] leading-none tracking-tight tabular-nums transition-colors duration-250 ${
                       isActive

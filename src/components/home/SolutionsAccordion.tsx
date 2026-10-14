@@ -30,7 +30,7 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
   const [activeId, setActiveId] = useState(solutions.at(-1)?.id ?? '');
 
   return (
-    <div className={'mx-auto w-full max-w-415'}>
+    <div className={'w-full'}>
       {/* Desktop Layout with Interactive Image Accordion Animation */}
       <div className={'hidden h-130 gap-4 lg:flex'}>
         {solutions.map((solution) => {

@@ -20,11 +20,12 @@ const MARQUEE_SETS = [false, true];
 
   <div class="reveal mt-12 overflow-hidden lg:mt-14">
     <div class="marquee-track flex w-max">
+      {/* pr 이 gap 과 같아야 두 벌이 이어지는 지점의 간격이 어긋나지 않는다. */}
       {MARQUEE_SETS.map((isClone) => (
-        <div class="flex shrink-0 gap-6 pr-6" aria-hidden={isClone ? 'true' : undefined}>
+        <div class="flex shrink-0 gap-3 pr-3 sm:gap-4 sm:pr-4 lg:gap-6 lg:pr-6" aria-hidden={isClone ? 'true' : undefined}>
           {PARTNERS.map((partner) => (
-            <div class="flex h-44 w-96 shrink-0 items-center justify-center rounded-2xl border border-white bg-surface-primary p-6">
-              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-19 w-auto max-w-[68%] object-contain" />
+            <div class="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-white bg-surface-primary p-4 sm:h-32 sm:w-72 lg:h-44 lg:w-96 lg:p-6">
+              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-10 w-auto max-w-[68%] object-contain sm:h-14 lg:h-19" />
             </div>
           ))}
         </div>
