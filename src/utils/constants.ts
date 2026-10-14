@@ -24,10 +24,10 @@ export const COMPANY = {
   legalName: '한국해양기상기술(주)',
   wordmark: 'KOAST',
   fullNameEn: 'Korea Oceanic & Atmospheric System Technology',
-  email: 'info@koast.co.kr',
+  email: 'info@koast.net',
   phone: '(+82) 070 8259 3255',
   fax: '(+82) 02 6008 3334',
-  address: '서울특별시 구로구 경인로53길 90',
+  address: '서울특별시 구로구 경인로53길 90, 1504호',
   addressDetail: '(구로동) STX W-타워',
   social: {
     github: 'https://github.com/hwonda',
