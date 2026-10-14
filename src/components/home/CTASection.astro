@@ -1,5 +1,6 @@
 ---
 import Button from '@/components/common/Button.astro';
+import Icon from '@/components/common/Icon.astro';
 import { SITE } from '@/utils/constants';
 ---
 
@@ -47,9 +48,7 @@ import { SITE } from '@/utils/constants';
     </div>
     <Button href={`${ SITE.base }/contact`} variant="primary" shape="pill" size="xl" class="shrink-0">
       전문가에게 문의하기
-      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="m9 6 6 6-6 6" />
-      </svg>
+      <Icon name="ChevronRight" class="size-4" strokeWidth={2.5} />
     </Button>
   </div>
 </section>

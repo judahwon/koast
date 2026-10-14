@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 export interface FloatingCardItem {
   id: string;
@@ -30,6 +30,46 @@ const STATEMENT_LINES = [
 
 const STATEMENT_WORDS_FLAT = STATEMENT_LINES.flat();
 
+interface FloatingCardProps {
+  card: FloatingCardItem;
+  cardRef: (el: HTMLDivElement | null) => void;
+}
+
+function FloatingCard({ card, cardRef }: FloatingCardProps) {
+  const isVideo = card.isVideo || card.image.includes('.webm');
+
+  return (
+    <div
+      ref={cardRef}
+      style={{
+        opacity: 0,
+        transform: 'translate3d(0, 0, 0)',
+        willChange: 'opacity, transform',
+      }}
+      className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-line-secondary bg-white shadow-xs'}
+    >
+      {isVideo ? (
+        <video
+          src={card.image}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className={'pointer-events-none size-full object-cover select-none'}
+        />
+      ) : (
+        <img
+          src={card.image}
+          alt={card.alt}
+          loading={'lazy'}
+          style={card.imageScale ? { transform: `scale(${ card.imageScale })` } : undefined}
+          className={`size-full object-cover select-none ${ card.imageClassName ?? '' }`}
+        />
+      )}
+    </div>
+  );
+}
+
 export default function ScrollScaleStatement({
   mainImageSrc,
   mainImageSrcSet,
@@ -48,8 +88,8 @@ export default function ScrollScaleStatement({
   const text1Line2Ref = useRef<HTMLSpanElement>(null);
   const text2Ref = useRef<HTMLDivElement>(null);
   const wordElementsRef = useRef<(HTMLSpanElement | null)[]>([]);
-  const leftCardElementsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const rightCardElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const cardElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const cards = useMemo(() => [...leftCards, ...rightCards], [leftCards, rightCards]);
 
   useEffect(() => {
     let animationFrameId = 0;
@@ -225,28 +265,15 @@ export default function ScrollScaleStatement({
         currentScrollOffsetY = -p3 * 75;
       }
 
-      leftCards.forEach((card, index) => {
-        const el = leftCardElementsRef.current[index];
+      cards.forEach((card, index) => {
+        const el = cardElementsRef.current[index];
         if (!el) return;
 
-        const currentX = card.xPercent;
         const currentY = card.baseYPercent + currentScrollOffsetY;
         const edgeFade = Math.min(Math.max(1 - ((Math.abs(currentY) - 38) / 14), 0), 1);
 
         el.style.opacity = edgeFade.toFixed(4);
-        el.style.transform = `translate3d(${ currentX.toFixed(2) }vw, ${ currentY.toFixed(2) }vh, 0)`;
-      });
-
-      rightCards.forEach((card, index) => {
-        const el = rightCardElementsRef.current[index];
-        if (!el) return;
-
-        const currentX = card.xPercent;
-        const currentY = card.baseYPercent + currentScrollOffsetY;
-        const edgeFade = Math.min(Math.max(1 - ((Math.abs(currentY) - 38) / 14), 0), 1);
-
-        el.style.opacity = edgeFade.toFixed(4);
-        el.style.transform = `translate3d(${ currentX.toFixed(2) }vw, ${ currentY.toFixed(2) }vh, 0)`;
+        el.style.transform = `translate3d(${ card.xPercent.toFixed(2) }vw, ${ currentY.toFixed(2) }vh, 0)`;
       });
     };
 
@@ -313,7 +340,7 @@ export default function ScrollScaleStatement({
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
     };
-  }, [leftCards, rightCards]);
+  }, [cards]);
 
   return (
     <div ref={containerRef} className={'relative h-[580vh] w-full bg-surface-primary'}>
@@ -401,86 +428,16 @@ export default function ScrollScaleStatement({
             </h2>
           </div>
 
-          {/* Left Column Floating Cards (5 items) */}
           <div className={'pointer-events-none absolute inset-0 z-10 hidden items-center justify-center lg:flex'}>
-            {leftCards.map((card, index) => {
-              const isVideo = card.isVideo || (typeof card.image === 'string' && card.image.includes('.webm'));
-
-              return (
-                <div
-                  key={card.id}
-                  ref={(el) => {
-                    leftCardElementsRef.current[index] = el;
-                  }}
-                  style={{
-                    opacity: 0,
-                    transform: 'translate3d(0, 0, 0)',
-                    willChange: 'opacity, transform',
-                  }}
-                  className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-line-secondary bg-white shadow-xs'}
-                >
-                  {isVideo ? (
-                    <video
-                      src={card.image}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className={'pointer-events-none size-full object-cover select-none'}
-                    />
-                  ) : (
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      loading={'lazy'}
-                      style={card.imageScale ? { transform: `scale(${ card.imageScale })` } : undefined}
-                      className={`size-full object-cover select-none ${ card.imageClassName ?? '' }`}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Right Column Floating Cards (5 items) */}
-          <div className={'pointer-events-none absolute inset-0 z-10 hidden items-center justify-center lg:flex'}>
-            {rightCards.map((card, index) => {
-              const isVideo = card.isVideo || (typeof card.image === 'string' && card.image.includes('.webm'));
-
-              return (
-                <div
-                  key={card.id}
-                  ref={(el) => {
-                    rightCardElementsRef.current[index] = el;
-                  }}
-                  style={{
-                    opacity: 0,
-                    transform: 'translate3d(0, 0, 0)',
-                    willChange: 'opacity, transform',
-                  }}
-                  className={'absolute flex size-[220px] shrink-0 items-center justify-center overflow-hidden rounded-3xl border border-line-secondary bg-white shadow-xs'}
-                >
-                  {isVideo ? (
-                    <video
-                      src={card.image}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className={'pointer-events-none size-full object-cover select-none'}
-                    />
-                  ) : (
-                    <img
-                      src={card.image}
-                      alt={card.alt}
-                      loading={'lazy'}
-                      style={card.imageScale ? { transform: `scale(${ card.imageScale })` } : undefined}
-                      className={`size-full object-cover select-none ${ card.imageClassName ?? '' }`}
-                    />
-                  )}
-                </div>
-              );
-            })}
+            {cards.map((card, index) => (
+              <FloatingCard
+                key={card.id}
+                card={card}
+                cardRef={(el) => {
+                  cardElementsRef.current[index] = el;
+                }}
+              />
+            ))}
           </div>
 
           {/* Text 2: Second Narrative Manifesto Statement strictly locked in the CENTER (Word Highlight Animation) */}

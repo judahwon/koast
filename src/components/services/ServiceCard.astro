@@ -1,5 +1,6 @@
 ---
 import Card from '@/components/common/Card.astro';
+import Icon from '@/components/common/Icon.astro';
 import type { Service } from '@/data/services';
 
 interface Props {
@@ -9,17 +10,6 @@ interface Props {
 
 const { service, index = 1 } = Astro.props;
 
-// lucide 아이콘을 React 아일랜드 없이 쓰기 위해 path 만 인라인으로 둔다.
-const iconMap: Record<string, string> = {
-  Radar: '<circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="3.5" /><path d="M12 12 18.4 5.6" />',
-  Cpu: '<rect x="6" y="6" width="12" height="12" rx="2" /><rect x="9.5" y="9.5" width="5" height="5" rx="1" /><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" />',
-  LineChart: '<path d="M3 3v18h18" /><path d="m7 14 4-4 3 3 5-6" />',
-  Globe: '<circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18" />',
-  Monitor: '<rect x="2" y="4" width="20" height="13" rx="2" /><path d="M8 21h8M12 17v4" />',
-  Building: '<rect x="4" y="3" width="16" height="18" rx="1.5" /><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2" />',
-};
-
-const icon = iconMap[service.icon] ?? iconMap.Monitor;
 const eyebrow = `SERVICE ${ String(index).padStart(2, '0') }`;
 const chipClass = 'rounded-full bg-surface-primary px-3 py-1.5 text-xs font-medium text-content-secondary';
 const blockClass = 'mt-6 border-t border-line-secondary pt-6';
@@ -30,7 +20,7 @@ const labelClass = 'text-xs font-bold tracking-wide text-content-brand';
   <Card variant="filled" class="h-full hover:shadow-md">
     <div class="flex items-start gap-4">
       <span class="grid size-12 shrink-0 place-items-center rounded-xl bg-surface-primary text-content-brand">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="size-6" aria-hidden="true" set:html={icon} />
+        <Icon name={service.icon} class="size-6" />
       </span>
       <div>
         <p class={labelClass}>{eyebrow}</p>
