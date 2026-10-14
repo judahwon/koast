@@ -51,7 +51,7 @@ const { darkTop = isDarkHeroPage } = Astro.props;
         />
       </div>
     </a>
-    <Navigation links={NAV_LINKS} cta={NAV_CTA} base={SITE.base} darkTop={darkTop} client:load />
+    <Navigation links={NAV_LINKS} cta={NAV_CTA} base={SITE.base} currentPath={currentPath} darkTop={darkTop} client:load />
   </div>
 </header>
 
