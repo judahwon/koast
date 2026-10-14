@@ -96,7 +96,7 @@ const tsRules = /** @type {import('eslint').Linter.RulesRecord} */ ({
 });
 
 export default defineConfig([
-  globalIgnores(['dist/', '.astro/', 'node_modules/', 'public/', '*.d.ts']),
+  globalIgnores(['dist/', '.astro/', 'node_modules/', 'public/', '*.d.ts', '.ai-workflow/', '.agents/', '.codex/']),
 
   {
     name: 'koast/js-ts',
