@@ -15,6 +15,7 @@ export interface FloatingCardItem {
 
 interface Props {
   mainImageSrc: string;
+  mainImageSrcSet?: string;
   mainImageWidth?: number;
   mainImageHeight?: number;
   leftCards?: FloatingCardItem[];
@@ -31,6 +32,7 @@ const STATEMENT_WORDS_FLAT = STATEMENT_LINES.flat();
 
 export default function ScrollScaleStatement({
   mainImageSrc,
+  mainImageSrcSet,
   mainImageWidth,
   mainImageHeight,
   leftCards = [],
@@ -337,6 +339,8 @@ export default function ScrollScaleStatement({
             >
               <img
                 src={mainImageSrc}
+                srcSet={mainImageSrcSet}
+                sizes={'(min-width: 640px) 1024px, 100vw'}
                 width={mainImageWidth}
                 height={mainImageHeight}
                 alt={'KOAST 해양·기상 기술'}

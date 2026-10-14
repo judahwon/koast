@@ -2,10 +2,21 @@ import { useState } from 'react';
 
 import type { Solution } from '@/data/home';
 
+export interface ResponsivePhoto {
+  src: string;
+  srcSet: string;
+  width: number;
+  height: number;
+}
+
+export type AccordionSolution = Omit<Solution, 'photo'> & { photo: ResponsivePhoto };
+
 interface Props {
-  solutions: Solution[];
+  solutions: AccordionSolution[];
   base: string;
 }
+
+const PHOTO_SIZES = '(min-width: 1024px) min(85vw, 1200px), 100vw';
 
 function ArrowIcon() {
   return (
@@ -49,6 +60,9 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
               {/* Background Photo with smooth scale transition */}
               <img
                 src={solution.photo.src}
+                srcSet={solution.photo.srcSet}
+                sizes={PHOTO_SIZES}
+                loading={'lazy'}
                 width={solution.photo.width}
                 height={solution.photo.height}
                 alt={''}
@@ -122,7 +136,7 @@ export default function SolutionsAccordion({ solutions, base }: Props) {
             key={solution.id}
             className={'relative isolate overflow-hidden rounded-2xl'}
           >
-            <img src={solution.photo.src} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
+            <img src={solution.photo.src} srcSet={solution.photo.srcSet} sizes={PHOTO_SIZES} loading={'lazy'} width={solution.photo.width} height={solution.photo.height} alt={''} aria-hidden={true} className={'absolute inset-0 -z-10 size-full object-cover'} />
 
             {/* 50% 딤 오버레이 */}
             <div aria-hidden={true} className={'pointer-events-none absolute inset-0 -z-10 bg-black/50'} />
