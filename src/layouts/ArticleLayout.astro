@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '@/components/common/Header.astro';
+import Footer from '@/components/common/Footer.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  description: string;
+}
+
+const { eyebrow, title, description } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <Header />
+  <main class="min-h-screen">
+    <article>
+      <section class="bg-surface-subtle">
+        <div class="page-container pt-36 pb-16">
+          <header class="reveal mx-auto max-w-3xl">
+            <p class="text-sm font-bold tracking-wide text-content-brand">{eyebrow}</p>
+            <h1 class="mt-3 text-3xl leading-snug font-bold tracking-tight text-content-primary md:text-[2.5rem]">
+              {title}
+            </h1>
+            <slot name="header" />
+          </header>
+        </div>
+      </section>
+
+      <section class="bg-surface-primary">
+        <div class="page-container py-16">
+          <div class="mx-auto max-w-3xl">
+            <div class="post-body">
+              <slot />
+            </div>
+            <slot name="body-end" />
+          </div>
+        </div>
+      </section>
+
+      <slot name="after" />
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
