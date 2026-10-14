@@ -8,24 +8,24 @@ import { PARTNERS } from '@/data/home';
 const MARQUEE_SETS = [false, true];
 ---
 
-<section id="partners" class="bg-surface-subtle pt-16 pb-20 lg:pt-20 lg:pb-28">
+<section id="partners" class="scroll-mt-16 bg-surface-primary pt-40 pb-44 lg:pt-52 lg:pb-56">
   <div class="page-container">
     <SectionHeading
       align="left"
-      eyebrow="What We do"
-      title="해양·기상 분야에 특화된 기술 전문 기업, KOAST"
-      subtitle="한국해양기상기술은 해양·기상·항공 분야의 데이터 기반 시스템을 개발하며 다양한 국가 연구개발사업을 수행하고 있습니다."
+      eyebrow="Partners"
+      title="다양한 국가기관과 R&D 사업을 수행하고 있습니다"
       class="reveal"
     />
   </div>
 
   <div class="reveal mt-12 overflow-hidden lg:mt-14">
     <div class="marquee-track flex w-max">
+      {/* pr 이 gap 과 같아야 두 벌이 이어지는 지점의 간격이 어긋나지 않는다. */}
       {MARQUEE_SETS.map((isClone) => (
-        <div class="flex shrink-0 gap-6 pr-6" aria-hidden={isClone ? 'true' : undefined}>
+        <div class="flex shrink-0 gap-3 pr-3 sm:gap-4 sm:pr-4 lg:gap-6 lg:pr-6" aria-hidden={isClone ? 'true' : undefined}>
           {PARTNERS.map((partner) => (
-            <div class="flex h-[135px] w-[282px] shrink-0 items-center justify-center rounded-xl bg-surface-primary px-8 py-6">
-              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="size-auto max-h-16 max-w-full object-contain" />
+            <div class="flex h-24 w-48 shrink-0 items-center justify-center rounded-2xl border border-white bg-surface-primary p-4 sm:h-32 sm:w-72 lg:h-44 lg:w-96 lg:p-6">
+              <Image src={partner.logo} alt={partner.name} densities={[1, 2]} loading="lazy" class="h-10 w-auto max-w-[68%] object-contain sm:h-14 lg:h-19" />
             </div>
           ))}
         </div>

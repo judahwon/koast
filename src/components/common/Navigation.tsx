@@ -10,15 +10,28 @@ interface Props {
   links: NavLink[];
   cta: NavLink;
   base: string;
+  darkTop?: boolean;
 }
 
-export default function Navigation({ links, cta, base }: Props) {
+export default function Navigation({ links, cta, base, darkTop = true }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   function resolveHref(href: string) {
     if (href === '/') return base || '/';
     return `${ base }${ href }`;
   }
+
+  const linkClass = darkTop
+    ? 'text-sm font-medium text-white/90 transition-colors duration-300 hover:text-white group-[.is-scrolled]:text-content-secondary group-[.is-scrolled]:hover:text-content-brand'
+    : 'text-sm font-medium text-content-secondary transition-colors duration-300 hover:text-content-brand';
+
+  const ctaClass = darkTop
+    ? 'hidden rounded-lg border border-white/40 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 hover:bg-white/10 group-[.is-scrolled]:border-line-info group-[.is-scrolled]:text-content-brand group-[.is-scrolled]:hover:bg-interactive-selected md:inline-flex'
+    : 'hidden rounded-lg border border-line-info px-4 py-2 text-sm font-semibold text-content-brand transition-colors duration-300 hover:bg-interactive-selected md:inline-flex';
+
+  const menuButtonClass = darkTop
+    ? '-mr-2 rounded-lg p-2 text-white transition-colors duration-300 hover:bg-white/10 group-[.is-scrolled]:text-content-primary group-[.is-scrolled]:hover:bg-interactive-secondary-hovered md:hidden'
+    : '-mr-2 rounded-lg p-2 text-content-primary transition-colors duration-300 hover:bg-interactive-secondary-hovered md:hidden';
 
   return (
     <div className={'flex items-center gap-8'}>
@@ -27,7 +40,7 @@ export default function Navigation({ links, cta, base }: Props) {
           <a
             key={link.href}
             href={resolveHref(link.href)}
-            className={'text-sm font-medium text-content-secondary transition-colors hover:text-content-brand'}
+            className={linkClass}
           >
             {link.label}
           </a>
@@ -36,14 +49,14 @@ export default function Navigation({ links, cta, base }: Props) {
 
       <a
         href={resolveHref(cta.href)}
-        className={'hidden rounded-lg border border-line-info px-4 py-2 text-sm font-semibold text-content-brand transition-colors hover:bg-interactive-selected md:inline-flex'}
+        className={ctaClass}
       >
         {cta.label}
       </a>
 
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={'-mr-2 rounded-lg p-2 text-content-primary transition-colors hover:bg-interactive-secondary-hovered md:hidden'}
+        className={menuButtonClass}
         aria-label={isOpen ? '메뉴 닫기' : '메뉴 열기'}
         aria-expanded={isOpen}
       >
@@ -51,7 +64,7 @@ export default function Navigation({ links, cta, base }: Props) {
       </button>
 
       {isOpen && (
-        <nav className={'absolute inset-x-0 top-full border-b border-line-secondary bg-surface-primary shadow-sm md:hidden'}>
+        <nav className={'absolute inset-x-0 top-full border-b border-line-secondary bg-surface-primary shadow-md md:hidden'}>
           <div className={'flex flex-col gap-1 px-6 py-4'}>
             {links.map((link) => (
               <a
@@ -76,3 +89,4 @@ export default function Navigation({ links, cta, base }: Props) {
     </div>
   );
 }
+

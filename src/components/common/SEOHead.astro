@@ -1,5 +1,7 @@
 ---
+import { getImage } from 'astro:assets';
 import { SITE } from '@/utils/constants';
+import defaultOgSource from '@/assets/images/home/wave_sky_image.webp';
 
 interface Props {
   title?: string;
@@ -11,13 +13,16 @@ interface Props {
 const {
   title,
   description = SITE.description,
-  ogImage = SITE.ogImage,
+  ogImage,
   canonicalUrl,
 } = Astro.props;
 
+// 카카오톡 등 일부 미리보기가 webp 를 못 읽어 jpg 로 뽑는다.
+const defaultOg = await getImage({ src: defaultOgSource, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+
 const pageTitle = title ? `${ title } | ${ SITE.name }` : SITE.name;
 const canonical = canonicalUrl || new URL(Astro.url.pathname, SITE.url).href;
-const ogImageUrl = new URL(ogImage, SITE.url).href;
+const ogImageUrl = new URL(ogImage ?? defaultOg.src, SITE.url).href;
 ---
 
 <meta charset="utf-8" />
@@ -36,7 +41,8 @@ const ogImageUrl = new URL(ogImage, SITE.url).href;
 <meta property="og:site_name" content={SITE.name} />
 
 <!-- Fonts -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />

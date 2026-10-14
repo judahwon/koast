@@ -1,11 +1,20 @@
 ---
+import { getImage } from 'astro:assets';
 import SectionHeading from '@/components/common/SectionHeading.astro';
-import SolutionsAccordion from '@/components/home/SolutionsAccordion';
+import SolutionsAccordion, { type AccordionSolution } from '@/components/home/SolutionsAccordion';
 import { HOME_SOLUTIONS } from '@/data/home';
 import { SITE } from '@/utils/constants';
+
+const solutions: AccordionSolution[] = await Promise.all(HOME_SOLUTIONS.map(async (solution) => {
+  const image = await getImage({ src: solution.photo, width: 1600, widths: [640, 1024, 1600] });
+  return {
+    ...solution,
+    photo: { src: image.src, srcSet: image.srcSet.attribute, width: solution.photo.width, height: solution.photo.height },
+  };
+}));
 ---
 
-<section id="solutions" class="bg-surface-primary py-20 lg:py-24">
+<section id="solutions" class="scroll-mt-16 bg-surface-primary py-44 lg:py-56">
   <div class="page-container reveal">
     <SectionHeading
       align="center"
@@ -14,7 +23,7 @@ import { SITE } from '@/utils/constants';
     />
   </div>
 
-  <div class="mt-10 px-6 lg:mt-14">
-    <SolutionsAccordion solutions={HOME_SOLUTIONS} base={SITE.base} client:load />
+  <div class="page-container mt-10 lg:mt-14">
+    <SolutionsAccordion solutions={solutions} base={SITE.base} client:visible />
   </div>
 </section>

@@ -1,17 +1,17 @@
 import type { ImageMetadata } from 'astro';
 
-import illustAi from '@/assets/images/home/illust-ai.png';
-import illustBigData from '@/assets/images/home/illust-bigdata.png';
-import illustGis from '@/assets/images/home/illust-gis.png';
+import imageAi from '@/assets/images/home/image-ai.webp';
+import imageBigData from '@/assets/images/home/image-bigdata.webp';
+import imageGis from '@/assets/images/home/image-gis.webp';
 import partnerKma from '@/assets/images/home/partner-01-kma.png';
 import partnerMof from '@/assets/images/home/partner-02-mof.png';
 import partnerAmo from '@/assets/images/home/partner-03-amo.png';
 import partnerNims from '@/assets/images/home/partner-04-nims.png';
 import partnerKcg from '@/assets/images/home/partner-05-kcg.png';
-import solutionBuoy from '@/assets/images/home/solution-buoy.jpg';
-import solutionControl from '@/assets/images/home/solution-control.jpg';
-import solutionVessel from '@/assets/images/home/solution-vessel.jpg';
-import solutionTidal from '@/assets/images/home/solution-tidal.jpg';
+import solutionBuoy from '@/assets/images/home/solution_buoy.webp';
+import solutionHelicopter from '@/assets/images/home/solution_helicopter.webp';
+import solutionIuu from '@/assets/images/home/solution_iuu.webp';
+import solutionDigitalTwin from '@/assets/images/home/solution_digitaltwin.webp';
 
 export const HERO = {
   titleTop: '해양과 기상 데이터로',
@@ -37,16 +37,43 @@ export const PARTNERS: Partner[] = [
 ];
 
 export interface BusinessArea {
+  id: 'ai' | 'bigdata' | 'gis';
   label: string;
   title: string;
+  backTitle: string;
+  description: string;
   illustration: ImageMetadata;
   href: string;
 }
 
 export const BUSINESS_AREAS: BusinessArea[] = [
-  { label: '영상·예측 분석', title: 'AI', illustration: illustAi, href: '/services#modeling' },
-  { label: '대용량 관측', title: 'Big Data', illustration: illustBigData, href: '/services#observation' },
-  { label: '3D 공간정보', title: 'GIS', illustration: illustGis, href: '/services#visualization' },
+  {
+    id: 'ai',
+    label: '영상·예측 분석',
+    title: 'AI',
+    backTitle: '실시간 이상 탐지 및 예측 모델링',
+    description: '위성·레이더·CCTV 영상을 딥러닝으로 정밀 분석하여 위험 기상 상황을 사전에 감지하고 신속한 대응을 지원합니다.',
+    illustration: imageAi,
+    href: '/services#modeling',
+  },
+  {
+    id: 'bigdata',
+    label: '대용량 관측',
+    title: 'Big Data',
+    backTitle: '24시간 무중단 데이터 품질관리',
+    description: '전국 관측망에서 수집되는 대용량 시계열 자료를 실시간으로 표준화하고 자동 품질관리(QC)를 수행합니다.',
+    illustration: imageBigData,
+    href: '/services#observation',
+  },
+  {
+    id: 'gis',
+    label: '3D 공간정보',
+    title: 'GIS',
+    backTitle: '웹 기반 3D 디지털트윈 가시화',
+    description: '조석·조류·유류확산 등 복합 해양 수치 모델 결과를 3D 공간 위에 직관적으로 표출하여 입체 관제 환경을 제공합니다.',
+    illustration: imageGis,
+    href: '/services#visualization',
+  },
 ];
 
 export interface SolutionFeature {
@@ -92,7 +119,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'LAMIS Project',
     shortName: 'LAMIS Project',
     title: ['연안방재 관측망', '실시간 관제 시스템'],
-    photo: solutionControl,
+    photo: solutionHelicopter,
     features: [
       {
         title: '24시간 무중단 관제',
@@ -114,7 +141,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'Digital Twin Project',
     shortName: 'Digital Twin Project',
     title: ['해양 예측자료', '3D 디지털트윈 가시화'],
-    photo: solutionTidal,
+    photo: solutionDigitalTwin,
     features: [
       {
         title: '자체 3D 가시화 엔진',
@@ -136,7 +163,7 @@ export const HOME_SOLUTIONS: Solution[] = [
     code: 'IUU EM Project',
     shortName: 'IUU EM Project',
     title: ['불법 어업 방지', '모니터링 시스템'],
-    photo: solutionVessel,
+    photo: solutionIuu,
     features: [
       {
         title: '조업 영상 자동 분석',

@@ -1,31 +1,33 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
+import PageHero from '@/components/common/PageHero.astro';
+import SlotNumber from '@/components/common/SlotNumber.astro';
 import SectionHeading from '@/components/common/SectionHeading.astro';
 import Button from '@/components/common/Button.astro';
 import VisionMission from '@/components/about/VisionMission.astro';
 import Timeline from '@/components/about/Timeline.astro';
 import Certifications from '@/components/about/Certifications.astro';
-import { VISION, HIGHLIGHTS } from '@/data/company';
+import { HIGHLIGHTS } from '@/data/company';
 import { SITE } from '@/utils/constants';
+import heroCareers from '@/assets/images/careers/hero-careers.png';
 ---
 
 <PageLayout title="회사소개" description="한국해양기상기술의 비전, 미션, 연혁, 인증을 소개합니다.">
-  <section class="bg-surface-subtle">
-    <div class="page-container py-20 lg:py-28">
-      <SectionHeading class="reveal" eyebrow="About KOAST" title={VISION.title} subtitle={VISION.subtitle} />
-
-      <div class="reveal mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+  <PageHero image={heroCareers}>
+    해양·기상 데이터를<br class="hidden sm:inline" /> 의사결정으로 연결합니다
+    <div slot="after" class="page-container mt-16 lg:mt-24">
+      <div class="reveal grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {
           HIGHLIGHTS.map((item) => (
             <div class="rounded-2xl bg-surface-primary px-6 py-8 text-center">
-              <p class="text-3xl font-bold text-content-interactive-primary lg:text-4xl">{item.value}</p>
+              <p class="text-3xl font-bold text-content-interactive-primary lg:text-4xl"><SlotNumber value={item.value} /></p>
               <p class="mt-2 text-sm text-content-secondary">{item.label}</p>
             </div>
           ))
         }
       </div>
     </div>
-  </section>
+  </PageHero>
 
   <VisionMission />
   <Timeline />

@@ -7,15 +7,17 @@ interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  darkTop?: boolean;
 }
 
-const { title, description, ogImage } = Astro.props;
+const { title, description, ogImage, darkTop } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} ogImage={ogImage}>
-  <Header />
+  <Header darkTop={darkTop} />
   <main class="min-h-screen pt-16">
     <slot />
   </main>
   <Footer />
 </BaseLayout>
+

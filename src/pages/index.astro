@@ -1,18 +1,22 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
 import Hero from '@/components/home/Hero.astro';
+import Statement from '@/components/home/Statement.astro';
 import Partners from '@/components/home/Partners.astro';
 import BusinessAreas from '@/components/home/BusinessAreas.astro';
 import Solutions from '@/components/home/Solutions.astro';
 import Stats from '@/components/home/Stats.astro';
 import CTASection from '@/components/home/CTASection.astro';
+import SectionNavigation from '@/components/home/SectionNavigation.tsx';
 ---
 
 <PageLayout>
+  <SectionNavigation client:media="(min-width: 1024px)" />
   <Hero />
-  <Partners />
+  <Statement />
   <BusinessAreas />
   <Solutions />
   <Stats />
+  <Partners />
   <CTASection />
 </PageLayout>

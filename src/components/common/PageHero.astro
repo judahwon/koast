@@ -1,0 +1,33 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image: ImageMetadata;
+  tone?: 'light' | 'dark';
+  position?: 'center' | 'bottom';
+}
+
+const { image, tone = 'light', position = 'bottom' } = Astro.props;
+const isDark = tone === 'dark';
+---
+
+<!-- 고정 헤더가 상단에서 투명하므로 배경 밴드를 헤더 아래까지 끌어올린다. -->
+<section class={`relative isolate -mt-16 overflow-hidden pt-36 pb-24 text-center sm:pt-44 sm:pb-32 lg:pt-52 lg:pb-40 ${ isDark ? 'bg-[#03091e]' : 'bg-surface-primary' }`}>
+  <div class="page-container reveal">
+    <h1 class={`text-3xl leading-snug font-bold tracking-tight sm:text-4xl lg:text-5xl lg:leading-tight ${ isDark ? 'text-white' : 'text-content-primary' }`}>
+      <slot />
+    </h1>
+  </div>
+  <slot name="after" />
+
+  <Image
+    src={image}
+    alt=""
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
+    aria-hidden="true"
+    class={`pointer-events-none absolute inset-0 -z-10 size-full object-cover select-none ${ position === 'center' ? 'object-center' : 'object-bottom' }`}
+  />
+</section>

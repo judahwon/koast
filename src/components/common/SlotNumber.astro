@@ -1,0 +1,67 @@
+---
+interface Props {
+  value: string;
+  class?: string;
+}
+
+const { value, class: className = '' } = Astro.props;
+
+// 릴이 두 바퀴 돈 뒤 목표 숫자에 멈춘다.
+const SPINS = 2;
+const reelOf = (digit: number) => Array.from({ length: (SPINS * 10) + digit + 1 }, (_, i) => i % 10);
+let digitOrder = 0;
+const columns = Array.from(value).map((char) => (/\d/.test(char)
+  ? { char, reel: reelOf(Number(char)), order: digitOrder++ }
+  : { char, reel: null, order: 0 }));
+---
+
+<span class={`relative top-0.5 inline-block leading-none ${ className }`} data-slot-number>
+  <span class="sr-only">{value}</span>
+  <!-- 레이아웃과 baseline 은 보이지 않는 최종값이 잡고, 릴은 그 위에 겹친다. -->
+  <span class="invisible" aria-hidden="true">{value}</span>
+  <span class="absolute inset-0 flex" aria-hidden="true">
+    {/* DM Sans 는 tabular-nums 가 없어 숫자 폭이 제각각이다. 칸 폭은 목표 숫자가 잡고 릴은 그 가운데 겹친다. */}
+    {/* 릴 안에 공백 텍스트 노드가 끼면 칸이 넓어지고 멈춤 위치가 밀리므로 한 줄로 붙여 쓴다. */}
+    {columns.map((column) => (column.reel ? (
+      <span class="relative h-[1em] overflow-y-clip"><span class="invisible">{column.char}</span><span class="slot-reel absolute inset-x-0 top-0" style={`--slot-stop: ${ column.reel.length - 1 }; --slot-order: ${ column.order };`}>{column.reel.map((digit) => <span class="flex h-[1em] justify-center">{digit}</span>)}</span></span>
+    ) : (
+      <span class="whitespace-pre">{column.char}</span>
+    )))}
+  </span>
+</span>
+
+<style>
+  .slot-reel {
+    transform: translateY(0);
+  }
+
+  [data-slot-number].is-spinning .slot-reel {
+    transform: translateY(calc(var(--slot-stop) * -1em));
+    /* 오른쪽 자리일수록 늦게 멈춰야 슬롯머신처럼 보인다. */
+    transition: transform calc(1.4s + var(--slot-order) * 0.25s) cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .slot-reel {
+      transform: translateY(calc(var(--slot-stop) * -1em));
+    }
+  }
+</style>
+
+<script>
+  const slots = document.querySelectorAll('[data-slot-number]');
+  const spin = (el) => el.classList.add('is-spinning');
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        spin(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.6 });
+    slots.forEach((el) => observer.observe(el));
+  } else {
+    slots.forEach(spin);
+  }
+</script>

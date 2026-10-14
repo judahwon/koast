@@ -5,22 +5,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev        # 개발 서버 (localhost:4321)
+npm run dev        # 개발 서버 (localhost:4321, 사용 중이면 4322, 4323 … 으로 넘어간다)
 npm run build      # 정적 빌드 → dist/
 npm run preview    # 빌드 결과 미리보기
 npm run lint       # ESLint 검사
 npm run lint:fix   # 자동 수정
 ```
 
-Astro 7 의 dev 서버는 터미널을 닫아도 백그라운드에 상주한다. 그 상태에서 `npm run dev` 를 다시 실행하면
-"Another astro dev server is already running" 에러로 죽는다. 설정 파일(`astro.config.mjs`)을 고쳤을 때도
-자동 반영되지 않으므로 반드시 재시작해야 한다:
+Astro 7 은 AI 에이전트가 띄운 dev 서버를 백그라운드에 상주시키고, lock 파일로 두 번째 실행을
+"Another astro dev server is already running" 에러로 막는다. `npm run dev` 는 `--ignore-lock` 으로 이 검사를
+건너뛰므로 이미 서버가 떠 있어도 다음 빈 포트로 하나 더 뜬다. 대신 이렇게 띄운 서버는 lock 을 남기지 않아
+`astro dev stop|status|logs` 에 잡히지 않으니 터미널에서 Ctrl+C 로 끈다.
+설정 파일(`astro.config.mjs`)을 고쳤을 때는 자동 반영되지 않으므로 반드시 재시작해야 한다.
+아래 명령은 lock 을 쓰는 상주 서버(에이전트가 띄운 것)용이다:
 
 ```bash
 npx astro dev stop      # 중지
 npx astro dev status    # 상태 확인
 npx astro dev logs      # 서버 로그 확인
-npm run dev -- --force  # 상주 서버를 교체하며 재시작
+npx astro dev --force   # 상주 서버를 교체하며 재시작 (--ignore-lock 과 같이 쓸 수 없다)
 ```
 
 ### 실행 규칙 (중요)
@@ -35,8 +38,9 @@ npm run dev -- --force  # 상주 서버를 교체하며 재시작
 Claude 가 스스로 할 수 있는 검증은 코드 읽기와 `npm run lint` 까지다.
 
 예외 — 사용자가 자리를 비운 상태에서 시각 검증이 필요하다고 명시적으로 위임한 경우에 한해,
-**`npm run dev -- --port 4322`** 로 검증 전용 서버를 띄울 수 있다. 위 두 이유(포트 충돌, `dist/` 덮어쓰기)를
-모두 피하기 때문이다. 기본 포트 4321 은 어떤 경우에도 점유하지 않는다.
+**`npx astro dev --port 4322`** 로 검증 전용 서버를 띄울 수 있다. 위 두 이유(포트 충돌, `dist/` 덮어쓰기)를
+모두 피하기 때문이다. 기본 포트 4321 은 어떤 경우에도 점유하지 않는다. 검증이 끝나면 `npx astro dev stop` 으로 내린다.
+(`npm run dev` 는 `--ignore-lock` 이 붙어 있어 에이전트 환경의 자동 백그라운드 실행과 충돌해 에러로 끝난다.)
 
 테스트 프레임워크는 아직 없다.
 
@@ -141,8 +145,9 @@ Tailwind 는 `box-sizing: border-box` 라 콘텐츠 폭이 1440 이 아니라 14
 글/공고 추가는 `src/content/{blog,jobs}/*.md` 파일을 만들고 프론트매터를 스키마에 맞추면 끝이다
 (`category` 는 enum, `type` 도 enum — 값이 어긋나면 빌드가 실패한다).
 
-목록 페이지는 `draft: true` / `isActive: false` 를 걸러내지만 `[...slug].astro` 의
-`getStaticPaths` 는 전부 빌드한다. 초안을 완전히 숨기려면 `getStaticPaths` 에도 필터를 넣어야 한다.
+`draft: true` 글과 `isActive: false` 공고는 목록과 상세(`[...slug].astro` 의 `getStaticPaths`) 모두에서
+걸러진다. 빌드·dev 서버 모두 상세 주소가 404 다. `sample-draft.md`, `sample-closed.md` 는 이 동작을 확인하는
+검증용 예제이므로 지우지 않는다.
 
 ### React 아일랜드
 
