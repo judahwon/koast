@@ -9,7 +9,7 @@ import { getCollection, render } from 'astro:content';
 import { SITE } from '@/utils/constants';
 
 export async function getStaticPaths() {
-  const jobs = await getCollection('jobs');
+  const jobs = await getCollection('jobs', (job) => job.data.isActive);
   return jobs.map((job) => ({
     params: { slug: job.id },
     props: { job },

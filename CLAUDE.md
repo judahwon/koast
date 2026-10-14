@@ -145,8 +145,9 @@ Tailwind 는 `box-sizing: border-box` 라 콘텐츠 폭이 1440 이 아니라 14
 글/공고 추가는 `src/content/{blog,jobs}/*.md` 파일을 만들고 프론트매터를 스키마에 맞추면 끝이다
 (`category` 는 enum, `type` 도 enum — 값이 어긋나면 빌드가 실패한다).
 
-목록 페이지는 `draft: true` / `isActive: false` 를 걸러내지만 `[...slug].astro` 의
-`getStaticPaths` 는 전부 빌드한다. 초안을 완전히 숨기려면 `getStaticPaths` 에도 필터를 넣어야 한다.
+`draft: true` 글과 `isActive: false` 공고는 목록과 상세(`[...slug].astro` 의 `getStaticPaths`) 모두에서
+걸러진다. 빌드·dev 서버 모두 상세 주소가 404 다. `sample-draft.md`, `sample-closed.md` 는 이 동작을 확인하는
+검증용 예제이므로 지우지 않는다.
 
 ### React 아일랜드
 

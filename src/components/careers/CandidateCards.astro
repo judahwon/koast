@@ -40,7 +40,7 @@ const PLACEHOLDER_THEMES = [
           {/* 이미지 영역 (870 x 436 px) */}
           {/* 진입 연출은 래퍼에 둔다. 카드 본체에 주면 hover scale 의 transition 과 서로 덮어쓴다. */}
           <div class={`converge ${ isEven ? 'converge-right lg:order-2' : 'converge-left lg:order-1' }`}>
-            <div class="group-hover:scale-1.02 relative overflow-hidden rounded-3xl bg-slate-900 transition-transform duration-500 ease-out">
+            <div class="relative overflow-hidden rounded-3xl bg-slate-900 transition-transform duration-500 ease-out group-hover:scale-102">
               <div class="relative aspect-870/436 w-full overflow-hidden">
                 {item.image ? (
                   typeof item.image === 'string' ? (
